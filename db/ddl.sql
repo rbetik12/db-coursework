@@ -63,7 +63,7 @@ create table Clan
     name      varchar(80) unique not null,
     region_id integer            not null references Region (id) on delete cascade on update cascade,
     type      clan_type          not null,
-    rating    integer            not null default 0 check ( rating >= 0 )
+    rating    integer            not null default 0
 );
 
 
