@@ -11,6 +11,8 @@ class CurrencyGenerator(AbstractGenerator):
         self.names = names
         self.currencyIds = list()
         self.pickedNames = list()
+        self.queries += 'insert into currency default values;\n'
+        self.id += 1
 
     def get_random_name(self) -> str:
         randIndex = randint(0, len(self.names) - 1)
