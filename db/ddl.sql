@@ -46,7 +46,8 @@ create table Factory
     id           serial primary key,
     type         factory_type not null,
     productivity float        not null check ( productivity >= 0 and productivity <= 1),
-    input_items  int          not null references FactoryInputItem (id) on update cascade on delete set null
+    input_items  int          not null references FactoryInputItem (id) on update cascade on delete set null,
+    output_item  int          not null references Item (id) on update cascade on delete set null
 );
 
 create table Region
@@ -166,5 +167,3 @@ create table Reward
     conditions text        not null,
     name       varchar(80) not null unique
 );
-
-
