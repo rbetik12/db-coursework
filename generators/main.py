@@ -7,8 +7,12 @@ from generators.factory_owner_generator import FactoryOwnerGenerator
 from generators.inventory_generator import InventoryGenerator
 from generators.item_generator import ItemGenerator
 from generators.item_type_generator import ItemTypeGenerator
+from generators.listing_generator import ListingGenerator
 from generators.property_generator import PropertyGenerator
 from generators.region_generator import RegionGenerator
+
+# TO DO:
+#   - Fix inventory generator. Sometimes it violates unique constraint
 
 if __name__ == "__main__":
     amount = 1000
@@ -52,6 +56,10 @@ if __name__ == "__main__":
     propertyGenerator = PropertyGenerator(actorGenerator.get_ids(), clanGenerator.get_ids())
     propertyGenerator.generate(amount)
 
+    listingDescs = ['Cool listing']
+    listingGenerator = ListingGenerator(listingDescs, actorGenerator.get_ids(), clanGenerator.get_ids())
+    listingGenerator.generate(amount * 2)
+
     with open('dml.sql', 'w') as file:
         file.write(currencyGenerator.get_query())
         file.write(regionGenerator.get_query())
@@ -64,3 +72,4 @@ if __name__ == "__main__":
         file.write(inventoryGenerator.get_query())
         file.write(factoryOwnerGenerator.get_query())
         file.write(propertyGenerator.get_query())
+        file.write(listingGenerator.get_query())
