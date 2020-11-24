@@ -1,5 +1,6 @@
 from generators.actor_generator import ActorGenerator
 from generators.clan_generator import ClanGenerator
+from generators.contract_generator import ContractGenerator
 from generators.currency_generator import CurrencyGenerator
 from generators.factory_generator import FactoryGenerator
 from generators.factory_input_item_generator import FactoryInputItemGenerator
@@ -64,6 +65,9 @@ if __name__ == "__main__":
     itemListingGenerator = ItemListingGenerator(listingGenerator.get_ids(), itemGenerator.get_ids(), currencyGenerator.get_ids())
     itemListingGenerator.generate(amount)
 
+    contractGenerator = ContractGenerator(listingGenerator.get_ids(), itemListingGenerator.get_ids(), currencyGenerator.get_ids())
+    contractGenerator.generate(amount)
+
     with open('dml.sql', 'w') as file:
         file.write(currencyGenerator.get_query())
         file.write(regionGenerator.get_query())
@@ -78,3 +82,4 @@ if __name__ == "__main__":
         file.write(propertyGenerator.get_query())
         file.write(listingGenerator.get_query())
         file.write(itemListingGenerator.get_query())
+        file.write(contractGenerator.get_query())

@@ -15,7 +15,6 @@ class ItemListingGenerator(AbstractGenerator):
 
     def generate(self, amount: int) -> None:
         for i in range(amount):
-            self.pickedListingIds.append(self.id)
             self.queries += f"insert into itemlisting(listing_id, item_id, price, amount, currency) " \
                             f"values ({self.get_listing_id()}, {self.get_item_id()}, {random.randint(2, 100000)}, " \
                             f"{random.randint(1, 20000)}, {self.get_currency_id()});\n"
