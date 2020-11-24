@@ -1,6 +1,7 @@
 from generators.actor_generator import ActorGenerator
 from generators.clan_generator import ClanGenerator
 from generators.currency_generator import CurrencyGenerator
+from generators.factory_input_item_generator import FactoryInputItemGenerator
 from generators.item_generator import ItemGenerator
 from generators.item_type_generator import ItemTypeGenerator
 from generators.region_generator import RegionGenerator
@@ -30,6 +31,9 @@ if __name__ == "__main__":
     itemGenerator = ItemGenerator(itemNames, itemTypeGenerator.get_ids())
     itemGenerator.generate(1000)
 
+    factoryInputItemGenerator = FactoryInputItemGenerator(itemGenerator.get_ids())
+    factoryInputItemGenerator.generate(1000)
+
     with open('dml.sql', 'w') as file:
         file.write(currencyGenerator.get_query())
         file.write(regionGenerator.get_query())
@@ -37,3 +41,4 @@ if __name__ == "__main__":
         file.write(actorGenerator.get_query())
         file.write(itemTypeGenerator.get_query())
         file.write(itemGenerator.get_query())
+        file.write(factoryInputItemGenerator.get_query())
