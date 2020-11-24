@@ -7,6 +7,7 @@ from generators.factory_owner_generator import FactoryOwnerGenerator
 from generators.inventory_generator import InventoryGenerator
 from generators.item_generator import ItemGenerator
 from generators.item_type_generator import ItemTypeGenerator
+from generators.property_generator import PropertyGenerator
 from generators.region_generator import RegionGenerator
 
 if __name__ == "__main__":
@@ -48,6 +49,9 @@ if __name__ == "__main__":
                                                   clanGenerator.get_ids(), factoryGenerator.get_ids())
     factoryOwnerGenerator.generate(amount)
 
+    propertyGenerator = PropertyGenerator(actorGenerator.get_ids(), clanGenerator.get_ids())
+    propertyGenerator.generate(amount)
+
     with open('dml.sql', 'w') as file:
         file.write(currencyGenerator.get_query())
         file.write(regionGenerator.get_query())
@@ -59,3 +63,4 @@ if __name__ == "__main__":
         file.write(factoryGenerator.get_query())
         file.write(inventoryGenerator.get_query())
         file.write(factoryOwnerGenerator.get_query())
+        file.write(propertyGenerator.get_query())

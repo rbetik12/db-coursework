@@ -15,7 +15,7 @@ class FactoryOwnerGenerator(AbstractGenerator):
 
     def generate(self, amount: int) -> None:
         for i in range(amount):
-            self.factoryOwnerIds.append(id)
+            self.factoryOwnerIds.append(self.id)
             if i % 2 == 0:
                 self.queries += f"insert into factoryowner(rel_id, clan_id, actor_id, factory_id) " \
                                 f"values ({self.id}, {self.get_random_clan_id()}, null, " \
