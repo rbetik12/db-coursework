@@ -15,6 +15,7 @@ from generators.region_generator import RegionGenerator
 
 # TO DO:
 #   - Fix inventory generator. Sometimes it violates unique constraint
+from generators.reward_generator import RewardGenerator
 
 if __name__ == "__main__":
     amount = 1000
@@ -68,6 +69,10 @@ if __name__ == "__main__":
     contractGenerator = ContractGenerator(listingGenerator.get_ids(), itemListingGenerator.get_ids(), currencyGenerator.get_ids())
     contractGenerator.generate(amount)
 
+    rewardNames = ['Reward']
+    rewardGenerator = RewardGenerator(rewardNames, actorGenerator.get_ids())
+    rewardGenerator.generate(amount)
+
     with open('dml.sql', 'w') as file:
         file.write(currencyGenerator.get_query())
         file.write(regionGenerator.get_query())
@@ -83,3 +88,4 @@ if __name__ == "__main__":
         file.write(listingGenerator.get_query())
         file.write(itemListingGenerator.get_query())
         file.write(contractGenerator.get_query())
+        file.write(rewardGenerator.get_query())
