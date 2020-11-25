@@ -32,6 +32,8 @@ drop table if exists PlayerRating cascade;
 drop table if exists ClanRating cascade;
 drop table if exists ListingHistory cascade;
 drop table if exists ActorClanLog cascade;
+drop table if exists actorcurrency cascade;
+drop table if exists clancurrency cascade;
 
 drop trigger if exists actor_clan_action on actor;
 drop trigger if exists created_listing on listings;
