@@ -76,6 +76,22 @@ create table Actor
     name    varchar(80) not null unique
 );
 
+create table ActorCurrency
+(
+    actor_id    int references Actor (id) on delete cascade on update cascade,
+    currency_id int references Currency (id) on delete cascade on update cascade,
+    amount      int not null default 0 check ( amount >= 0 ),
+    primary key (actor_id, currency_id)
+);
+
+create table ClanCurrency
+(
+    clan_id     int references Clan (id) on delete cascade on update cascade,
+    currency_id int references Currency (id) on delete cascade on update cascade,
+    amount      int not null default 0 check (amount >= 0),
+    primary key (clan_id, currency_id)
+);
+
 
 create table ActorClanLog
 (
