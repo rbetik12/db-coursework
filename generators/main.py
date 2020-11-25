@@ -1,5 +1,6 @@
 from generators.actor_currency_generator import ActorCurrencyGenerator
 from generators.actor_generator import ActorGenerator
+from generators.clan_currency_generator import ClanCurrencyGenerator
 from generators.clan_generator import ClanGenerator
 from generators.contract_generator import ContractGenerator
 from generators.currency_generator import CurrencyGenerator
@@ -77,6 +78,9 @@ if __name__ == "__main__":
     actorCurrencyGenerator = ActorCurrencyGenerator(actorGenerator.get_ids(), currencyGenerator.get_ids())
     actorCurrencyGenerator.generate(amount)
 
+    clanCurrencyGenerator = ClanCurrencyGenerator(clanGenerator.get_ids(), currencyGenerator.get_ids())
+    clanCurrencyGenerator.generate(amount)
+
     with open('dml.sql', 'w') as file:
         file.write(currencyGenerator.get_query())
         file.write(regionGenerator.get_query())
@@ -94,3 +98,4 @@ if __name__ == "__main__":
         file.write(contractGenerator.get_query())
         file.write(rewardGenerator.get_query())
         file.write(actorCurrencyGenerator.get_query())
+        file.write(clanCurrencyGenerator.get_query())
