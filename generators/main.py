@@ -16,7 +16,12 @@ from generators.property_generator import PropertyGenerator
 from generators.region_generator import RegionGenerator
 
 # TO DO:
-#   - Fix inventory generator. Sometimes it violates unique constraint
+#   - Fix inventory generator. Sometimes it violates unique constraint (DONE)
+
+sequencesUpdate = [
+    "select setval('listings_listing_id_seq', (select max(listing_id) from listings));"
+]
+
 from generators.reward_generator import RewardGenerator
 
 if __name__ == "__main__":
@@ -99,3 +104,4 @@ if __name__ == "__main__":
         file.write(rewardGenerator.get_query())
         file.write(actorCurrencyGenerator.get_query())
         file.write(clanCurrencyGenerator.get_query())
+        file.write("\n".join(sequencesUpdate))

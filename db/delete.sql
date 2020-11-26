@@ -36,6 +36,7 @@ drop table if exists actorcurrency cascade;
 drop table if exists clancurrency cascade;
 drop table if exists propertylisting cascade;
 drop table if exists currencylisting cascade;
+drop table if exists factorylisting cascade;
 
 drop trigger if exists actor_clan_action on actor;
 drop trigger if exists created_listing on listings;

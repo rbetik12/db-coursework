@@ -257,4 +257,36 @@ begin
 end;
 $$;
 
+create or replace function create_new_factory_listing_for_actor(actorId int, factoryId int, currencyId int, factoryPrice int, listingDescription varchar)
+    returns void
+    language plpgsql
+as
+$$
+begin
+    with insertListing as (
+        insert into listings (seller, author_id, description) values ('Actor', actorId, listingDescription)
+            returning listing_id as listingId
+    )
+    insert
+    into factorylisting (listing_id, factory_id, currency_id, price)
+    values ((select listingId from insertListing), factoryId, currencyId, factoryPrice);
+end;
+$$;
+
+create or replace function create_new_factory_listing_for_clan(clanId int, factoryId int, currencyId int, factoryPrice int, listingDescription varchar)
+    returns void
+    language plpgsql
+as
+$$
+begin
+    with insertListing as (
+        insert into listings (seller, clan_id, description) values ('Clan', clanId, listingDescription)
+            returning listing_id as listingId
+    )
+    insert
+    into factorylisting (listing_id, factory_id, currency_id, price)
+    values ((select listingId from insertListing), factoryId, currencyId, factoryPrice);
+end;
+$$;
+
 
