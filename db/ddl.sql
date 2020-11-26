@@ -174,6 +174,18 @@ create table Contract
     primary key (contract_id, listing_id)
 );
 
+create table PropertyListing
+(
+    listing_id     integer references Listings (listing_id) on update cascade on delete cascade,
+    buyer_actor_id integer        references Actor (id) on update cascade on delete set null,
+    buyer_clan_id  integer        references Clan (id) on update cascade on delete set null,
+    property_id    integer references Property (id) on update cascade on delete cascade,
+    status         listing_status not null default 'Open',
+    currency_id    integer references Currency (id) on update cascade on delete set default,
+    price          integer        not null check ( price >= 0 ),
+    primary key (listing_id)
+);
+
 create table Reward
 (
 

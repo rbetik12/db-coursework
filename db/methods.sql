@@ -155,4 +155,72 @@ begin
 end;
 $$;
 
+create function create_new_property_listing_for_actor(actorId int, propertyId int, listingDescription varchar, currencyId int,
+                                                      propertyPrice int)
+    returns void
+    language plpgsql
+as
+$$
+begin
+    with insertListing as (
+        insert into listings (seller, author_id, description) values ('Actor', actorId, listingDescription)
+            returning listing_id as listingId
+    )
+    insert
+    into propertylisting (listing_id, property_id, price, currency_id)
+    values ((select listingId from insertListing), propertyId, propertyPrice, currencyId);
+end;
+$$;
+
+create function create_new_property_listing_for_clan(clanId int, propertyId int, listingDescription varchar, currencyId int,
+                                                      propertyPrice int)
+    returns void
+    language plpgsql
+as
+$$
+begin
+    with insertListing as (
+        insert into listings (seller, clan_id, description) values ('Clan', clanId, listingDescription)
+            returning listing_id as listingId
+    )
+    insert
+    into propertylisting (listing_id, property_id, price, currency_id)
+    values ((select listingId from insertListing), propertyId, propertyPrice, currencyId);
+end;
+$$;
+
+create or replace function create_new_property_listing_for_actor(actorId int, propertyId int, listingDescription varchar, currencyId int,
+                                                      propertyPrice int)
+    returns void
+    language plpgsql
+as
+$$
+begin
+    with insertListing as (
+        insert into listings (seller, author_id, description) values ('Actor', actorId, listingDescription)
+            returning listing_id as listingId
+    )
+    insert
+    into propertylisting (listing_id, property_id, price, currency_id)
+    values ((select listingId from insertListing), propertyId, propertyPrice, currencyId);
+end;
+$$;
+
+create or replace function create_new_property_listing_for_clan(clanId int, propertyId int, listingDescription varchar, currencyId int,
+                                                      propertyPrice int)
+    returns void
+    language plpgsql
+as
+$$
+begin
+    with insertListing as (
+        insert into listings (seller, clan_id, description) values ('Clan', clanId, listingDescription)
+            returning listing_id as listingId
+    )
+    insert
+    into propertylisting (listing_id, property_id, price, currency_id)
+    values ((select listingId from insertListing), propertyId, propertyPrice, currencyId);
+end;
+$$;
+
 
