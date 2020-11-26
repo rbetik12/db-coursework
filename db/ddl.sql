@@ -186,6 +186,19 @@ create table PropertyListing
     primary key (listing_id)
 );
 
+create table CurrencyListing
+(
+    listing_id           integer references Listings (listing_id) on update cascade on delete cascade,
+    buyer_actor_id       integer        references Actor (id) on update cascade on delete set null,
+    buyer_clan_id        integer        references Clan (id) on update cascade on delete set null,
+    currency_for_sell_id integer references Property (id) on update cascade on delete cascade,
+    status               listing_status not null default 'Open',
+    currency_for_buy_id  integer references Currency (id) on update cascade on delete cascade,
+    sell_amount          integer        not null check ( sell_amount >= 0 ),
+    buy_amount           integer        not null check ( sell_amount >= 0 ),
+    primary key (listing_id)
+);
+
 create table Reward
 (
 

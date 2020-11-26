@@ -223,4 +223,38 @@ begin
 end;
 $$;
 
+create or replace function create_new_currency_listing_for_actor(actorId int, currencyForSellId int,
+currencyToBuyId int, currencyForSellAmount int, currencyToBuyAmount int, listingDescription varchar)
+    returns void
+    language plpgsql
+as
+$$
+begin
+    with insertListing as (
+        insert into listings (seller, author_id, description) values ('Actor', actorId, listingDescription)
+            returning listing_id as listingId
+    )
+    insert
+    into currencylisting (listing_id, currency_for_sell_id, currency_for_buy_id, sell_amount, buy_amount)
+    values ((select listingId from insertListing), currencyForSellId, currencyToBuyId, currencyForSellAmount, currencyToBuyAmount);
+end;
+$$;
+
+create or replace function create_new_currency_listing_for_clan(clanId int, currencyForSellId int,
+currencyToBuyId int, currencyForSellAmount int, currencyToBuyAmount int, listingDescription varchar)
+    returns void
+    language plpgsql
+as
+$$
+begin
+    with insertListing as (
+        insert into listings (seller, clan_id, description) values ('Clan', clanId, listingDescription)
+            returning listing_id as listingId
+    )
+    insert
+    into currencylisting (listing_id, currency_for_sell_id, currency_for_buy_id, sell_amount, buy_amount)
+    values ((select listingId from insertListing), currencyForSellId, currencyToBuyId, currencyForSellAmount, currencyToBuyAmount);
+end;
+$$;
+
 
