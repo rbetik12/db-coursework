@@ -48,3 +48,6 @@ drop function if exists getcurrencyidbyname(currencyname varchar);
 drop function if exists getitemidbyname(itemname varchar);
 drop function if exists getitemtypeidbyname(itemtypename varchar);
 drop function if exists getrewardidbyname(rewardname varchar);
+
+drop index if exists clanRatingIndex;
+drop index if exists actorRatingIndex;
