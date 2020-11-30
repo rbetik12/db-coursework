@@ -19,7 +19,14 @@ from generators.region_generator import RegionGenerator
 #   - Fix inventory generator. Sometimes it violates unique constraint (DONE)
 
 sequencesUpdate = [
-    "select setval('listings_listing_id_seq', (select max(listing_id) from listings));"
+    "select setval('listings_listing_id_seq', (select max(listing_id) from listings));",
+    "select setval('reward_id_seq', (select max(id) from reward));",
+    "select setval('actor_id_seq', (select max(id) from actor));",
+    "select setval('clan_id_seq', (select max(id) from clan));",
+    "select setval('currency_id_seq', (select max(id) from currency));",
+    "select setval('itemtype_id_seq', (select max(id) from itemtype));",
+    "select setval('item_id_seq', (select max(id) from item));",
+    "select setval('factoryinputitem_id_seq', (select max(id) from factoryinputitem));",
 ]
 
 from generators.reward_generator import RewardGenerator
@@ -70,10 +77,12 @@ if __name__ == "__main__":
     listingGenerator = ListingGenerator(listingDescs, actorGenerator.get_ids(), clanGenerator.get_ids())
     listingGenerator.generate(amount * 2)
 
-    itemListingGenerator = ItemListingGenerator(listingGenerator.get_ids(), itemGenerator.get_ids(), currencyGenerator.get_ids())
+    itemListingGenerator = ItemListingGenerator(listingGenerator.get_ids(), itemGenerator.get_ids(),
+                                                currencyGenerator.get_ids())
     itemListingGenerator.generate(amount)
 
-    contractGenerator = ContractGenerator(listingGenerator.get_ids(), itemListingGenerator.get_ids(), currencyGenerator.get_ids())
+    contractGenerator = ContractGenerator(listingGenerator.get_ids(), itemListingGenerator.get_ids(),
+                                          currencyGenerator.get_ids())
     contractGenerator.generate(amount)
 
     rewardNames = ['Reward']

@@ -124,3 +124,28 @@ create trigger item_bought
     before update on itemlisting
     for each row
     execute procedure  log_bought_item();
+
+create or replace function check_for_actor_reward() returns trigger
+    language plpgsql
+as
+$$
+declare actorListingsAmount int;
+begin
+    if new.seller = 'Actor' then
+        actorListingsAmount = (select count(*) from listinghistory where author_id = new.author_id);
+        if actorListingsAmount > 20  and (select count(*) from reward where name = concat('PurchReward', new.author_id::varchar)) = 0 then
+
+            insert into reward(type, owner_id, conditions, name) values ('Purchases', new.author_id,
+                                                                         'Created more than 20 listings',
+                                                                                    concat('PurchReward', new.author_id::varchar));
+        end if;
+    end if;
+    return new;
+end;
+$$;
+
+create trigger actor_check_created_listings
+    before insert or update
+    on listinghistory
+    for each row
+    execute procedure check_for_actor_reward();
