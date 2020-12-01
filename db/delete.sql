@@ -43,6 +43,8 @@ drop trigger if exists created_listing on listings;
 drop trigger if exists contract_operation on contract;
 drop trigger if exists item_bought on itemlisting;
 drop trigger if exists actor_check_created_listings on listinghistory;
+drop trigger if exists check_actor_rating on contract;
+
 drop function if exists getclanidbyname(clanname varchar);
 drop function if exists getregionidbyname(regionname varchar);
 drop function if exists getcurrencyidbyname(currencyname varchar);

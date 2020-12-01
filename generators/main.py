@@ -27,6 +27,7 @@ sequencesUpdate = [
     "select setval('itemtype_id_seq', (select max(id) from itemtype));",
     "select setval('item_id_seq', (select max(id) from item));",
     "select setval('factoryinputitem_id_seq', (select max(id) from factoryinputitem));",
+    "select setval('contract_contract_id_seq', (select max(contract_id) from contract));",
 ]
 
 from generators.reward_generator import RewardGenerator

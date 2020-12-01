@@ -149,3 +149,30 @@ create trigger actor_check_created_listings
     on listinghistory
     for each row
     execute procedure check_for_actor_reward();
+
+create or replace function check_actor_rating_for_contract() returns trigger
+language plpgsql
+as
+    $$
+    declare actorId int;
+    declare actorRating int;
+    begin
+        actorId = (select author_id from listings where listing_id = new.listing_id and seller = 'Actor');
+        raise notice 'Actor id: %', actorId;
+        if actorId is not null then
+            actorRating = (select rating from actor where id = actorId);
+            raise notice 'Actor rating: %', actorRating;
+            if actorRating < new.rating_amount then
+                raise notice 'Rating amount: %', new.rating_amount;
+                update contract set rating_amount = actorRating where contract_id = new.contract_id;
+                raise notice 'Rating amount: %', new.rating_amount;
+            end if;
+        end if;
+        return old;
+    end;
+    $$;
+
+create trigger check_actor_rating
+    after insert or update on contract
+    for each row
+    execute procedure check_actor_rating_for_contract();
