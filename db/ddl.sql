@@ -19,17 +19,17 @@ create table Currency
     price integer            not null check ( price >= 0 ) default 100
 );
 
-create table ItemType
+create table item_type
 (
     id          serial primary key,
     name        varchar(255) unique not null,
-    parent_type int references ItemType (id) on update cascade on delete cascade
+    parent_type int references item_type (id) on update cascade on delete cascade
 );
 
 create table Item
 (
     id          serial primary key,
-    type        int         not null references ItemType (id) on update cascade on delete set null,
+    type        int         not null references item_type (id) on update cascade on delete set null,
     name        text unique not null,
     description text        not null
 );

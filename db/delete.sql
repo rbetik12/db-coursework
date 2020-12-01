@@ -1,6 +1,5 @@
 drop type if exists actor_type cascade;
 drop type if exists clan_type cascade;
-drop type if exists item_type cascade;
 drop type if exists item_subtype cascade;
 drop type if exists factory_type cascade;
 drop type if exists contract_type cascade;
@@ -16,7 +15,7 @@ drop type if exists listing_status cascade;
 drop table if exists Currency cascade;
 drop table if exists Factory cascade;
 drop table if exists Item cascade;
-drop table if exists ItemType cascade;
+drop table if exists item_type cascade;
 drop table if exists FactoryInputItem cascade;
 drop table if exists Region cascade;
 drop table if exists Actor cascade;

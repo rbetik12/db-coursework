@@ -28,7 +28,7 @@ class ItemTypeGenerator(AbstractGenerator):
     def generate(self, amount: int) -> None:
         for i in range(amount):
             self.itemTypeIds.append(self.id)
-            self.queries += f"insert into itemtype(id, name, parent_type)" \
+            self.queries += f"insert into item_type(id, name, parent_type)" \
                             f" values ({self.id}, '{self.get_random_name()}', {self.get_random_item_type_id()});\n"
             self.id += 1
 

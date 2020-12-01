@@ -24,7 +24,7 @@ sequencesUpdate = [
     "select setval('actor_id_seq', (select max(id) from actor));",
     "select setval('clan_id_seq', (select max(id) from clan));",
     "select setval('currency_id_seq', (select max(id) from currency));",
-    "select setval('itemtype_id_seq', (select max(id) from itemtype));",
+    "select setval('item_type_id_seq', (select max(id) from item_type));",
     "select setval('item_id_seq', (select max(id) from item));",
     "select setval('factoryinputitem_id_seq', (select max(id) from factoryinputitem));",
     "select setval('contract_contract_id_seq', (select max(contract_id) from contract));",
