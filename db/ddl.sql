@@ -34,11 +34,11 @@ create table Item
     description text        not null
 );
 
-create table FactoryInputItem
+create table factory_input_item
 (
     id        serial primary key,
     item_id   int not null references Item (id) on update cascade on delete cascade,
-    next_item int references FactoryInputItem (id) on update cascade on delete set null
+    next_item int references factory_input_item (id) on update cascade on delete set null
 );
 
 create table Factory
@@ -46,7 +46,7 @@ create table Factory
     id           serial primary key,
     type         factory_type not null,
     productivity float        not null check ( productivity >= 0 and productivity <= 1),
-    input_items  int          not null references FactoryInputItem (id) on update cascade on delete set null,
+    input_items  int          not null references factory_input_item (id) on update cascade on delete set null,
     output_item  int          not null references Item (id) on update cascade on delete set null
 );
 

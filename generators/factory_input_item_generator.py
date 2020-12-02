@@ -14,7 +14,7 @@ class FactoryInputItemGenerator(AbstractGenerator):
     def generate(self, amount: int) -> None:
         for i in range(amount):
             self.factoryInputItemIds.append(self.id)
-            self.queries += f"insert into factoryinputitem(id, item_id, next_item)" \
+            self.queries += f"insert into factory_input_item(id, item_id, next_item)" \
                             f" values ({self.id}, {self.get_random_item_id()}, " \
                             f"{self.get_random_next_item_id()});\n"
             self.id += 1

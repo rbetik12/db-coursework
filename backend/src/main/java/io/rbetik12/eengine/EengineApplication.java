@@ -34,6 +34,15 @@ public class EengineApplication {
 	@Autowired
 	private InventoryService inventoryService;
 
+	@Autowired
+	private FactoryInputItemService factoryInputItemService;
+
+	@Autowired
+	private FactoryService factoryService;
+
+	@Autowired
+	private PropertyService propertyService;
+
 	public static void main(String[] args) {
 		SpringApplication.run(EengineApplication.class, args);
 	}
@@ -63,5 +72,14 @@ public class EengineApplication {
 		List<Inventory> allInventories = inventoryService.getAll();
 		System.out.println(allInventories.get(0).getActor().getName());
 		System.out.println(allInventories.get(0).getItem().getName());
+
+		List<FactoryInputItem> factoryInputItems = factoryInputItemService.getAll();
+		System.out.println(factoryInputItems.size());
+
+		List<Factory> factories = factoryService.getAll();
+		System.out.println(factories.size());
+
+		List<Property> properties = propertyService.getAll();
+		System.out.println(properties.size());
 	}
 }

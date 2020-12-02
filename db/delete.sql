@@ -16,7 +16,7 @@ drop table if exists Currency cascade;
 drop table if exists Factory cascade;
 drop table if exists Item cascade;
 drop table if exists item_type cascade;
-drop table if exists FactoryInputItem cascade;
+drop table if exists factory_input_item cascade;
 drop table if exists Region cascade;
 drop table if exists Actor cascade;
 drop table if exists Clan cascade;
