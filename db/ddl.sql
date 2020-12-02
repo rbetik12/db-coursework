@@ -146,7 +146,7 @@ create table ListingHistory
     timestamp  timestamp default now()
 );
 
-create table ItemListing
+create table item_listing
 (
     listing_id     integer references Listings (listing_id) on update cascade on delete cascade,
     item_id        integer        not null references Item (id) on update cascade on delete cascade,

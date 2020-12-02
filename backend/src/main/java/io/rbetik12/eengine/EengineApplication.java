@@ -43,6 +43,9 @@ public class EengineApplication {
 	@Autowired
 	private PropertyService propertyService;
 
+	@Autowired
+	private ItemListingService itemListingService;
+
 	public static void main(String[] args) {
 		SpringApplication.run(EengineApplication.class, args);
 	}
@@ -81,5 +84,8 @@ public class EengineApplication {
 
 		List<Property> properties = propertyService.getAll();
 		System.out.println(properties.size());
+
+		List<ItemListing> itemListings = itemListingService.getAll();
+		System.out.println(itemListings.size());
 	}
 }
