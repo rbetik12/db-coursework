@@ -28,6 +28,9 @@ public class EengineApplication {
 	@Autowired
 	private ClanService clanService;
 
+	@Autowired
+	private ItemService itemService;
+
 	public static void main(String[] args) {
 		SpringApplication.run(EengineApplication.class, args);
 	}
@@ -50,5 +53,8 @@ public class EengineApplication {
 
 		List<Clan> allClans = clanService.getAll();
 		System.out.println(allClans.get(0).getRegion().getName());
+
+		List<Item> allItems = itemService.getAll();
+		System.out.println(allItems.get(0).getType().getName());
 	}
 }
