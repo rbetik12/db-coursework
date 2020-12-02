@@ -16,10 +16,10 @@ class PropertyGenerator(AbstractGenerator):
         for i in range(amount):
             self.propertyIds.append(self.id)
             if i % 2 == 0:
-                self.queries += f"insert into property(id, owner_id, clan_owner_id) " \
+                self.queries += f"insert into property_listing(id, owner_id, clan_owner_id) " \
                                 f"values ({self.id}, null, {self.get_random_clan_id()});\n"
             else:
-                self.queries += f"insert into property(id, owner_id, clan_owner_id) " \
+                self.queries += f"insert into property_listing(id, owner_id, clan_owner_id) " \
                                 f"values ({self.id}, {self.get_random_actor_id()}, null);\n"
             self.id += 1
 

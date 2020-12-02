@@ -19,7 +19,7 @@ class InventoryGenerator(AbstractGenerator):
             if (actorId, itemId) in self.pickedItemActor:
                 continue
             self.pickedItemActor.append((actorId, itemId))
-            self.queries += f"insert into inventory(actor_id, item_id, amount)" \
+            self.queries += f"insert into actor_inventory(actor_id, item_id, amount)" \
                             f" values ({actorId}, {itemId}, " \
                             f"{random.randint(1, 100)});\n"
 

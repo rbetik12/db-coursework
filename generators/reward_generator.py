@@ -18,7 +18,7 @@ class RewardGenerator(AbstractGenerator):
     def generate(self, amount: int) -> None:
         for i in range(amount):
             self.rewardIds.append(self.id)
-            self.queries += f"insert into reward(id, type, owner_id, conditions, name) " \
+            self.queries += f"insert into reward_listing(id, type, owner_id, conditions, name) " \
                             f"values ({self.id}, '{self.get_random_type()}', {self.get_actor_id()}, " \
                             f"'{self.get_random_name()}', '{self.get_random_name()}');\n"
             self.id += 1

@@ -19,11 +19,11 @@ class ListingGenerator(AbstractGenerator):
         for i in range(amount):
             self.listingIds.append(self.id)
             if i % 2 == 0:
-                self.queries += f"insert into listings(listing_id, seller, author_id, clan_id, description) " \
+                self.queries += f"insert into listing(listing_id, seller, author_id, clan_id, description) " \
                                 f"values ({self.id}, 'Clan',null, {self.get_random_clan_id()}, " \
                                 f"'{self.get_random_name()}');\n"
             else:
-                self.queries += f"insert into listings(listing_id, seller, author_id, clan_id, description) " \
+                self.queries += f"insert into listing(listing_id, seller, author_id, clan_id, description) " \
                                 f"values ({self.id}, 'Actor', {self.get_random_actor_id()}, null, " \
                                 f"'{self.get_random_name()}');\n"
             self.id += 1

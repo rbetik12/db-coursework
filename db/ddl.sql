@@ -2,15 +2,14 @@ create type actor_type as enum ('Player', 'Ai');
 create type clan_type as enum ('Trade', 'Production', 'Mining');
 create type factory_type as enum ('Tools', 'Weapon', 'Smelting');
 create type market_action_type as enum ('Created', 'Picked', 'Done', 'Bought');
-
 create type seller_type as enum ('Clan', 'Actor');
 create type executor_type as enum ('Clan', 'Actor', 'NoOne');
 create type action_type as enum ('Leave', 'Join');
-
 create type contract_type as enum ('Robbery', 'Buy', 'Kill', 'Blank');
 create type contract_status as enum ('Open', 'In progress', 'Closed');
 create type listing_status as enum ('Open', 'Closed');
 create type reward_type as enum ('Purchases', 'Rating', 'Manufacturing');
+create type clan_role as enum ('Member', 'Leader');
 
 create table currency
 (
@@ -69,11 +68,12 @@ create table clan
 
 create table actor
 (
-    id      serial primary key,
-    clan_id integer references clan (id) on delete set null on update cascade,
-    type    actor_type  not null,
-    rating  integer     not null default 0 check ( rating >= 0 ),
-    name    varchar(80) not null unique
+    id        serial primary key,
+    clan_id   integer references clan (id) on delete set null on update cascade,
+    type      actor_type  not null,
+    rating    integer     not null default 0 check ( rating >= 0 ),
+    clan_role clan_role,
+    name      varchar(80) not null unique
 );
 
 create table actor_currency
@@ -107,6 +107,14 @@ create table actor_inventory
     item_id  integer references item (id) on delete cascade on update cascade,
     amount   integer not null check (amount >= 0),
     primary key (actor_id, item_id)
+);
+
+create table clan_inventory
+(
+    clan_id integer references clan (id) on delete cascade on update cascade,
+    item_id integer references item (id) on delete cascade on update cascade,
+    amount  integer not null check (amount >= 0),
+    primary key (clan_id, item_id)
 );
 
 create table factory_owner

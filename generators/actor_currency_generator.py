@@ -19,7 +19,7 @@ class ActorCurrencyGenerator(AbstractGenerator):
             if (actorId, currencyId) in self.pickedActorCurrency:
                 continue
             self.pickedActorCurrency.append((actorId, currencyId))
-            self.queries += f"insert into actorcurrency(actor_id, currency_id, amount) " \
+            self.queries += f"insert into actor_currency(actor_id, currency_id, amount) " \
                             f"values ({actorId}, {currencyId}, {random.randint(20, 10000)});\n"
 
     def get_query(self) -> str:

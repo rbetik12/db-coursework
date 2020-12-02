@@ -17,11 +17,11 @@ class FactoryOwnerGenerator(AbstractGenerator):
         for i in range(amount):
             self.factoryOwnerIds.append(self.id)
             if i % 2 == 0:
-                self.queries += f"insert into factoryowner(rel_id, clan_id, actor_id, factory_id) " \
+                self.queries += f"insert into factory_owner(rel_id, clan_id, actor_id, factory_id) " \
                                 f"values ({self.id}, {self.get_random_clan_id()}, null, " \
                                 f"{self.get_random_factory_id()});\n"
             else:
-                self.queries += f"insert into factoryowner(rel_id, clan_id, actor_id, factory_id) " \
+                self.queries += f"insert into factory_owner(rel_id, clan_id, actor_id, factory_id) " \
                                 f"values ({self.id}, null, {self.get_random_actor_id()}, " \
                                 f"{self.get_random_factory_id()});\n"
             self.id += 1

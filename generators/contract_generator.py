@@ -17,7 +17,7 @@ class ContractGenerator(AbstractGenerator):
     def generate(self, amount: int) -> None:
         for i in range(amount):
             self.contractIds.append(self.id)
-            self.queries += f"insert into contract(contract_id, type, reward, currency, rating_amount, listing_id) " \
+            self.queries += f"insert into contract_listing(contract_id, type, reward, currency, rating_amount, listing_id) " \
                             f"values ({self.id}, '{self.get_random_type()}', {random.randint(1000, 150000)}, " \
                             f"{self.get_currency_id()}, {random.randint(-1000, 1000)}, {self.get_listing_id()});\n"
             self.id += 1

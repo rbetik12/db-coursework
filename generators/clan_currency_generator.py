@@ -19,7 +19,7 @@ class ClanCurrencyGenerator(AbstractGenerator):
             if (clanId, currencyId) in self.pickedClanCurrency:
                 continue
             self.pickedClanCurrency.append((clanId, currencyId))
-            self.queries += f"insert into clancurrency(clan_id, currency_id, amount) " \
+            self.queries += f"insert into clan_currency(clan_id, currency_id, amount) " \
                             f"values ({clanId}, {currencyId}, {random.randint(20, 10000)});\n"
 
     def get_query(self) -> str:
