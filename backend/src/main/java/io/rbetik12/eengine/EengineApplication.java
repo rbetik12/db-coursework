@@ -31,6 +31,9 @@ public class EengineApplication {
 	@Autowired
 	private ItemService itemService;
 
+	@Autowired
+	private InventoryService inventoryService;
+
 	public static void main(String[] args) {
 		SpringApplication.run(EengineApplication.class, args);
 	}
@@ -56,5 +59,9 @@ public class EengineApplication {
 
 		List<Item> allItems = itemService.getAll();
 		System.out.println(allItems.get(0).getType().getName());
+
+		List<Inventory> allInventories = inventoryService.getAll();
+		System.out.println(allInventories.get(0).getActor().getName());
+		System.out.println(allInventories.get(0).getItem().getName());
 	}
 }

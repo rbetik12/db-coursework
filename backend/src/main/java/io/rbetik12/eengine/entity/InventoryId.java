@@ -1,40 +1,35 @@
 package io.rbetik12.eengine.entity;
 
-import javax.persistence.Column;
-import javax.persistence.Embeddable;
 import java.io.Serializable;
 import java.util.Objects;
 
-@Embeddable
 public class InventoryId implements Serializable {
 
-    @Column(name = "actor_id")
-    private Actor actor;
+    private long actor;
 
-    @Column(name = "item_id")
-    private Item item;
+    private long item;
 
     public InventoryId() {
     }
 
-    public InventoryId(Actor actor, Item item) {
-        this.actor = actor;
-        this.item = item;
+    public InventoryId(long actorId, long itemId) {
+        this.actor = actorId;
+        this.item = itemId;
     }
 
-    public Actor getActor() {
+    public long getActor() {
         return actor;
     }
 
-    public void setActor(Actor actor) {
+    public void setActor(long actor) {
         this.actor = actor;
     }
 
-    public Item getItem() {
+    public long getItem() {
         return item;
     }
 
-    public void setItem(Item item) {
+    public void setItem(long item) {
         this.item = item;
     }
 
@@ -43,8 +38,8 @@ public class InventoryId implements Serializable {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
         InventoryId that = (InventoryId) o;
-        return Objects.equals(actor, that.actor) &&
-                Objects.equals(item, that.item);
+        return actor == that.actor &&
+                item == that.item;
     }
 
     @Override

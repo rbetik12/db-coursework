@@ -1,6 +1,7 @@
 /.idea
 generators/__pycache__
 generators/*.sql
+generators/.idea
 
 backend/HELP.md
 backend/target/

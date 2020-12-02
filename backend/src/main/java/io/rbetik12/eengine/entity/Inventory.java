@@ -5,11 +5,18 @@ import javax.persistence.*;
 
 @Entity
 @Table(name = "Inventory")
+@IdClass(InventoryId.class)
 public class Inventory {
 
-    @EmbeddedId
-    private InventoryId inventoryId;
+    @Id
+    @ManyToOne
+    @JoinColumn(name = "actor_id", referencedColumnName = "id")
+    private Actor actor;
 
+    @Id
+    @ManyToOne
+    @JoinColumn(name = "item_id", referencedColumnName = "id")
+    private Item item;
 
     @Column
     private long amount;
