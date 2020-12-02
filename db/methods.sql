@@ -5,7 +5,7 @@ as
     $$
     declare itemId int;
     begin
-        select id into itemId from Item where Item.name = itemName;
+        select id into itemId from item where item.name = itemName;
         return itemId;
     end;
     $$;
@@ -17,7 +17,7 @@ as
     $$
     declare currencyId int;
     begin
-        select id into currencyId from Currency where Currency.name = currencyName;
+        select id into currencyId from currency where currency.name = currencyName;
         return currencyId;
     end;
     $$;
@@ -29,7 +29,7 @@ as
     $$
     declare itemTypeId int;
     begin
-        select id into itemTypeId from ItemType where ItemType.name = itemTypeName;
+        select id into itemTypeId from item_type where item_type.name = itemTypeName;
         return itemTypeId;
     end;
     $$;
@@ -41,7 +41,7 @@ as
     $$
     declare clanId int;
     begin
-        select id into clanId from Clan where Clan.name = clanName;
+        select id into clanId from clan where clan.name = clanName;
         return clanId;
     end;
     $$;
@@ -53,7 +53,7 @@ as
     $$
     declare rewardId int;
     begin
-        select id into rewardId from Reward where Reward.name = rewardName;
+        select id into rewardId from reward where reward.name = rewardName;
         return rewardId;
     end;
     $$;
@@ -91,11 +91,11 @@ as
 $$
 begin
     with insertListing as (
-        insert into listings (seller, clan_id, description) values ('Clan', clanId, listingDescription)
+        insert into listing (seller, clan_id, description) values ('Clan', clanId, listingDescription)
             returning listing_id as listingId
     )
     insert
-    into itemlisting (listing_id, item_id, price, amount, currency)
+    into item_listing (listing_id, item_id, price, amount, currency)
     values ((select listingId from insertListing), itemId, itemPrice, itemAmount, currencyId);
 end;
 $$;
@@ -108,11 +108,11 @@ as
 $$
 begin
     with insertListing as (
-        insert into listings (seller, author_id, description) values ('Actor', actorId, listingDescription)
+        insert into listing (seller, author_id, description) values ('Actor', actorId, listingDescription)
             returning listing_id as listingId
     )
     insert
-    into itemlisting (listing_id, item_id, price, amount, currency)
+    into item_listing (listing_id, item_id, price, amount, currency)
     values ((select listingId from insertListing), itemId, itemPrice, itemAmount, currencyId);
 end;
 $$;
@@ -126,11 +126,11 @@ as
 $$
 begin
     with insertListing as (
-        insert into listings (seller, clan_id, description) values ('Clan', clanId, listingDescription)
+        insert into listing (seller, clan_id, description) values ('Clan', clanId, listingDescription)
             returning listing_id as listingId
     )
     insert
-    into contract(type, reward, currency, rating_amount, listing_id)
+    into contract_listing(type, reward, currency, rating_amount, listing_id)
     values (contractType::contract_type, contractReward, currencyId, ratingAmount,
             (select listingId from insertListing));
 end;
@@ -145,11 +145,11 @@ as
 $$
 begin
     with insertListing as (
-        insert into listings (seller, author_id, description) values ('Actor', actorId, listingDescription)
+        insert into listing (seller, author_id, description) values ('Actor', actorId, listingDescription)
             returning listing_id as listingId
     )
     insert
-    into contract(type, reward, currency, rating_amount, listing_id)
+    into contract_listing(type, reward, currency, rating_amount, listing_id)
     values (contractType::contract_type, contractReward, currencyId, ratingAmount,
             (select listingId from insertListing));
 end;
@@ -163,11 +163,11 @@ as
 $$
 begin
     with insertListing as (
-        insert into listings (seller, author_id, description) values ('Actor', actorId, listingDescription)
+        insert into listing (seller, author_id, description) values ('Actor', actorId, listingDescription)
             returning listing_id as listingId
     )
     insert
-    into propertylisting (listing_id, property_id, price, currency_id)
+    into property_listing (listing_id, property_id, price, currency_id)
     values ((select listingId from insertListing), propertyId, propertyPrice, currencyId);
 end;
 $$;
@@ -180,11 +180,11 @@ as
 $$
 begin
     with insertListing as (
-        insert into listings (seller, clan_id, description) values ('Clan', clanId, listingDescription)
+        insert into listing (seller, clan_id, description) values ('Clan', clanId, listingDescription)
             returning listing_id as listingId
     )
     insert
-    into propertylisting (listing_id, property_id, price, currency_id)
+    into property_listing (listing_id, property_id, price, currency_id)
     values ((select listingId from insertListing), propertyId, propertyPrice, currencyId);
 end;
 $$;
@@ -197,11 +197,11 @@ as
 $$
 begin
     with insertListing as (
-        insert into listings (seller, author_id, description) values ('Actor', actorId, listingDescription)
+        insert into listing (seller, author_id, description) values ('Actor', actorId, listingDescription)
             returning listing_id as listingId
     )
     insert
-    into propertylisting (listing_id, property_id, price, currency_id)
+    into property_listing (listing_id, property_id, price, currency_id)
     values ((select listingId from insertListing), propertyId, propertyPrice, currencyId);
 end;
 $$;
@@ -214,11 +214,11 @@ as
 $$
 begin
     with insertListing as (
-        insert into listings (seller, clan_id, description) values ('Clan', clanId, listingDescription)
+        insert into listing (seller, clan_id, description) values ('Clan', clanId, listingDescription)
             returning listing_id as listingId
     )
     insert
-    into propertylisting (listing_id, property_id, price, currency_id)
+    into property_listing (listing_id, property_id, price, currency_id)
     values ((select listingId from insertListing), propertyId, propertyPrice, currencyId);
 end;
 $$;
@@ -231,11 +231,11 @@ as
 $$
 begin
     with insertListing as (
-        insert into listings (seller, author_id, description) values ('Actor', actorId, listingDescription)
+        insert into listing (seller, author_id, description) values ('Actor', actorId, listingDescription)
             returning listing_id as listingId
     )
     insert
-    into currencylisting (listing_id, currency_for_sell_id, currency_for_buy_id, sell_amount, buy_amount)
+    into currency_listing (listing_id, currency_for_sell_id, currency_for_buy_id, sell_amount, buy_amount)
     values ((select listingId from insertListing), currencyForSellId, currencyToBuyId, currencyForSellAmount, currencyToBuyAmount);
 end;
 $$;
@@ -248,11 +248,11 @@ as
 $$
 begin
     with insertListing as (
-        insert into listings (seller, clan_id, description) values ('Clan', clanId, listingDescription)
+        insert into listing (seller, clan_id, description) values ('Clan', clanId, listingDescription)
             returning listing_id as listingId
     )
     insert
-    into currencylisting (listing_id, currency_for_sell_id, currency_for_buy_id, sell_amount, buy_amount)
+    into currency_listing (listing_id, currency_for_sell_id, currency_for_buy_id, sell_amount, buy_amount)
     values ((select listingId from insertListing), currencyForSellId, currencyToBuyId, currencyForSellAmount, currencyToBuyAmount);
 end;
 $$;
@@ -264,11 +264,11 @@ as
 $$
 begin
     with insertListing as (
-        insert into listings (seller, author_id, description) values ('Actor', actorId, listingDescription)
+        insert into listing (seller, author_id, description) values ('Actor', actorId, listingDescription)
             returning listing_id as listingId
     )
     insert
-    into factorylisting (listing_id, factory_id, currency_id, price)
+    into factory_listing (listing_id, factory_id, currency_id, price)
     values ((select listingId from insertListing), factoryId, currencyId, factoryPrice);
 end;
 $$;
@@ -280,11 +280,11 @@ as
 $$
 begin
     with insertListing as (
-        insert into listings (seller, clan_id, description) values ('Clan', clanId, listingDescription)
+        insert into listing (seller, clan_id, description) values ('Clan', clanId, listingDescription)
             returning listing_id as listingId
     )
     insert
-    into factorylisting (listing_id, factory_id, currency_id, price)
+    into factory_listing (listing_id, factory_id, currency_id, price)
     values ((select listingId from insertListing), factoryId, currencyId, factoryPrice);
 end;
 $$;

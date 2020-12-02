@@ -4,18 +4,18 @@ as
     $$
     begin
         if old.clan_id is null and new.clan_id is not null then
-            insert into actorclanlog(actor_id, clan_id, action_type) values (new.id, new.clan_id, 'Join');
+            insert into actor_clan_log(actor_id, clan_id, action_type) values (new.id, new.clan_id, 'Join');
             return new;
         end if;
 
         if old.clan_id != new.clan_id then
-            insert into actorclanlog(actor_id, clan_id, action_type) values (new.id, new.clan_id, 'Join');
-            insert into actorclanlog(actor_id, clan_id, action_type) values (new.id, old.clan_id, 'Leave');
+            insert into actor_clan_log(actor_id, clan_id, action_type) values (new.id, new.clan_id, 'Join');
+            insert into actor_clan_log(actor_id, clan_id, action_type) values (new.id, old.clan_id, 'Leave');
             return new;
         end if;
 
         if old.clan_id is not null and new.clan_id is null then
-            insert into actorclanlog(actor_id, clan_id, action_type) values (new.id, old.clan_id, 'Leave');
+            insert into actor_clan_log(actor_id, clan_id, action_type) values (new.id, old.clan_id, 'Leave');
         end if;
         return new;
     end;
@@ -33,11 +33,11 @@ as
 $$
 begin
     if new.author_id is null then
-        insert into listinghistory (seller, action, clan_id, listing_id)
+        insert into listing_history (seller, action, clan_id, listing_id)
         values (new.seller, 'Created', new.clan_id, new.listing_id);
     end if;
     if new.clan_id is null then
-        insert into listinghistory (seller, action, author_id, listing_id)
+        insert into listing_history (seller, action, author_id, listing_id)
         values (new.seller, 'Created', new.author_id, new.listing_id);
     end if;
     return new;
@@ -57,24 +57,24 @@ as
 $$
 begin
     if old.executor_actor_id is null and new.executor_actor_id is not null then
-        insert into listinghistory (seller, action, author_id, listing_id)
+        insert into listing_history (seller, action, author_id, listing_id)
         values ('Actor', 'Picked', new.executor_actor_id, new.listing_id);
         new.status = 'In progress';
     end if;
 
     if old.executor_clan_id is null and new.executor_clan_id is not null then
-        insert into listinghistory (seller, action, clan_id, listing_id)
+        insert into listing_history (seller, action, clan_id, listing_id)
         values ('Clan', 'Picked', new.executor_clan_id, new.listing_id);
         new.status = 'In progress';
     end if;
 
     if new.status = 'Closed'::contract_status and new.executor_clan_id is not null then
-        insert into listinghistory (seller, action, clan_id, listing_id)
+        insert into listing_history (seller, action, clan_id, listing_id)
         values ('Clan', 'Done', new.executor_clan_id, new.listing_id);
     end if;
 
     if new.status = 'Closed'::contract_status and new.executor_actor_id is not null then
-        insert into listinghistory (seller, action, author_id, listing_id)
+        insert into listing_history (seller, action, author_id, listing_id)
         values ('Actor', 'Done', new.executor_actor_id, new.listing_id);
     end if;
 
@@ -96,7 +96,7 @@ as
             with listingReq as (
                 select seller as sel from listings where listing_id = new.listing_id
             )
-            insert into listinghistory(seller, action, author_id, listing_id) values ((select * from listingReq), 'Bought', new.buyer_actor_id, new.listing_id);
+            insert into listing_history(seller, action, author_id, listing_id) values ((select * from listingReq), 'Bought', new.buyer_actor_id, new.listing_id);
             return new;
         end if;
 
@@ -104,7 +104,7 @@ as
             with listingReq as (
                 select seller from listings where listing_id = new.listing_id
             )
-            insert into listinghistory(seller, action, clan_id, listing_id) values ((select * from listingReq), 'Bought', new.buyer_clan_id, new.listing_id);
+            insert into listing_history(seller, action, clan_id, listing_id) values ((select * from listingReq), 'Bought', new.buyer_clan_id, new.listing_id);
             return new;
         end if;
 
@@ -112,7 +112,7 @@ as
             with listingReq as (
                 select seller from listings where listing_id = new.listing_id
             )
-            insert into listinghistory(seller, action, listing_id) values ((select * from listingReq), 'Bought', new.listing_id);
+            insert into listing_history(seller, action, listing_id) values ((select * from listingReq), 'Bought', new.listing_id);
             return new;
         end if;
 
@@ -121,7 +121,7 @@ as
     $$;
 
 create trigger item_bought
-    before update on itemlisting
+    before update on item_listing
     for each row
     execute procedure  log_bought_item();
 
@@ -132,7 +132,7 @@ $$
 declare actorListingsAmount int;
 begin
     if new.seller = 'Actor' then
-        actorListingsAmount = (select count(*) from listinghistory where author_id = new.author_id);
+        actorListingsAmount = (select count(*) from listing_history where author_id = new.author_id);
         if actorListingsAmount > 20  and (select count(*) from reward where name = concat('PurchReward', new.author_id::varchar)) = 0 then
 
             insert into reward(type, owner_id, conditions, name) values ('Purchases', new.author_id,
@@ -146,7 +146,7 @@ $$;
 
 create trigger actor_check_created_listings
     before insert or update
-    on listinghistory
+    on listing_history
     for each row
     execute procedure check_for_actor_reward();
 
