@@ -19,7 +19,7 @@ from generators.region_generator import RegionGenerator
 #   - Fix inventory generator. Sometimes it violates unique constraint (DONE)
 
 sequencesUpdate = [
-    "select setval('listings_listing_id_seq', (select max(listing_id) from listings));",
+    "select setval('listing_listing_id_seq', (select max(listing_id) from listing));",
     "select setval('reward_id_seq', (select max(id) from reward));",
     "select setval('actor_id_seq', (select max(id) from actor));",
     "select setval('clan_id_seq', (select max(id) from clan));",
@@ -27,13 +27,13 @@ sequencesUpdate = [
     "select setval('item_type_id_seq', (select max(id) from item_type));",
     "select setval('item_id_seq', (select max(id) from item));",
     "select setval('factory_input_item_id_seq', (select max(id) from factory_input_item));",
-    "select setval('contract_contract_id_seq', (select max(contract_id) from contract));",
+    "select setval('contract_listing_contract_id_seq', (select max(contract_id) from contract_listing));",
 ]
 
 from generators.reward_generator import RewardGenerator
 
 if __name__ == "__main__":
-    amount = 1000
+    amount = 50
     currencyNames = ['Dollar', 'Momey', 'Euro', 'Money']
     currencyGenerator = CurrencyGenerator(currencyNames)
     currencyGenerator.generate(amount)

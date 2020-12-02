@@ -9,6 +9,7 @@ drop type if exists seller_type cascade;
 drop type if exists executor_type cascade;
 drop type if exists action_type cascade;
 drop type if exists listing_status cascade;
+drop type if exists clan_role cascade;
 
 
 drop table if exists currency cascade;
@@ -20,6 +21,7 @@ drop table if exists region cascade;
 drop table if exists actor cascade;
 drop table if exists clan cascade;
 drop table if exists actor_inventory cascade;
+drop table if exists clan_inventory cascade;
 drop table if exists factory_owner cascade;
 drop table if exists property cascade;
 drop table if exists listing cascade;

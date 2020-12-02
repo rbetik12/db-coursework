@@ -29,7 +29,7 @@ class RegionGenerator(AbstractGenerator):
     def generate(self, amount: int) -> None:
         for i in range(amount):
             self.regionIds.append(self.id)
-            self.queries += f"insert into region_listing(id, currency_id, name) " \
+            self.queries += f"insert into region(id, currency_id, name) " \
                             f"values ({self.id}, {self.get_currency_id()}, '{self.get_random_name()}');\n"
             self.id += 1
 
