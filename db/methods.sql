@@ -86,6 +86,7 @@ begin
 end;
 $$;
 
+----------------------------------------------------Property listing----------------------------------------------------
 create function create_new_property_listing_for_actor(actorId int, propertyId int, listingDescription varchar, currencyId int,
                                                       propertyPrice int)
     returns void
@@ -120,39 +121,7 @@ begin
 end;
 $$;
 
-create or replace function create_new_property_listing_for_actor(actorId int, propertyId int, listingDescription varchar, currencyId int,
-                                                      propertyPrice int)
-    returns void
-    language plpgsql
-as
-$$
-begin
-    with insertListing as (
-        insert into listing (seller, author_id, description) values ('Actor', actorId, listingDescription)
-            returning listing_id as listingId
-    )
-    insert
-    into property_listing (listing_id, property_id, price, currency_id)
-    values ((select listingId from insertListing), propertyId, propertyPrice, currencyId);
-end;
-$$;
-
-create or replace function create_new_property_listing_for_clan(clanId int, propertyId int, listingDescription varchar, currencyId int,
-                                                      propertyPrice int)
-    returns void
-    language plpgsql
-as
-$$
-begin
-    with insertListing as (
-        insert into listing (seller, clan_id, description) values ('Clan', clanId, listingDescription)
-            returning listing_id as listingId
-    )
-    insert
-    into property_listing (listing_id, property_id, price, currency_id)
-    values ((select listingId from insertListing), propertyId, propertyPrice, currencyId);
-end;
-$$;
+----------------------------------------------Currency listing----------------------------------------------------------
 
 create or replace function create_new_currency_listing_for_actor(actorId int, currencyForSellId int,
 currencyToBuyId int, currencyForSellAmount int, currencyToBuyAmount int, listingDescription varchar)
@@ -188,6 +157,8 @@ begin
 end;
 $$;
 
+------------------------------------------------------------------Factory listing---------------------------------------
+
 create or replace function create_new_factory_listing_for_actor(actorId int, factoryId int, currencyId int, factoryPrice int, listingDescription varchar)
     returns void
     language plpgsql
@@ -218,6 +189,26 @@ begin
     into factory_listing (listing_id, factory_id, currency_id, price)
     values ((select listingId from insertListing), factoryId, currencyId, factoryPrice);
 end;
+$$;
+
+------------------------------------------------New clan creation-------------------------------------------------------
+create or replace function create_new_clan(creatorId int, clanName varchar, regionId int, clanType varchar) returns void
+language plpgsql
+as
+    $$
+    declare actorClanId int;
+    begin
+        actorClanId = (select clan_id from actor where id = creatorId);
+        if actorClanId is null then
+            with new_clan as (
+                insert into clan (name, region_id, type) values (clanName, regionId, clanType::clan_type)
+                returning id as clanId
+            )
+            update actor set clan_id = (select clanId from new_clan), clan_role = 'Leader' where id = creatorId;
+        else
+            raise notice 'Actor already in clan!';
+        end if;
+    end;
 $$;
 
 
