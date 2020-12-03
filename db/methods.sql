@@ -139,7 +139,12 @@ currencyToBuyId int, currencyForSellAmount int, currencyToBuyAmount int, listing
     language plpgsql
 as
 $$
+    declare currencyAmount int;
 begin
+    currencyAmount = (select amount from actor_currency where actor_id = actorId and currency_id = currencyForSellId);
+    if (currencyAmount is null or currencyAmount < currencyForSellAmount) then
+        return;
+    end if;
     with insertListing as (
         insert into listing (seller, author_id, description) values ('Actor', actorId, listingDescription)
             returning listing_id as listingId
@@ -147,6 +152,7 @@ begin
     insert
     into currency_listing (listing_id, currency_for_sell_id, currency_for_buy_id, sell_amount, buy_amount)
     values ((select listingId from insertListing), currencyForSellId, currencyToBuyId, currencyForSellAmount, currencyToBuyAmount);
+    update actor_currency set amount = currencyAmount - currencyForSellAmount where actor_id = actorId and currency_id = currencyForSellId;
 end;
 $$;
 
@@ -156,7 +162,12 @@ currencyToBuyId int, currencyForSellAmount int, currencyToBuyAmount int, listing
     language plpgsql
 as
 $$
+declare currencyAmount int;
 begin
+    currencyAmount = (select amount from clan_currency where clan_id = clanId and currency_id = currencyForSellId);
+    if (currencyAmount is null or currencyAmount < currencyForSellAmount) then
+        return;
+    end if;
     with insertListing as (
         insert into listing (seller, clan_id, description) values ('Clan', clanId, listingDescription)
             returning listing_id as listingId
@@ -164,6 +175,7 @@ begin
     insert
     into currency_listing (listing_id, currency_for_sell_id, currency_for_buy_id, sell_amount, buy_amount)
     values ((select listingId from insertListing), currencyForSellId, currencyToBuyId, currencyForSellAmount, currencyToBuyAmount);
+    update clan_currency set amount = currencyAmount - currencyForSellAmount where clan_id = clanId and currency_id = currencyForSellId;
 end;
 $$;
 
