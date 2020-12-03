@@ -358,4 +358,15 @@ as
     end;
     $$;
 
+--------------------------------------------------------Market price----------------------------------------------------
 
+create or replace function count_market_price(itemId int, currencyId int) returns float
+language plpgsql
+as
+    $$
+    declare avgItemPrice float;
+    begin
+        avgItemPrice = (select avg(price) from item_listing where item_id = itemId and currency = currencyId);
+        return avgItemPrice;
+    end;
+    $$;
