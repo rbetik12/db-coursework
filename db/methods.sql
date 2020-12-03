@@ -186,7 +186,12 @@ create or replace function create_new_factory_listing_for_actor(actorId int, fac
     language plpgsql
 as
 $$
+declare factoryAmount int;
 begin
+    factoryAmount = (select count(*) from factory_owner where actor_id = actorId and factory_id = factoryId);
+    if (factoryAmount is null or factoryAmount <= 0) then
+        return;
+    end if;
     with insertListing as (
         insert into listing (seller, author_id, description) values ('Actor', actorId, listingDescription)
             returning listing_id as listingId
@@ -194,6 +199,7 @@ begin
     insert
     into factory_listing (listing_id, factory_id, currency_id, price)
     values ((select listingId from insertListing), factoryId, currencyId, factoryPrice);
+
 end;
 $$;
 
@@ -202,7 +208,12 @@ create or replace function create_new_factory_listing_for_clan(clanId int, facto
     language plpgsql
 as
 $$
+declare factoryAmount int;
 begin
+    factoryAmount = (select count(*) from factory_owner where clan_id = clanId and factory_id = factoryId);
+    if (factoryAmount is null or factoryAmount <= 0) then
+        return;
+    end if;
     with insertListing as (
         insert into listing (seller, clan_id, description) values ('Clan', clanId, listingDescription)
             returning listing_id as listingId
