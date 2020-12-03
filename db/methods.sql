@@ -87,13 +87,18 @@ end;
 $$;
 
 ----------------------------------------------------Property listing----------------------------------------------------
-create function create_new_property_listing_for_actor(actorId int, propertyId int, listingDescription varchar, currencyId int,
+create or replace function create_new_property_listing_for_actor(actorId int, propertyId int, listingDescription varchar, currencyId int,
                                                       propertyPrice int)
     returns void
     language plpgsql
 as
 $$
+    declare propertyAmount int;
 begin
+    propertyAmount = (select count(*) from property where owner_id = actorId and id = propertyId);
+    if (propertyAmount is null or propertyAmount <= 0) then
+        return;
+    end if;
     with insertListing as (
         insert into listing (seller, author_id, description) values ('Actor', actorId, listingDescription)
             returning listing_id as listingId
@@ -104,13 +109,18 @@ begin
 end;
 $$;
 
-create function create_new_property_listing_for_clan(clanId int, propertyId int, listingDescription varchar, currencyId int,
+create or replace function create_new_property_listing_for_clan(clanId int, propertyId int, listingDescription varchar, currencyId int,
                                                       propertyPrice int)
     returns void
     language plpgsql
 as
 $$
+    declare propertyAmount int;
 begin
+    propertyAmount = (select count(*) from property where clan_owner_id = clanId and id = propertyId);
+    if (propertyAmount is null or propertyAmount <= 0) then
+        return;
+    end if;
     with insertListing as (
         insert into listing (seller, clan_id, description) values ('Clan', clanId, listingDescription)
             returning listing_id as listingId
