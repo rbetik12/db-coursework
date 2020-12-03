@@ -1,4 +1,4 @@
---------------------------------------------------------Item listing------------------------------------------------
+--------------------------------------------------------Item listing----------------------------------------------------
 create or replace function create_new_item_listing_for_actor(actorId int, itemId int, itemPrice int,
                                                         itemAmount int, currencyId int, listingDescription text)
     returns void
@@ -87,7 +87,8 @@ end;
 $$;
 
 ----------------------------------------------------Property listing----------------------------------------------------
-create or replace function create_new_property_listing_for_actor(actorId int, propertyId int, listingDescription varchar, currencyId int,
+create or replace function create_new_property_listing_for_actor(actorId int, propertyId int,
+                                            listingDescription varchar, currencyId int,
                                                       propertyPrice int)
     returns void
     language plpgsql
@@ -109,7 +110,8 @@ begin
 end;
 $$;
 
-create or replace function create_new_property_listing_for_clan(clanId int, propertyId int, listingDescription varchar, currencyId int,
+create or replace function create_new_property_listing_for_clan(clanId int, propertyId int, listingDescription varchar,
+                                                        currencyId int,
                                                       propertyPrice int)
     returns void
     language plpgsql
@@ -151,8 +153,10 @@ begin
     )
     insert
     into currency_listing (listing_id, currency_for_sell_id, currency_for_buy_id, sell_amount, buy_amount)
-    values ((select listingId from insertListing), currencyForSellId, currencyToBuyId, currencyForSellAmount, currencyToBuyAmount);
-    update actor_currency set amount = currencyAmount - currencyForSellAmount where actor_id = actorId and currency_id = currencyForSellId;
+    values ((select listingId from insertListing), currencyForSellId, currencyToBuyId,
+                                                                            currencyForSellAmount, currencyToBuyAmount);
+    update actor_currency set amount = currencyAmount - currencyForSellAmount where actor_id = actorId
+                                                                                    and currency_id = currencyForSellId;
 end;
 $$;
 
@@ -174,14 +178,17 @@ begin
     )
     insert
     into currency_listing (listing_id, currency_for_sell_id, currency_for_buy_id, sell_amount, buy_amount)
-    values ((select listingId from insertListing), currencyForSellId, currencyToBuyId, currencyForSellAmount, currencyToBuyAmount);
-    update clan_currency set amount = currencyAmount - currencyForSellAmount where clan_id = clanId and currency_id = currencyForSellId;
+    values ((select listingId from insertListing), currencyForSellId, currencyToBuyId, currencyForSellAmount,
+                                                                                            currencyToBuyAmount);
+    update clan_currency set amount = currencyAmount - currencyForSellAmount where clan_id = clanId
+                                                                                and currency_id = currencyForSellId;
 end;
 $$;
 
 ------------------------------------------------------------------Factory listing---------------------------------------
 
-create or replace function create_new_factory_listing_for_actor(actorId int, factoryId int, currencyId int, factoryPrice int, listingDescription varchar)
+create or replace function create_new_factory_listing_for_actor(actorId int, factoryId int, currencyId int,
+                                                                factoryPrice int, listingDescription varchar)
     returns void
     language plpgsql
 as
@@ -203,7 +210,8 @@ begin
 end;
 $$;
 
-create or replace function create_new_factory_listing_for_clan(clanId int, factoryId int, currencyId int, factoryPrice int, listingDescription varchar)
+create or replace function create_new_factory_listing_for_clan(clanId int, factoryId int, currencyId int,
+                                    factoryPrice int, listingDescription varchar)
     returns void
     language plpgsql
 as
@@ -260,15 +268,20 @@ as
             return;
         end if;
 
-        actorCurrencyAmount = (select amount from actor_currency where actor_id = actorId and currency_id = itemListingInfo.currency);
+        actorCurrencyAmount = (select amount from actor_currency where actor_id = actorId
+        and currency_id = itemListingInfo.currency);
 
         if (actorCurrencyAmount >= itemListingInfo.price) then
-            if ((select count(*) from actor_inventory where actor_id = actorId and item_id = itemListingInfo.item_id) is not null) then
-                update actor_inventory set amount = amount + itemListingInfo.amount where actor_id = actorId and item_id = itemListingInfo.item_id;
+            if ((select count(*) from actor_inventory where actor_id = actorId
+                and item_id = itemListingInfo.item_id) is not null) then
+                update actor_inventory set amount = amount + itemListingInfo.amount
+                    where actor_id = actorId and item_id = itemListingInfo.item_id;
             else
-                insert into actor_inventory(actor_id, item_id, amount) values (actorId, itemListingInfo.item_id, itemListingInfo.amount);
+                insert into actor_inventory(actor_id, item_id, amount)
+                    values (actorId, itemListingInfo.item_id, itemListingInfo.amount);
             end if;
-            update actor_currency set amount = amount - itemListingInfo.price where actor_id = actorId and currency_id = itemListingInfo.currency;
+            update actor_currency set amount = amount - itemListingInfo.price where actor_id = actorId
+                                                                        and currency_id = itemListingInfo.currency;
             update item_listing set status = 'Closed' where listing_id = listingId;
         end if;
     end;
@@ -288,17 +301,60 @@ as
             return;
         end if;
 
-        clanCurrencyAmount = (select amount from clan_currency where clan_id = clanId and currency_id = itemListingInfo.currency);
+        clanCurrencyAmount = (select amount from clan_currency where clan_id = clanId
+        and currency_id = itemListingInfo.currency);
 
         if (clanCurrencyAmount >= itemListingInfo.price) then
-            if ((select count(*) from clan_inventory where clan_id = clanId and item_id = itemListingInfo.item_id) is not null) then
-                update clan_inventory set amount = amount + itemListingInfo.amount where clan_id = clanId and item_id = itemListingInfo.item_id;
+            if ((select count(*) from clan_inventory where clan_id = clanId
+            and item_id = itemListingInfo.item_id) is not null) then
+                update clan_inventory set amount = amount + itemListingInfo.amount
+                where clan_id = clanId and item_id = itemListingInfo.item_id;
             else
-                insert into clan_inventory(clan_id, item_id, amount) values (clanId, itemListingInfo.item_id, itemListingInfo.amount);
+                insert into clan_inventory(clan_id, item_id, amount)
+                    values (clanId, itemListingInfo.item_id, itemListingInfo.amount);
             end if;
-            update clan_currency set amount = amount - itemListingInfo.price where clan_id = clanId and currency_id = itemListingInfo.currency;
+            update clan_currency set amount = amount - itemListingInfo.price
+            where clan_id = clanId and currency_id = itemListingInfo.currency;
             update item_listing set status = 'Closed' where listing_id = listingId;
         end if;
+    end;
+    $$;
+
+------------------------------------------Make item on factory----------------------------------------------------------
+
+create or replace function make_item(actorId int, factoryId int, inputItemId int) returns void
+language plpgsql
+as
+    $$
+    declare factoryInputItemId int;
+    declare factoryAmount int;
+    declare actorItem int;
+    declare outputActorItemId int;
+    begin
+        factoryAmount = (select count(*) from factory_owner where actor_id = actorId and factory_id = factoryId);
+        if (factoryAmount is null or factoryAmount <= 0) then
+            return;
+        end if;
+        factoryInputItemId = (select input_items from factory where id = factoryId);
+        if (inputItemId != factoryInputItemId) then
+            return;
+        end if;
+
+        actorItem = (select amount from actor_inventory where actor_id = actorId and item_id = inputItemId);
+        if (actorItem is null) then
+            return;
+        end if;
+        update actor_inventory set amount = amount - 1 where actor_id = actorId and item_id = inputItemId;
+
+        outputActorItemId = (select amount from actor_inventory where actor_id = actorId
+        and item_id = (select output_item from factory where id = factoryId));
+        if (outputActorItemId is null) then
+            insert into actor_inventory(actor_id, item_id, amount)
+            values (actorId, (select output_item from factory where id = factoryId), 1);
+        else
+            update actor_inventory set amount = amount + 1 where actor_id = actorId and item_id = inputItemId;
+        end if;
+
     end;
     $$;
 
