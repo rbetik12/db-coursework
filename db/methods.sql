@@ -244,4 +244,62 @@ as
     end;
 $$;
 
+----------------------------------------------------------Buy items-----------------------------------------------------
+
+create or replace function buy_item_as_actor(actorId int, listingId int) returns void
+language plpgsql
+as
+    $$
+    declare listingInfo listing%rowtype;
+    declare itemListingInfo item_listing%rowtype;
+    declare actorCurrencyAmount int;
+    begin
+        select * into listingInfo from listing where author_id = actorId and listing_id = listingId limit 1;
+        select * into itemListingInfo from item_listing where listing_id = listingId limit 1;
+        if (itemListingInfo.status = 'Closed'::listing_status) then
+            return;
+        end if;
+
+        actorCurrencyAmount = (select amount from actor_currency where actor_id = actorId and currency_id = itemListingInfo.currency);
+
+        if (actorCurrencyAmount >= itemListingInfo.price) then
+            if ((select count(*) from actor_inventory where actor_id = actorId and item_id = itemListingInfo.item_id) is not null) then
+                update actor_inventory set amount = amount + itemListingInfo.amount where actor_id = actorId and item_id = itemListingInfo.item_id;
+            else
+                insert into actor_inventory(actor_id, item_id, amount) values (actorId, itemListingInfo.item_id, itemListingInfo.amount);
+            end if;
+            update actor_currency set amount = amount - itemListingInfo.price where actor_id = actorId and currency_id = itemListingInfo.currency;
+            update item_listing set status = 'Closed' where listing_id = listingId;
+        end if;
+    end;
+    $$;
+
+create or replace function buy_item_as_clan(clanId int, listingId int) returns void
+language plpgsql
+as
+    $$
+    declare listingInfo listing%rowtype;
+    declare itemListingInfo item_listing%rowtype;
+    declare clanCurrencyAmount int;
+    begin
+        select * into listingInfo from listing where clan_id = clanId and listing_id = listingId limit 1;
+        select * into itemListingInfo from item_listing where listing_id = listingId limit 1;
+        if (itemListingInfo.status = 'Closed'::listing_status) then
+            return;
+        end if;
+
+        clanCurrencyAmount = (select amount from clan_currency where clan_id = clanId and currency_id = itemListingInfo.currency);
+
+        if (clanCurrencyAmount >= itemListingInfo.price) then
+            if ((select count(*) from clan_inventory where clan_id = clanId and item_id = itemListingInfo.item_id) is not null) then
+                update clan_inventory set amount = amount + itemListingInfo.amount where clan_id = clanId and item_id = itemListingInfo.item_id;
+            else
+                insert into clan_inventory(clan_id, item_id, amount) values (clanId, itemListingInfo.item_id, itemListingInfo.amount);
+            end if;
+            update clan_currency set amount = amount - itemListingInfo.price where clan_id = clanId and currency_id = itemListingInfo.currency;
+            update item_listing set status = 'Closed' where listing_id = listingId;
+        end if;
+    end;
+    $$;
+
 
