@@ -52,3 +52,6 @@ drop function if exists get_reward_id_by_name(rewardname varchar);
 
 drop index if exists clanRatingIndex;
 drop index if exists actorRatingIndex;
+drop index if exists index_item_listing_currency;
+drop index if exists index_factory_listing_factory_id;
+drop index if exists index_property_listing_id;
