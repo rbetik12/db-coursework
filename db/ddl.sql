@@ -199,7 +199,7 @@ create table currency_listing
     listing_id           integer references listing (listing_id) on update cascade on delete cascade,
     buyer_actor_id       integer        references actor (id) on update cascade on delete set null,
     buyer_clan_id        integer        references clan (id) on update cascade on delete set null,
-    currency_for_sell_id integer references property (id) on update cascade on delete cascade,
+    currency_for_sell_id integer references currency (id) on update cascade on delete cascade,
     status               listing_status not null default 'Open',
     currency_for_buy_id  integer references currency (id) on update cascade on delete cascade,
     sell_amount          integer        not null check ( sell_amount >= 0 ),

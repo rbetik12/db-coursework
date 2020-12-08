@@ -50,8 +50,10 @@ drop function if exists get_item_id_by_name(itemname varchar);
 drop function if exists get_itemtype_id_by_name(itemtypename varchar);
 drop function if exists get_reward_id_by_name(rewardname varchar);
 
-drop index if exists clanRatingIndex;
-drop index if exists actorRatingIndex;
-drop index if exists index_item_listing_currency;
+drop index if exists index_clan_rating;
+drop index if exists index_actor_rating;
+drop index if exists index_item_listing_item_id;
 drop index if exists index_factory_listing_factory_id;
 drop index if exists index_property_listing_id;
+drop index if exists index_currency_listing_currency_for_sell_id;
+drop index if exists index_currency_listing_currency_for_buy_id;
