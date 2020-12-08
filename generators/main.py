@@ -4,6 +4,7 @@ from generators.clan_currency_generator import ClanCurrencyGenerator
 from generators.clan_generator import ClanGenerator
 from generators.contract_generator import ContractGenerator
 from generators.currency_generator import CurrencyGenerator
+from generators.currency_listing_generator import CurrencyListingGenerator
 from generators.factory_generator import FactoryGenerator
 from generators.factory_input_item_generator import FactoryInputItemGenerator
 from generators.factory_owner_generator import FactoryOwnerGenerator
@@ -33,7 +34,7 @@ sequencesUpdate = [
 from generators.reward_generator import RewardGenerator
 
 if __name__ == "__main__":
-    amount = 50
+    amount = 3000
     currencyNames = ['Dollar', 'Momey', 'Euro', 'Money']
     currencyGenerator = CurrencyGenerator(currencyNames)
     currencyGenerator.generate(amount)
@@ -76,7 +77,7 @@ if __name__ == "__main__":
 
     listingDescs = ['Cool listing']
     listingGenerator = ListingGenerator(listingDescs, actorGenerator.get_ids(), clanGenerator.get_ids())
-    listingGenerator.generate(amount * 2)
+    listingGenerator.generate(amount * 3)
 
     itemListingGenerator = ItemListingGenerator(listingGenerator.get_ids(), itemGenerator.get_ids(),
                                                 currencyGenerator.get_ids())
@@ -85,6 +86,9 @@ if __name__ == "__main__":
     contractGenerator = ContractGenerator(listingGenerator.get_ids(), itemListingGenerator.get_ids(),
                                           currencyGenerator.get_ids())
     contractGenerator.generate(amount)
+
+    currencyListingGenerator = CurrencyListingGenerator(currencyGenerator.get_ids(), listingGenerator.get_ids())
+    currencyListingGenerator.generate(amount)
 
     rewardNames = ['Reward']
     rewardGenerator = RewardGenerator(rewardNames, actorGenerator.get_ids())
@@ -114,4 +118,5 @@ if __name__ == "__main__":
         file.write(rewardGenerator.get_query())
         file.write(actorCurrencyGenerator.get_query())
         file.write(clanCurrencyGenerator.get_query())
+        file.write(currencyListingGenerator.get_query())
         file.write("\n".join(sequencesUpdate))
