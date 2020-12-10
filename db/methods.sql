@@ -358,9 +358,9 @@ as
     end;
     $$;
 
---------------------------------------------------------Market price----------------------------------------------------
+--------------------------------------------------------Item market price----------------------------------------------------
 
-create or replace function count_market_price(itemId int, currencyId int) returns float
+create or replace function count_item_market_price(itemId int, currencyId int) returns float
 language plpgsql
 as
     $$
@@ -368,5 +368,46 @@ as
     begin
         avgItemPrice = (select avg(price) from item_listing where item_id = itemId and currency = currencyId);
         return avgItemPrice;
+    end;
+    $$;
+
+-----------------------------------------------------------------Currency market price----------------------------------
+
+create or replace function count_currency_market_price(currencyId1 int, currencyId2 int) returns float
+language plpgsql
+as
+    $$
+    declare currency1ToCurrency2Fraction float;
+    begin
+        currency1ToCurrency2Fraction = (select avg(currency_listing.buy_amount::float / sell_amount::float)
+                                                                                        from currency_listing
+        where currency_for_sell_id = currencyId1 and currency_for_buy_id = currencyId2);
+        return currency1ToCurrency2Fraction;
+    end;
+    $$;
+
+-----------------------------------------------------Factory market price-----------------------------------------------
+create or replace function count_factory_market_price(factoryId int, currencyId int) returns float
+language plpgsql
+as
+    $$
+    declare avgFactoryPrice float;
+    begin
+        avgFactoryPrice = (select avg(price) from factory_listing where factory_id = factoryId
+                                                                                        and currency_id = currencyId);
+        return avgFactoryPrice;
+    end;
+    $$;
+
+----------------------------------------------------------Property market price-----------------------------------------
+create or replace function count_property_market_price(propertyId int, currencyId int) returns float
+language plpgsql
+as
+    $$
+    declare avgPropertyPrice float;
+    begin
+        avgPropertyPrice = (select avg(price) from property_listing where property_id = propertyId
+                                                                                        and currency_id = currencyId);
+        return avgPropertyPrice;
     end;
     $$;
