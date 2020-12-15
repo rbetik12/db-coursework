@@ -8,13 +8,17 @@ import java.io.Serializable;
 public class ItemListing implements Serializable {
 
     @Id
-    @ManyToOne
-    @PrimaryKeyJoinColumn(name = "listing_id")
-    private Listing listingId;
+    @Column()
+    private Long id;
+
+    @MapsId
+    @OneToOne
+    @JoinColumn(name = "listing_id", referencedColumnName = "listing_id")
+    private Listing listing;
 
     @ManyToOne
     @JoinColumn(name = "item_id")
-    private Item itemId;
+    private Item item;
 
     @Column
     private long price;
@@ -37,20 +41,20 @@ public class ItemListing implements Serializable {
     @JoinColumn(name = "buyer_clan_id")
     private Clan buyerClan;
 
-    public Listing getListingId() {
-        return listingId;
+    public Listing getListing() {
+        return listing;
     }
 
-    public void setListingId(Listing listingId) {
-        this.listingId = listingId;
+    public void setListing(Listing listing) {
+        this.listing = listing;
     }
 
-    public Item getItemId() {
-        return itemId;
+    public Item getItem() {
+        return item;
     }
 
-    public void setItemId(Item itemId) {
-        this.itemId = itemId;
+    public void setItem(Item itemId) {
+        this.item = itemId;
     }
 
     public long getPrice() {

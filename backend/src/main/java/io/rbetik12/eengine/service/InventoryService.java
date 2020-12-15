@@ -1,6 +1,6 @@
 package io.rbetik12.eengine.service;
 
-import io.rbetik12.eengine.entity.Inventory;
+import io.rbetik12.eengine.entity.ActorInventory;
 import io.rbetik12.eengine.repository.InventoryRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -17,7 +17,7 @@ public class InventoryService {
         this.inventoryRepository = inventoryRepository;
     }
 
-    public List<Inventory> getAll() {
+    public List<ActorInventory> getAll() {
         return inventoryRepository.findAll();
     }
 }

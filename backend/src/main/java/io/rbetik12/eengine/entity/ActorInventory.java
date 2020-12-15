@@ -4,9 +4,9 @@ package io.rbetik12.eengine.entity;
 import javax.persistence.*;
 
 @Entity
-@Table(name = "Inventory")
+@Table(name = "actor_inventory")
 @IdClass(InventoryId.class)
-public class Inventory {
+public class ActorInventory {
 
     @Id
     @ManyToOne

@@ -72,7 +72,7 @@ public class EengineApplication {
 		List<Item> allItems = itemService.getAll();
 		System.out.println(allItems.get(0).getType().getName());
 
-		List<Inventory> allInventories = inventoryService.getAll();
+		List<ActorInventory> allInventories = inventoryService.getAll();
 		System.out.println(allInventories.get(0).getActor().getName());
 		System.out.println(allInventories.get(0).getItem().getName());
 
@@ -86,6 +86,6 @@ public class EengineApplication {
 		System.out.println(properties.size());
 
 		List<ItemListing> itemListings = itemListingService.getAll();
-		System.out.println(itemListings.size());
+		System.out.println(itemListings.get(0).getItem().getName());
 	}
 }
