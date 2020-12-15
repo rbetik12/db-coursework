@@ -49,6 +49,9 @@ public class EengineApplication {
 	@Autowired
 	private ActorCurrencyService actorCurrencyService;
 
+	@Autowired
+	private ClanCurrencyService clanCurrencyService;
+
 	public static void main(String[] args) {
 		SpringApplication.run(EengineApplication.class, args);
 	}
@@ -93,5 +96,8 @@ public class EengineApplication {
 
 		List<ActorCurrency> actorCurrencies = actorCurrencyService.getAll();
 		System.out.println("Actor currency: " + actorCurrencies.get(0).getActor().getName());
+
+		List<ClanCurrency> clanCurrencies = clanCurrencyService.getAll();
+		System.out.println("Clan currency: " + clanCurrencies.get(0).getClan().getName());
 	}
 }
