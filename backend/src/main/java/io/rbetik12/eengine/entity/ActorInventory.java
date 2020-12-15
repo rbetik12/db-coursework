@@ -1,11 +1,13 @@
 package io.rbetik12.eengine.entity;
 
 
+import io.rbetik12.eengine.entity.composite.ActorInventoryId;
+
 import javax.persistence.*;
 
 @Entity
 @Table(name = "actor_inventory")
-@IdClass(InventoryId.class)
+@IdClass(ActorInventoryId.class)
 public class ActorInventory {
 
     @Id

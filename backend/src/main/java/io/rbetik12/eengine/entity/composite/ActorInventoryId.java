@@ -1,18 +1,18 @@
-package io.rbetik12.eengine.entity;
+package io.rbetik12.eengine.entity.composite;
 
 import java.io.Serializable;
 import java.util.Objects;
 
-public class InventoryId implements Serializable {
+public class ActorInventoryId implements Serializable {
 
     private long actor;
 
     private long item;
 
-    public InventoryId() {
+    public ActorInventoryId() {
     }
 
-    public InventoryId(long actorId, long itemId) {
+    public ActorInventoryId(long actorId, long itemId) {
         this.actor = actorId;
         this.item = itemId;
     }
@@ -37,7 +37,7 @@ public class InventoryId implements Serializable {
     public boolean equals(Object o) {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
-        InventoryId that = (InventoryId) o;
+        ActorInventoryId that = (ActorInventoryId) o;
         return actor == that.actor &&
                 item == that.item;
     }

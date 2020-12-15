@@ -34,7 +34,7 @@ sequencesUpdate = [
 from generators.reward_generator import RewardGenerator
 
 if __name__ == "__main__":
-    amount = 3000
+    amount = 8000
     currencyNames = ['Dollar', 'Momey', 'Euro', 'Money']
     currencyGenerator = CurrencyGenerator(currencyNames)
     currencyGenerator.generate(amount)

@@ -46,6 +46,9 @@ public class EengineApplication {
 	@Autowired
 	private ItemListingService itemListingService;
 
+	@Autowired
+	private ActorCurrencyService actorCurrencyService;
+
 	public static void main(String[] args) {
 		SpringApplication.run(EengineApplication.class, args);
 	}
@@ -87,5 +90,8 @@ public class EengineApplication {
 
 		List<ItemListing> itemListings = itemListingService.getAll();
 		System.out.println(itemListings.get(0).getItem().getName());
+
+		List<ActorCurrency> actorCurrencies = actorCurrencyService.getAll();
+		System.out.println("Actor currency: " + actorCurrencies.get(0).getActor().getName());
 	}
 }
