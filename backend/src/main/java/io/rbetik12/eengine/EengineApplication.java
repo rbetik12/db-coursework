@@ -67,6 +67,9 @@ public class EengineApplication {
 	@Autowired
 	private CurrencyListingService currencyListingService;
 
+	@Autowired
+	private FactoryListingService factoryListingService;
+
 	public static void main(String[] args) {
 		SpringApplication.run(EengineApplication.class, args);
 	}
@@ -129,5 +132,8 @@ public class EengineApplication {
 
 		List<CurrencyListing> currencyListings = currencyListingService.getAll();
 		System.out.println("Currency listing: " + currencyListings.size());
+
+		List<FactoryListing> factoryListings = factoryListingService.getAll();
+		System.out.println("Factory listing: " + factoryListings.size());
 	}
 }
