@@ -55,6 +55,9 @@ public class EengineApplication {
 	@Autowired
 	private ClanInventoryService clanInventoryService;
 
+	@Autowired
+	private FactoryOwnerService factoryOwnerService;
+
 	public static void main(String[] args) {
 		SpringApplication.run(EengineApplication.class, args);
 	}
@@ -104,5 +107,9 @@ public class EengineApplication {
 		System.out.println("Clan currency: " + clanCurrencies.get(0).getClan().getName());
 
 		List<ClanInventory> clanInventories = clanInventoryService.getAll();
+		System.out.println("Clan inventories: " + clanInventories.size());
+
+		List<FactoryOwner> factoryOwners = factoryOwnerService.getAll();
+		System.out.println("Factory owner: " + factoryOwners.size());
 	}
 }
