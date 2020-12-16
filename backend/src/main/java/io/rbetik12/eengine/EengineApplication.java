@@ -58,6 +58,9 @@ public class EengineApplication {
 	@Autowired
 	private FactoryOwnerService factoryOwnerService;
 
+	@Autowired
+	private ContractListingService contractListingService;
+
 	public static void main(String[] args) {
 		SpringApplication.run(EengineApplication.class, args);
 	}
@@ -111,5 +114,8 @@ public class EengineApplication {
 
 		List<FactoryOwner> factoryOwners = factoryOwnerService.getAll();
 		System.out.println("Factory owner: " + factoryOwners.size());
+
+		List<ContractListing> contractListings = contractListingService.getAll();
+		System.out.println("Contract listing: " + contractListings.size());
 	}
 }
