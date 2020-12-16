@@ -70,6 +70,9 @@ public class EengineApplication {
 	@Autowired
 	private FactoryListingService factoryListingService;
 
+	@Autowired
+	private RewardService rewardService;
+
 	public static void main(String[] args) {
 		SpringApplication.run(EengineApplication.class, args);
 	}
@@ -135,5 +138,8 @@ public class EengineApplication {
 
 		List<FactoryListing> factoryListings = factoryListingService.getAll();
 		System.out.println("Factory listing: " + factoryListings.size());
+
+		List<Reward> rewards = rewardService.getAll();
+		System.out.println("Reward: " + rewards.size());
 	}
 }
