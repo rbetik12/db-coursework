@@ -73,6 +73,9 @@ public class EengineApplication {
 	@Autowired
 	private RewardService rewardService;
 
+	@Autowired
+	private PlayerService playerService;
+
 	public static void main(String[] args) {
 		SpringApplication.run(EengineApplication.class, args);
 	}
@@ -141,5 +144,8 @@ public class EengineApplication {
 
 		List<Reward> rewards = rewardService.getAll();
 		System.out.println("Reward: " + rewards.size());
+
+		List<Player> players = playerService.getAll();
+		System.out.println("Player: " + players.size());
 	}
 }
