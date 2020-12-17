@@ -80,7 +80,7 @@ public class EengineApplication {
 		SpringApplication.run(EengineApplication.class, args);
 	}
 
-	@EventListener(ApplicationReadyEvent.class)
+//	@EventListener(ApplicationReadyEvent.class)
 	public void test() {
 		List<Currency> currencyList = currencyService.getCurrencyByName("Ruble");
 		System.out.println(currencyList.get(0).getPrice());
