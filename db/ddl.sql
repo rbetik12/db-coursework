@@ -225,7 +225,7 @@ create table reward
     type       reward_type not null,
     owner_id   integer     references actor (id) on update cascade on delete set null,
     conditions text        not null,
-    name       varchar(80) not null unique  
+    name       varchar(80) not null unique
 );
 
 create table player

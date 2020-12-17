@@ -8,6 +8,8 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpSession;
 
 @RestController
 @RequestMapping("/api/auth")
@@ -21,8 +23,14 @@ public class AuthController {
     }
 
     @PostMapping(path = "create")
-    public ResponseEntity<String> createUser(@RequestBody Player user) {
-        System.out.println(user.getEmail());
+    public ResponseEntity<String> createUser(@RequestBody Player user, HttpServletRequest request) {
+        if (!playerService.saveUser(user)) {
+            request.getSession().invalidate();
+            return ResponseEntity.badRequest().body("User already exists!");
+        }
+        request.getSession().invalidate();
+        HttpSession session = request.getSession();
+        session.setAttribute("Id", user.getId());
         return ResponseEntity.ok("Created user successfully!");
     }
 }
