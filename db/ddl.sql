@@ -221,10 +221,18 @@ create table factory_listing
 
 create table reward
 (
-
     id         serial primary key,
     type       reward_type not null,
     owner_id   integer     references actor (id) on update cascade on delete set null,
     conditions text        not null,
-    name       varchar(80) not null unique
+    name       varchar(80) not null unique  
+);
+
+create table player
+(
+    id       serial primary key,
+    email    varchar(255) unique not null,
+    username varchar(255) unique not null,
+    password text                not null,
+    actor_id int                 references actor (id) on update cascade on delete set null
 );
