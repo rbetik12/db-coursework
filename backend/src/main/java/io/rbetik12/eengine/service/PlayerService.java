@@ -35,4 +35,25 @@ public class PlayerService {
         player.setId(playerRepository.findByUsername(player.getUsername()).getId());
         return true;
     }
+
+    public boolean authUser(Player player) {
+        Player playerFromDb = playerRepository.findByUsername(player.getUsername());
+
+        if (playerFromDb == null) {
+            playerFromDb = playerRepository.findByEmail(player.getEmail());
+            if (playerFromDb == null) {
+                return false;
+            }
+        }
+
+        if (player.getUsername() != null
+                && player.getUsername().equals(playerFromDb.getUsername())
+                && playerFromDb.getPassword().equals(String.valueOf(player.getPassword().hashCode()))) {
+            return true;
+        }
+
+        return player.getEmail() != null
+                && player.getEmail().equals(playerFromDb.getEmail())
+                && playerFromDb.getPassword().equals(String.valueOf(player.getPassword().hashCode()));
+    }
 }

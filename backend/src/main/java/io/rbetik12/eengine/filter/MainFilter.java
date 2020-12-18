@@ -18,13 +18,14 @@ public class MainFilter implements Filter {
         HttpServletRequest req = (HttpServletRequest) request;
         HttpServletResponse res = (HttpServletResponse) response;
 
-        if (req.getRequestURI().equals("/api/auth/create") || req.getRequestURI().equals("/api/auth/login")) {
+        if (req.getRequestURI().equals("/api/auth/create") || req.getRequestURI().equals("/api/auth/signIn")) {
             chain.doFilter(request, response);
         }
         else {
             HttpSession session = req.getSession(false);
             if (session == null) {
                 res.setStatus(403);
+                res.getWriter().println("No active session is found!");
                 return;
             }
             if (session.getAttribute("Id") != null) {
@@ -32,6 +33,7 @@ public class MainFilter implements Filter {
             }
             else {
                 res.setStatus(403);
+                res.getWriter().println("Incorrect session!");
             }
         }
     }

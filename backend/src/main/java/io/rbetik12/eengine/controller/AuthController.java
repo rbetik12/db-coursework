@@ -33,4 +33,17 @@ public class AuthController {
         session.setAttribute("Id", user.getId());
         return ResponseEntity.ok("Created user successfully!");
     }
+
+    @PostMapping(path = "signIn")
+    public ResponseEntity<String> signIn(@RequestBody Player user, HttpServletRequest request) {
+        if (!playerService.authUser(user)) {
+            request.getSession().invalidate();
+            return ResponseEntity.badRequest().body("Incorrect username or password!");
+        }
+
+        request.getSession().invalidate();
+        HttpSession session = request.getSession();
+        session.setAttribute("Id", user.getId());
+        return ResponseEntity.ok("Sign in successfully!");
+    }
 }
