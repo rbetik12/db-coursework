@@ -1,13 +1,12 @@
 package io.rbetik12.eengine.controller;
 
 import io.rbetik12.eengine.entity.Player;
+import io.rbetik12.eengine.model.Response;
 import io.rbetik12.eengine.service.PlayerService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
+
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
 
@@ -23,27 +22,27 @@ public class AuthController {
     }
 
     @PostMapping(path = "create")
-    public ResponseEntity<String> createUser(@RequestBody Player user, HttpServletRequest request) {
+    public ResponseEntity<Response> createUser(@RequestBody Player user, HttpServletRequest request) {
         if (!playerService.saveUser(user)) {
             request.getSession().invalidate();
-            return ResponseEntity.badRequest().body("User already exists!");
+            return ResponseEntity.badRequest().body(new Response("User already exists!"));
         }
         request.getSession().invalidate();
         HttpSession session = request.getSession();
         session.setAttribute("Id", user.getId());
-        return ResponseEntity.ok("Created user successfully!");
+        return ResponseEntity.ok(new Response("Created user successfully!"));
     }
 
-    @PostMapping(path = "signIn")
-    public ResponseEntity<String> signIn(@RequestBody Player user, HttpServletRequest request) {
+    @PostMapping(path = "signIn", consumes = "application/json", produces = "application/json")
+    public ResponseEntity<Response> signIn(@RequestBody Player user, HttpServletRequest request) {
         if (!playerService.authUser(user)) {
             request.getSession().invalidate();
-            return ResponseEntity.badRequest().body("Incorrect username or password!");
+            return ResponseEntity.badRequest().body(new Response("Incorrect username or password!"));
         }
 
         request.getSession().invalidate();
         HttpSession session = request.getSession();
         session.setAttribute("Id", user.getId());
-        return ResponseEntity.ok("Sign in successfully!");
+        return ResponseEntity.ok(new Response("Sign in successfully!"));
     }
 }
