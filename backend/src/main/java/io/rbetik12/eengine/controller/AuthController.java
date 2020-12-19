@@ -21,7 +21,7 @@ public class AuthController {
         this.playerService = playerService;
     }
 
-    @PostMapping(path = "create")
+    @PostMapping(path = "create", consumes = "application/json", produces = "application/json")
     public ResponseEntity<Response> createUser(@RequestBody Player user, HttpServletRequest request) {
         if (!playerService.saveUser(user)) {
             request.getSession().invalidate();
