@@ -3,6 +3,8 @@ import {Player} from '../../models/player.model';
 import {FormControl, FormGroup, Validators} from '@angular/forms';
 import {HttpClient} from '@angular/common/http';
 import {Globals} from '../../injectables/globals.config';
+import {MatDialog} from '@angular/material/dialog';
+import {IncorrectCredentialsComponent} from '../incorrect-credentials/incorrect-credentials.component';
 
 @Component({
     selector: 'app-signin',
@@ -29,7 +31,8 @@ export class SigninComponent implements OnInit {
     public PASSWORD = this.signInForm.controls.password as FormControl;
 
     constructor(private http: HttpClient,
-                private globals: Globals) {
+                private globals: Globals,
+                private dialog: MatDialog) {
     }
 
     ngOnInit(): void {
@@ -60,10 +63,9 @@ export class SigninComponent implements OnInit {
         this.http.post<Player>(this.globals.address + this.globals.port + '/api/auth/signIn',
             JSON.parse(JSON.stringify(player)), {withCredentials: true}).subscribe(
             res => {
-                console.log(res);
             },
             error => {
-                console.log(error);
+                this.dialog.open(IncorrectCredentialsComponent);
             });
     }
 }

@@ -55,12 +55,14 @@ import {CookieService} from 'ngx-cookie-service';
 import {FormsModule, ReactiveFormsModule} from '@angular/forms';
 import {HttpClientModule} from '@angular/common/http';
 import {Globals} from './injectables/globals.config';
+import { IncorrectCredentialsComponent } from './components/incorrect-credentials/incorrect-credentials.component';
 
 @NgModule({
     declarations: [
         AppComponent,
         SigninComponent,
         WelcomeComponent,
+        IncorrectCredentialsComponent,
     ],
     imports: [
         BrowserModule,
