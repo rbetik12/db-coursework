@@ -4,7 +4,7 @@ import {FormControl, FormGroup, Validators} from '@angular/forms';
 import {HttpClient} from '@angular/common/http';
 import {Globals} from '../../injectables/globals.config';
 import {MatDialog} from '@angular/material/dialog';
-import {IncorrectCredentialsComponent} from '../incorrect-credentials/incorrect-credentials.component';
+import {IncorrectCredentialsComponent} from '../error-dialogs/incorrect-credentials/incorrect-credentials.component';
 
 @Component({
     selector: 'app-signin',

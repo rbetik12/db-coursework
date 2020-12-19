@@ -1,0 +1,36 @@
+<div class="d-flex justify-content-center">
+    <div class="flex-column">
+        <mat-grid-list cols="1">
+            <form (submit)="onSubmit($event)" [formGroup]="signUpForm">
+                <span style="font-size: large;">Sign up form</span>
+                <br>
+                <mat-form-field appearance="outline">
+                    <mat-label>Email</mat-label>
+                    <input matInput required [formControl]="EMAIL">
+                </mat-form-field>
+
+                <br>
+
+                <mat-form-field appearance="outline">
+                    <mat-label>Username</mat-label>
+                    <input matInput required [formControl]="USERNAME">
+                </mat-form-field>
+
+                <br>
+
+                <mat-form-field appearance="outline">
+                    <mat-label>Password</mat-label>
+                    <input matInput [type]="hide ? 'password' : 'text'" required [formControl]="PASSWORD">
+                    <button mat-icon-button matSuffix (click)="hide = !hide" [attr.aria-label]="'Hide password'"
+                            [attr.aria-pressed]="hide">
+                        <mat-icon>{{hide ? 'visibility_off' : 'visibility'}}</mat-icon>
+                    </button>
+                </mat-form-field>
+
+                <br>
+
+                <button mat-flat-button color="primary">Sign up</button>
+            </form>
+        </mat-grid-list>
+    </div>
+</div>

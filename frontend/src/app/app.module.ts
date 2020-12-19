@@ -55,7 +55,9 @@ import {CookieService} from 'ngx-cookie-service';
 import {FormsModule, ReactiveFormsModule} from '@angular/forms';
 import {HttpClientModule} from '@angular/common/http';
 import {Globals} from './injectables/globals.config';
-import { IncorrectCredentialsComponent } from './components/incorrect-credentials/incorrect-credentials.component';
+import { IncorrectCredentialsComponent } from './components/error-dialogs/incorrect-credentials/incorrect-credentials.component';
+import { SignupComponent } from './components/signup/signup.component';
+import { UserAlreadyExistsComponent } from './components/error-dialogs/user-already-exists/user-already-exists.component';
 
 @NgModule({
     declarations: [
@@ -63,6 +65,8 @@ import { IncorrectCredentialsComponent } from './components/incorrect-credential
         SigninComponent,
         WelcomeComponent,
         IncorrectCredentialsComponent,
+        SignupComponent,
+        UserAlreadyExistsComponent,
     ],
     imports: [
         BrowserModule,
