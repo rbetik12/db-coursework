@@ -6,13 +6,13 @@
                 <br>
                 <mat-form-field appearance="outline">
                     <mat-label>Username or email</mat-label>
-                    <input matInput required [formControl]="signInForm.controls.usernameOrEmail">
+                    <input matInput required [formControl]="USER_OR_EMAIL">
                 </mat-form-field>
 
                 <br>
                 <mat-form-field appearance="outline">
                     <mat-label>Enter your password</mat-label>
-                    <input matInput [type]="hide ? 'password' : 'text'" required [formControl]="signInForm.controls.password">
+                    <input matInput [type]="hide ? 'password' : 'text'" required [formControl]="PASSWORD">
                     <button mat-icon-button matSuffix (click)="hide = !hide" [attr.aria-label]="'Hide password'"
                             [attr.aria-pressed]="hide">
                         <mat-icon>{{hide ? 'visibility_off' : 'visibility'}}</mat-icon>

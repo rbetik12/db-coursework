@@ -4,10 +4,10 @@ import {NgModule} from '@angular/core';
 import {AppRoutingModule} from './app-routing.module';
 import {AppComponent} from './app.component';
 import {BrowserAnimationsModule} from '@angular/platform-browser/animations';
-import { MatSliderModule} from '@angular/material/slider';
+import {MatSliderModule} from '@angular/material/slider';
 import {MatFormFieldModule} from '@angular/material/form-field';
-import { SigninComponent } from './components/signin/signin.component';
-import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
+import {SigninComponent} from './components/signin/signin.component';
+import {NgbModule} from '@ng-bootstrap/ng-bootstrap';
 import {MatSlideToggleModule} from '@angular/material/slide-toggle';
 import {MatSnackBarModule} from '@angular/material/snack-bar';
 import {MatSortModule} from '@angular/material/sort';
@@ -50,18 +50,21 @@ import {MatCardModule} from '@angular/material/card';
 import {MatDividerModule} from '@angular/material/divider';
 import {MatButtonModule} from '@angular/material/button';
 import {A11yModule} from '@angular/cdk/a11y';
-import { WelcomeComponent } from './components/welcome/welcome.component';
+import {WelcomeComponent} from './components/welcome/welcome.component';
 import {CookieService} from 'ngx-cookie-service';
 import {FormsModule, ReactiveFormsModule} from '@angular/forms';
+import {HttpClientModule} from '@angular/common/http';
+import {Globals} from './injectables/globals.config';
 
 @NgModule({
-  declarations: [
-    AppComponent,
-    SigninComponent,
-    WelcomeComponent
-  ],
+    declarations: [
+        AppComponent,
+        SigninComponent,
+        WelcomeComponent,
+    ],
     imports: [
         BrowserModule,
+        HttpClientModule,
         ReactiveFormsModule,
         FormsModule,
         AppRoutingModule,
@@ -115,8 +118,10 @@ import {FormsModule, ReactiveFormsModule} from '@angular/forms';
         ScrollingModule,
         FormsModule,
     ],
-  providers: [CookieService, ReactiveFormsModule],
-  bootstrap: [AppComponent]
+    providers: [CookieService,
+        ReactiveFormsModule,
+        Globals],
+    bootstrap: [AppComponent]
 })
 export class AppModule {
 }
