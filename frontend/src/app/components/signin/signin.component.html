@@ -1,26 +1,28 @@
 <div class="d-flex justify-content-center">
     <div class="flex-column">
         <mat-grid-list cols="1">
-            <span style="font-size: large;">Sign in form</span>
-            <br>
-            <mat-form-field appearance="outline">
-                <mat-label>Username or email</mat-label>
-                <input matInput>
-            </mat-form-field>
+            <form (submit)="onSubmit($event)" [formGroup]="signInForm">
+                <span style="font-size: large;">Sign in form</span>
+                <br>
+                <mat-form-field appearance="outline">
+                    <mat-label>Username or email</mat-label>
+                    <input matInput required [formControl]="signInForm.controls.usernameOrEmail">
+                </mat-form-field>
 
-            <br>
-            <mat-form-field appearance="outline">
-                <mat-label>Enter your password</mat-label>
-                <input matInput [type]="hide ? 'password' : 'text'">
-                <button mat-icon-button matSuffix (click)="hide = !hide" [attr.aria-label]="'Hide password'"
-                        [attr.aria-pressed]="hide">
-                    <mat-icon>{{hide ? 'visibility_off' : 'visibility'}}</mat-icon>
-                </button>
-            </mat-form-field>
+                <br>
+                <mat-form-field appearance="outline">
+                    <mat-label>Enter your password</mat-label>
+                    <input matInput [type]="hide ? 'password' : 'text'" required [formControl]="signInForm.controls.password">
+                    <button mat-icon-button matSuffix (click)="hide = !hide" [attr.aria-label]="'Hide password'"
+                            [attr.aria-pressed]="hide">
+                        <mat-icon>{{hide ? 'visibility_off' : 'visibility'}}</mat-icon>
+                    </button>
+                </mat-form-field>
 
-            <br>
+                <br>
 
-            <button mat-flat-button color="primary">Sign in</button>
+                <button mat-flat-button color="primary">Sign in</button>
+            </form>
         </mat-grid-list>
     </div>
 </div>
