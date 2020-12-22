@@ -34,7 +34,10 @@ class ItemTypeGenerator(AbstractGenerator):
 
     def get_random_item_type_id(self):
         if len(self.itemTypeIds) > 0:
-            return random.choice(self.itemTypeIds)
+            randomId = random.choice(self.itemTypeIds)
+            if randomId == self.id:
+                return "null"
+            return randomId
         else:
             return "null"
 
