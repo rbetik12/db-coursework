@@ -6,6 +6,7 @@ import {Globals} from '../../injectables/globals.config';
 import {MatDialog} from '@angular/material/dialog';
 import {UserAlreadyExistsComponent} from '../error-dialogs/user-already-exists/user-already-exists.component';
 import {Router} from '@angular/router';
+import {AuthService} from '../../services/auth.service';
 
 @Component({
     selector: 'app-signup',
@@ -39,7 +40,8 @@ export class SignupComponent implements OnInit {
     constructor(private http: HttpClient,
                 private globals: Globals,
                 private dialog: MatDialog,
-                private router: Router) {
+                private router: Router,
+                private authService: AuthService) {
     }
 
     ngOnInit(): void {
@@ -71,6 +73,8 @@ export class SignupComponent implements OnInit {
             player,
             {withCredentials: true}).subscribe(
             res => {
+                this.authService.authenticate();
+                this.router.navigateByUrl('/profile');
             },
             error => {
                 this.dialog.open(UserAlreadyExistsComponent);

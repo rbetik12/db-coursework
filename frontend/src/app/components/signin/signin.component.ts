@@ -6,6 +6,7 @@ import {Globals} from '../../injectables/globals.config';
 import {MatDialog} from '@angular/material/dialog';
 import {IncorrectCredentialsComponent} from '../error-dialogs/incorrect-credentials/incorrect-credentials.component';
 import {Router} from '@angular/router';
+import {AuthService} from '../../services/auth.service';
 
 @Component({
     selector: 'app-signin',
@@ -34,7 +35,8 @@ export class SigninComponent implements OnInit {
     constructor(private http: HttpClient,
                 private globals: Globals,
                 private dialog: MatDialog,
-                private router: Router) {
+                private router: Router,
+                private authService: AuthService) {
     }
 
     ngOnInit(): void {
@@ -65,6 +67,8 @@ export class SigninComponent implements OnInit {
         this.http.post<Player>(this.globals.address + this.globals.port + '/api/auth/signIn',
             JSON.parse(JSON.stringify(player)), {withCredentials: true}).subscribe(
             res => {
+                this.authService.authenticate();
+                this.router.navigateByUrl('/profile');
             },
             error => {
                 this.dialog.open(IncorrectCredentialsComponent);

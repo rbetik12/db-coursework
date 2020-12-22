@@ -1,5 +1,6 @@
 import {Injectable} from '@angular/core';
 import {CookieService} from 'ngx-cookie-service';
+import {Player} from '../models/player.model';
 
 @Injectable({
     providedIn: 'root'
@@ -10,6 +11,25 @@ export class AuthService {
     }
 
     public isAuthenticated(): boolean {
-        return !!this.cookieService.get('JSESSIONID');
+        return !!sessionStorage.getItem('isAuth');
+    }
+
+    public authenticate(): void {
+        sessionStorage.setItem('isAuth', String(true));
+    }
+
+    public deAuthenticate(): void {
+        sessionStorage.removeItem('isAuth');
+    }
+
+    public saveCredentials(player: Player): void {
+        sessionStorage.setItem('credentials', JSON.stringify(player));
+    }
+
+    public getCredentials(): Player | null {
+        if (sessionStorage.getItem('credentials') !== null) {
+            return JSON.parse(sessionStorage.getItem('credentials') as string);
+        }
+        return null;
     }
 }

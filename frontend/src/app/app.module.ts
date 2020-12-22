@@ -58,6 +58,7 @@ import {Globals} from './injectables/globals.config';
 import { IncorrectCredentialsComponent } from './components/error-dialogs/incorrect-credentials/incorrect-credentials.component';
 import { SignupComponent } from './components/signup/signup.component';
 import { UserAlreadyExistsComponent } from './components/error-dialogs/user-already-exists/user-already-exists.component';
+import { ProfileComponent } from './components/profile/profile.component';
 
 @NgModule({
     declarations: [
@@ -67,6 +68,7 @@ import { UserAlreadyExistsComponent } from './components/error-dialogs/user-alre
         IncorrectCredentialsComponent,
         SignupComponent,
         UserAlreadyExistsComponent,
+        ProfileComponent,
     ],
     imports: [
         BrowserModule,
