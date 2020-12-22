@@ -1,12 +1,13 @@
 package io.rbetik12.eengine.service;
 
+import io.rbetik12.eengine.entity.Actor;
 import io.rbetik12.eengine.entity.Player;
+import io.rbetik12.eengine.entity.enums.ActorType;
+import io.rbetik12.eengine.repository.ActorRepository;
 import io.rbetik12.eengine.repository.PlayerRepository;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.context.annotation.Bean;
 import org.springframework.stereotype.Service;
 
-import javax.servlet.http.HttpSession;
 import java.util.List;
 
 @Service
@@ -15,8 +16,12 @@ public class PlayerService {
     @Autowired
     private final PlayerRepository playerRepository;
 
-    public PlayerService(PlayerRepository playerRepository) {
+    @Autowired
+    private final ActorRepository actorRepository;
+
+    public PlayerService(PlayerRepository playerRepository, ActorRepository actorRepository) {
         this.playerRepository = playerRepository;
+        this.actorRepository = actorRepository;
     }
 
     public List<Player> getAll() {
@@ -29,6 +34,15 @@ public class PlayerService {
         if (playerFromDB != null) {
             return false;
         }
+
+        Actor actor = new Actor();
+        actor.setName(player.getUsername());
+        actor.setType(ActorType.Player);
+        actor.setRating(0);
+        actor.setClan(null);
+
+        actor = actorRepository.save(actor);
+        player.setActor(actor);
 
         player.setPassword(String.valueOf(player.getPassword().hashCode()));
         playerRepository.save(player);

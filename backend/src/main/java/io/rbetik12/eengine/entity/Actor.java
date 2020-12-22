@@ -1,10 +1,20 @@
 package io.rbetik12.eengine.entity;
 
 
+import com.vladmihalcea.hibernate.type.array.EnumArrayType;
+import io.rbetik12.eengine.entity.enums.ActorType;
+import io.rbetik12.eengine.entity.type.PostgreSQLEnumType;
+import org.hibernate.annotations.Type;
+import org.hibernate.annotations.TypeDef;
+import org.hibernate.annotations.TypeDefs;
+
 import javax.persistence.*;
 
 @Entity
-@Table(name = "Actor")
+@TypeDef(
+        name = "pgsql_enum",
+        typeClass = PostgreSQLEnumType.class
+)
 public class Actor {
 
   @Id
@@ -15,8 +25,10 @@ public class Actor {
   @JoinColumn(name = "clan_id")
   private Clan clan;
 
-  @Column
-  private String type;
+  @Column(columnDefinition = "actor_type")
+  @Enumerated(EnumType.STRING)
+  @Type(type = "pgsql_enum")
+  private ActorType type;
 
   @Column
   private long rating;
@@ -41,15 +53,13 @@ public class Actor {
     this.clan = clan;
   }
 
-
-  public String getType() {
+  public ActorType getType() {
     return type;
   }
 
-  public void setType(String type) {
+  public void setType(ActorType type) {
     this.type = type;
   }
-
 
   public long getRating() {
     return rating;
