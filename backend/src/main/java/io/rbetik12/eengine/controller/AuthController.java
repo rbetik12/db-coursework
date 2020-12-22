@@ -31,7 +31,8 @@ public class AuthController {
         Player newUser = playerService.getUserByUsername(user.getUsername());
         request.getSession().invalidate();
         HttpSession session = request.getSession();
-        session.setAttribute("Id", newUser.getId());
+        session.setAttribute("playerId", newUser.getId());
+        session.setAttribute("actorId", newUser.getActor().getId());
         return ResponseEntity.ok(newUser);
     }
 
@@ -46,6 +47,7 @@ public class AuthController {
         request.getSession().invalidate();
         HttpSession session = request.getSession();
         session.setAttribute("Id", _user.getId());
+        session.setAttribute("actorId", _user.getActor().getId());
         return ResponseEntity.ok(_user);
     }
 }

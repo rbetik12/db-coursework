@@ -1,6 +1,7 @@
 package io.rbetik12.eengine.service;
 
 import io.rbetik12.eengine.entity.Actor;
+import io.rbetik12.eengine.entity.Clan;
 import io.rbetik12.eengine.entity.Player;
 import io.rbetik12.eengine.entity.enums.ActorType;
 import io.rbetik12.eengine.repository.ActorRepository;
@@ -73,5 +74,10 @@ public class PlayerService {
 
     public Player getUserByUsername(String username) {
         return playerRepository.findByUsername(username);
+    }
+
+    public Clan getPlayerClan(long actorId) {
+        Actor actor = actorRepository.getOne(actorId);
+        return actor.getClan();
     }
 }
