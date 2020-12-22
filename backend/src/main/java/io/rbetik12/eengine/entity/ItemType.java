@@ -19,9 +19,6 @@ public class ItemType {
     @JoinColumn(name = "parent_type", referencedColumnName = "id")
     private ItemType parent;
 
-    @OneToMany(mappedBy = "parent", cascade = CascadeType.ALL)
-    private List<ItemType> children;
-
     public ItemType() {
     }
 
@@ -47,13 +44,5 @@ public class ItemType {
 
     public void setParent(ItemType parent) {
         this.parent = parent;
-    }
-
-    public List<ItemType> getChildren() {
-        return children;
-    }
-
-    public void setChildren(List<ItemType> children) {
-        this.children = children;
     }
 }

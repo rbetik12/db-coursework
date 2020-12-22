@@ -1,10 +1,9 @@
 package io.rbetik12.eengine.service;
 
-import io.rbetik12.eengine.entity.Actor;
-import io.rbetik12.eengine.entity.Clan;
-import io.rbetik12.eengine.entity.Player;
+import io.rbetik12.eengine.entity.*;
 import io.rbetik12.eengine.entity.enums.ActorType;
 import io.rbetik12.eengine.repository.ActorRepository;
+import io.rbetik12.eengine.repository.InventoryRepository;
 import io.rbetik12.eengine.repository.PlayerRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -20,9 +19,13 @@ public class PlayerService {
     @Autowired
     private final ActorRepository actorRepository;
 
-    public PlayerService(PlayerRepository playerRepository, ActorRepository actorRepository) {
+    @Autowired
+    private final InventoryRepository inventoryRepository;
+
+    public PlayerService(PlayerRepository playerRepository, ActorRepository actorRepository, InventoryRepository inventoryRepository) {
         this.playerRepository = playerRepository;
         this.actorRepository = actorRepository;
+        this.inventoryRepository = inventoryRepository;
     }
 
     public List<Player> getAll() {
@@ -79,5 +82,9 @@ public class PlayerService {
     public Clan getPlayerClan(long actorId) {
         Actor actor = actorRepository.getOne(actorId);
         return actor.getClan();
+    }
+
+    public List<ActorInventory> getPlayerInventory(long actorId) {
+        return inventoryRepository.findAllByActor_Id(actorId);
     }
 }
