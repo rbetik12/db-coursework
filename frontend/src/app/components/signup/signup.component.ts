@@ -53,7 +53,8 @@ export class SignupComponent implements OnInit {
             id: null,
             email: '',
             password: '',
-            username: ''
+            username: '',
+            actor: null
         };
         if (this.signUpForm.controls.username.hasError('required')
             || this.signUpForm.controls.email.hasError('required')

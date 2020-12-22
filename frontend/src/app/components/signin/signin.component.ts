@@ -48,7 +48,8 @@ export class SigninComponent implements OnInit {
             id: null,
             email: '',
             password: '',
-            username: ''
+            username: '',
+            actor: null
         };
         if (this.signInForm.controls.usernameOrEmail.hasError('required')
             || this.signInForm.controls.password.hasError('required')) {

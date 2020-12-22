@@ -3,4 +3,5 @@ export interface Player {
     email: string;
     password: string;
     username: string;
+    actor: number | null;
 }
