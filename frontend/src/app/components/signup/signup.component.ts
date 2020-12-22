@@ -5,6 +5,7 @@ import {HttpClient} from '@angular/common/http';
 import {Globals} from '../../injectables/globals.config';
 import {MatDialog} from '@angular/material/dialog';
 import {UserAlreadyExistsComponent} from '../error-dialogs/user-already-exists/user-already-exists.component';
+import {Router} from '@angular/router';
 
 @Component({
     selector: 'app-signup',
@@ -37,7 +38,8 @@ export class SignupComponent implements OnInit {
 
     constructor(private http: HttpClient,
                 private globals: Globals,
-                private dialog: MatDialog) {
+                private dialog: MatDialog,
+                private router: Router) {
     }
 
     ngOnInit(): void {
@@ -73,6 +75,10 @@ export class SignupComponent implements OnInit {
             error => {
                 this.dialog.open(UserAlreadyExistsComponent);
             });
+    }
+
+    toSignInClick(): void {
+        this.router.navigateByUrl('/signIn');
     }
 
 }
