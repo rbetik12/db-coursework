@@ -63,7 +63,6 @@ export class SigninComponent implements OnInit {
         }
         player.password = password;
 
-        console.log(JSON.stringify(player));
         this.http.post<Player>(this.globals.address + this.globals.port + '/api/auth/signIn',
             JSON.parse(JSON.stringify(player)), {withCredentials: true}).subscribe(
             res => {
