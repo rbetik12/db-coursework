@@ -56,4 +56,8 @@ public class PlayerService {
                 && player.getEmail().equals(playerFromDb.getEmail())
                 && playerFromDb.getPassword().equals(String.valueOf(player.getPassword().hashCode()));
     }
+
+    public Player getUserByUsername(String username) {
+        return playerRepository.findByUsername(username);
+    }
 }

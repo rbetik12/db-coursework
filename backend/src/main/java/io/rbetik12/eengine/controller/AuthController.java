@@ -22,27 +22,30 @@ public class AuthController {
     }
 
     @PostMapping(path = "create", consumes = "application/json", produces = "application/json")
-    public ResponseEntity<Response> createUser(@RequestBody Player user, HttpServletRequest request) {
+    public ResponseEntity<Player> createUser(@RequestBody Player user, HttpServletRequest request) {
         if (!playerService.saveUser(user)) {
             request.getSession().invalidate();
-            return ResponseEntity.badRequest().body(new Response("User already exists!"));
+            return ResponseEntity.badRequest().body(user);
         }
+
+        Player newUser = playerService.getUserByUsername(user.getUsername());
         request.getSession().invalidate();
         HttpSession session = request.getSession();
-        session.setAttribute("Id", user.getId());
-        return ResponseEntity.ok(new Response("Created user successfully!"));
+        session.setAttribute("Id", newUser.getId());
+        return ResponseEntity.ok(newUser);
     }
 
     @PostMapping(path = "signIn", consumes = "application/json", produces = "application/json")
-    public ResponseEntity<Response> signIn(@RequestBody Player user, HttpServletRequest request) {
+    public ResponseEntity<Player> signIn(@RequestBody Player user, HttpServletRequest request) {
         if (!playerService.authUser(user)) {
             request.getSession().invalidate();
-            return ResponseEntity.badRequest().body(new Response("Incorrect username or password!"));
+            return ResponseEntity.badRequest().body(user);
         }
 
+        Player _user = playerService.getUserByUsername(user.getUsername());
         request.getSession().invalidate();
         HttpSession session = request.getSession();
-        session.setAttribute("Id", user.getId());
-        return ResponseEntity.ok(new Response("Sign in successfully!"));
+        session.setAttribute("Id", _user.getId());
+        return ResponseEntity.ok(_user);
     }
 }
