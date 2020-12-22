@@ -14,12 +14,13 @@ export class AuthService {
         return !!sessionStorage.getItem('isAuth');
     }
 
-    public authenticate(): void {
+    public authenticate(player: Player): void {
         sessionStorage.setItem('isAuth', String(true));
+        this.saveCredentials(player);
     }
 
     public deAuthenticate(): void {
-        sessionStorage.removeItem('isAuth');
+        sessionStorage.clear();
     }
 
     public saveCredentials(player: Player): void {

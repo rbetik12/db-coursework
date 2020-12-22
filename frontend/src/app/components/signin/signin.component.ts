@@ -67,7 +67,7 @@ export class SigninComponent implements OnInit {
         this.http.post<Player>(this.globals.address + this.globals.port + '/api/auth/signIn',
             JSON.parse(JSON.stringify(player)), {withCredentials: true}).subscribe(
             res => {
-                this.authService.authenticate();
+                this.authService.authenticate(res);
                 this.router.navigateByUrl('/profile');
             },
             error => {

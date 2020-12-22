@@ -73,7 +73,7 @@ export class SignupComponent implements OnInit {
             player,
             {withCredentials: true}).subscribe(
             res => {
-                this.authService.authenticate();
+                this.authService.authenticate(res);
                 this.router.navigateByUrl('/profile');
             },
             error => {
