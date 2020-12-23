@@ -9,6 +9,7 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import javax.servlet.http.HttpServletRequest;
 import java.util.List;
 
 @RestController
@@ -26,5 +27,10 @@ public class ClanController {
     @GetMapping(path = "all", produces = "application/json")
     public ResponseEntity<List<Clan>> getClansList() {
         return ResponseEntity.ok(clanService.getAll());
+    }
+
+    @GetMapping(path = "info", produces = "application/json")
+    public ResponseEntity<Clan> getClanInfo(HttpServletRequest request) {
+        return ResponseEntity.ok(clanService.getOne(Long.parseLong(request.getParameter("id"))));
     }
 }

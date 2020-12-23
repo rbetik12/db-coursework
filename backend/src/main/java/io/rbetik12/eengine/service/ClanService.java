@@ -6,6 +6,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
+import java.util.Optional;
 
 @Service
 public class ClanService {
@@ -19,5 +20,11 @@ public class ClanService {
 
     public List<Clan> getAll() {
         return clanRepository.findAll();
+    }
+
+    public Clan getOne(long id) {
+        Optional<Clan> clan = clanRepository.findById(id);
+        if (clan.isEmpty()) return null;
+        return clan.get();
     }
 }
