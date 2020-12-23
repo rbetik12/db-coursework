@@ -25,7 +25,7 @@
                             </ng-container>
 
                             <mat-header-row *matHeaderRowDef=this.clansDisplayedColumns></mat-header-row>
-                            <mat-row *matRowDef="let row; columns: this.clansDisplayedColumns;"></mat-row>
+                            <mat-row *matRowDef="let row; columns: this.clansDisplayedColumns;" (click)="onClanRowClick(row)"></mat-row>
                         </mat-table>
                         <mat-paginator #clansListPaginator [length]="this.clansAmount" [pageSize]="10"></mat-paginator>
                     </div>

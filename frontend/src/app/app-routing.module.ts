@@ -6,13 +6,15 @@ import {SignupComponent} from './components/signup/signup.component';
 import {ProfileComponent} from './components/profile/profile.component';
 import {AuthGuard} from './guards/auth.guard';
 import {ClanslistComponent} from './components/clanslist/clanslist.component';
+import {ClanPageComponent} from './components/clan-page/clan-page.component';
 
 const routes: Routes = [
     {path: '', component: WelcomeComponent},
     {path: 'signIn', component: SigninComponent},
     {path: 'signUp', component: SignupComponent},
     {path: 'profile', component: ProfileComponent, canActivate: [AuthGuard]},
-    {path: 'clans', component: ClanslistComponent, canActivate: [AuthGuard]}
+    {path: 'clans', component: ClanslistComponent, canActivate: [AuthGuard]},
+    {path: 'clan/:id', component: ClanPageComponent, canActivate: [AuthGuard]}
 ];
 
 @NgModule({

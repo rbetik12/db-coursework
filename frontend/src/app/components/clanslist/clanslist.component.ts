@@ -1,4 +1,4 @@
-import {AfterViewInit, Component, OnInit, ViewChild} from '@angular/core';
+import {Component, OnInit, ViewChild} from '@angular/core';
 import {Router} from '@angular/router';
 import {Clan} from '../../models/clan.model';
 import {HttpClient} from '@angular/common/http';
@@ -36,6 +36,10 @@ export class ClanslistComponent implements OnInit {
 
     public toProfile(): void {
         this.router.navigateByUrl('/profile');
+    }
+
+    public onClanRowClick(row: Clan): void {
+        this.router.navigate(['/clan', row.id]);
     }
 
 }

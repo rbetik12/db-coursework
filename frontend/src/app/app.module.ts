@@ -60,6 +60,7 @@ import { SignupComponent } from './components/signup/signup.component';
 import { UserAlreadyExistsComponent } from './components/error-dialogs/user-already-exists/user-already-exists.component';
 import { ProfileComponent } from './components/profile/profile.component';
 import { ClanslistComponent } from './components/clanslist/clanslist.component';
+import { ClanPageComponent } from './components/clan-page/clan-page.component';
 
 @NgModule({
     declarations: [
@@ -71,6 +72,7 @@ import { ClanslistComponent } from './components/clanslist/clanslist.component';
         UserAlreadyExistsComponent,
         ProfileComponent,
         ClanslistComponent,
+        ClanPageComponent,
     ],
     imports: [
         BrowserModule,
