@@ -95,4 +95,8 @@ export class ProfileComponent implements OnInit {
         this.router.navigateByUrl('/');
     }
 
+    public toClan(): void {
+        this.router.navigateByUrl('/clans');
+    }
+
 }

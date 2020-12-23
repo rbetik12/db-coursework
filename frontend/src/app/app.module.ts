@@ -59,6 +59,7 @@ import { IncorrectCredentialsComponent } from './components/error-dialogs/incorr
 import { SignupComponent } from './components/signup/signup.component';
 import { UserAlreadyExistsComponent } from './components/error-dialogs/user-already-exists/user-already-exists.component';
 import { ProfileComponent } from './components/profile/profile.component';
+import { ClanslistComponent } from './components/clanslist/clanslist.component';
 
 @NgModule({
     declarations: [
@@ -69,6 +70,7 @@ import { ProfileComponent } from './components/profile/profile.component';
         SignupComponent,
         UserAlreadyExistsComponent,
         ProfileComponent,
+        ClanslistComponent,
     ],
     imports: [
         BrowserModule,
