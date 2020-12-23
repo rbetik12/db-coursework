@@ -1,1 +1,39 @@
-<p>clan-page works!</p>
+<div class="container">
+    <div class="row">
+        <div class="col-sm">
+            <mat-card>
+                <mat-card-header>
+                    <mat-card-title>{{this.clan.name}}</mat-card-title>
+                    <mat-card-subtitle>
+                        <mat-list>
+                            <mat-list-item>{{this.clan.rating}}</mat-list-item>
+                            <mat-list-item>Located in {{this.clan.region.name}}</mat-list-item>
+                        </mat-list>
+                    </mat-card-subtitle>
+                </mat-card-header>
+                <mat-card-content>
+                </mat-card-content>
+                <mat-action-list>
+                    <button mat-stroked-button color="primary">Join clan</button>
+                </mat-action-list>
+            </mat-card>
+        </div>
+        <div class="col-sm">
+            <mat-card>
+                <mat-card-header>
+                    <mat-card-title>Menu</mat-card-title>
+                    <mat-card-subtitle>Navigate through application here</mat-card-subtitle>
+                </mat-card-header>
+                <mat-card-content>
+                    <button mat-stroked-button color="primary">To market</button>
+                    <br><br>
+                    <button mat-stroked-button color="primary" (click)="toProfile()">To profile</button>
+                    <br><br>
+                    <button mat-stroked-button color="primary" (click)="toClansList()">To clans</button>
+                    <br><br>
+                    <button mat-stroked-button color="primary">To property</button>
+                </mat-card-content>
+            </mat-card>
+        </div>
+    </div>
+</div>
