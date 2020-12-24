@@ -99,4 +99,7 @@ export class ProfileComponent implements OnInit {
         this.router.navigateByUrl('/clans');
     }
 
+    public leaveClan(): void {
+
+    }
 }

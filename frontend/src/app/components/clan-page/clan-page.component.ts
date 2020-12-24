@@ -2,7 +2,9 @@ import {Component, OnInit} from '@angular/core';
 import {ActivatedRoute, Router} from '@angular/router';
 import {Globals} from '../../injectables/globals.config';
 import {Clan} from '../../models/clan.model';
-import {HttpClient} from '@angular/common/http';
+import {HttpClient, HttpHeaders} from '@angular/common/http';
+import {MatDialog} from '@angular/material/dialog';
+import {AlreadyInClanComponent} from '../error-dialogs/already-in-clan/already-in-clan.component';
 
 @Component({
     selector: 'app-clan-page',
@@ -17,7 +19,8 @@ export class ClanPageComponent implements OnInit {
     constructor(private route: ActivatedRoute,
                 private router: Router,
                 private globals: Globals,
-                private http: HttpClient) {
+                private http: HttpClient,
+                private dialog: MatDialog) {
     }
 
     ngOnInit(): void {
@@ -44,6 +47,20 @@ export class ClanPageComponent implements OnInit {
 
     public toClansList(): void {
         this.router.navigateByUrl('/clans');
+    }
+
+    public joinClan(): void {
+        const headers = new HttpHeaders();
+        headers.append('Content-Type', 'application/json');
+        this.http.post<Clan>(this.globals.address + this.globals.port + '/api/clan/join', this.clan,
+            {withCredentials: true, headers})
+            .subscribe(
+                res => {
+                },
+                error => {
+                    this.dialog.open(AlreadyInClanComponent);
+                }
+            );
     }
 
 }
