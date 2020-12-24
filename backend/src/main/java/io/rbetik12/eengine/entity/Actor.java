@@ -18,10 +18,10 @@ import javax.persistence.*;
 public class Actor {
 
   @Id
-  @GeneratedValue(strategy = GenerationType.IDENTITY)
+  @GeneratedValue(strategy = GenerationType.SEQUENCE)
   private long id;
 
-  @ManyToOne()
+  @ManyToOne(cascade = CascadeType.PERSIST)
   @JoinColumn(name = "clan_id")
   private Clan clan;
 

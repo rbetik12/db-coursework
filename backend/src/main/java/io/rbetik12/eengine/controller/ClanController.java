@@ -1,20 +1,17 @@
 package io.rbetik12.eengine.controller;
 
 import io.rbetik12.eengine.entity.Clan;
+import io.rbetik12.eengine.model.Response;
 import io.rbetik12.eengine.service.ClanService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.CrossOrigin;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import javax.servlet.http.HttpServletRequest;
 import java.util.List;
 
 @RestController
 @RequestMapping("/api/clan")
-@CrossOrigin
 public class ClanController {
 
     @Autowired
@@ -32,5 +29,13 @@ public class ClanController {
     @GetMapping(path = "info", produces = "application/json")
     public ResponseEntity<Clan> getClanInfo(HttpServletRequest request) {
         return ResponseEntity.ok(clanService.getOne(Long.parseLong(request.getParameter("id"))));
+    }
+
+    @PostMapping(path = "join", consumes = "application/json", produces = "application/json")
+    public ResponseEntity<Response> joinClan(@RequestBody Clan clan, HttpServletRequest request) {
+        if (!clanService.joinClan((Long) request.getSession(false).getAttribute("actorId"), clan.getId())) {
+            return ResponseEntity.badRequest().body(new Response("Can't join clan. Player already in clan!"));
+        }
+        return ResponseEntity.ok(new Response("Joined clan successfully!"));
     }
 }
