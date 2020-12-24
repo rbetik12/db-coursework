@@ -38,4 +38,12 @@ public class ClanController {
         }
         return ResponseEntity.ok(new Response("Joined clan successfully!"));
     }
+
+    @PostMapping(path = "leave", consumes = "application/json", produces = "application/json")
+    public ResponseEntity<Response> leaveClan(@RequestBody Clan clan, HttpServletRequest request) {
+        if (!clanService.leaveClan((Long) request.getSession(false).getAttribute("actorId"), clan.getId())) {
+            return ResponseEntity.badRequest().body(new Response("Can't leave clan"));
+        }
+        return ResponseEntity.ok(new Response("Left clan successfully!"));
+    }
 }

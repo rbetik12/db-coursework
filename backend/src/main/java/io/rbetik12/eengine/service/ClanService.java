@@ -46,4 +46,17 @@ public class ClanService {
         actorRepository.save(actor);
         return true;
     }
+
+    public boolean leaveClan(long actorId, long clanId) {
+        Actor actor = actorRepository.getOne(actorId);
+        Clan clan = clanRepository.getOne(clanId);
+
+        if (actor.getClan().getId() != clanId || actor.getClan() == null) {
+            return false;
+        }
+
+        actor.setClan(null);
+        actorRepository.save(actor);
+        return true;
+    }
 }
