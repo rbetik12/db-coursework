@@ -5,6 +5,7 @@ import {Clan} from '../../models/clan.model';
 import {HttpClient, HttpHeaders} from '@angular/common/http';
 import {MatDialog} from '@angular/material/dialog';
 import {AlreadyInClanComponent} from '../error-dialogs/already-in-clan/already-in-clan.component';
+import {AuthService} from '../../services/auth.service';
 
 @Component({
     selector: 'app-clan-page',
@@ -20,7 +21,8 @@ export class ClanPageComponent implements OnInit {
                 private router: Router,
                 private globals: Globals,
                 private http: HttpClient,
-                private dialog: MatDialog) {
+                private dialog: MatDialog,
+                private auth: AuthService) {
     }
 
     ngOnInit(): void {
@@ -56,6 +58,7 @@ export class ClanPageComponent implements OnInit {
             {withCredentials: true, headers})
             .subscribe(
                 res => {
+                    this.auth.updateCredentials();
                 },
                 error => {
                     this.dialog.open(AlreadyInClanComponent);

@@ -1,13 +1,17 @@
 import {Injectable} from '@angular/core';
 import {CookieService} from 'ngx-cookie-service';
 import {Player} from '../models/player.model';
+import {HttpClient} from '@angular/common/http';
+import {Globals} from '../injectables/globals.config';
 
 @Injectable({
     providedIn: 'root'
 })
 export class AuthService {
 
-    constructor(private cookieService: CookieService) {
+    constructor(private cookieService: CookieService,
+                private http: HttpClient,
+                private globals: Globals) {
     }
 
     public isAuthenticated(): boolean {
@@ -25,6 +29,19 @@ export class AuthService {
 
     public saveCredentials(player: Player): void {
         sessionStorage.setItem('credentials', JSON.stringify(player));
+    }
+
+    public updateCredentials(): void {
+        this.http.get(this.globals.address + this.globals.port + '/api/player/info',
+            {
+                withCredentials: true, params: {
+                    id: JSON.parse(sessionStorage.getItem('credentials') as string).id,
+                }
+            }).subscribe(
+            res => {
+                this.saveCredentials(res as Player);
+            }
+        );
     }
 
     public getCredentials(): Player | null {
