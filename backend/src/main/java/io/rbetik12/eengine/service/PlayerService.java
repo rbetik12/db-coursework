@@ -93,4 +93,8 @@ public class PlayerService {
     public List<ActorCurrency> getPlayerCurrency(long actorId) {
         return actorCurrencyRepository.findAllByActor_Id(actorId);
     }
+
+    public Player getPlayerInfo(long playerId) {
+        return playerRepository.findById(Integer.parseInt(Long.toString(playerId)));
+    }
 }

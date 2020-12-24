@@ -18,7 +18,7 @@ import javax.persistence.*;
 public class Actor {
 
   @Id
-  @GeneratedValue(strategy = GenerationType.SEQUENCE)
+  @GeneratedValue(strategy = GenerationType.IDENTITY)
   private long id;
 
   @ManyToOne(cascade = CascadeType.PERSIST)

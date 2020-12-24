@@ -1,9 +1,6 @@
 package io.rbetik12.eengine.controller;
 
-import io.rbetik12.eengine.entity.ActorCurrency;
-import io.rbetik12.eengine.entity.ActorInventory;
-import io.rbetik12.eengine.entity.Clan;
-import io.rbetik12.eengine.entity.Item;
+import io.rbetik12.eengine.entity.*;
 import io.rbetik12.eengine.service.PlayerService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
@@ -50,5 +47,10 @@ public class PlayerController {
             e.setActor(null);
         }
         return ResponseEntity.ok(currency);
+    }
+
+    @GetMapping(path = "info", produces = "application/json")
+    public ResponseEntity<Player> getPlayerInfo(HttpServletRequest request) {
+        return ResponseEntity.ok(playerService.getPlayerInfo(Long.parseLong(request.getParameter("id"))));
     }
 }
