@@ -59,4 +59,8 @@ public class ClanService {
         actorRepository.save(actor);
         return true;
     }
+
+    public boolean createClan(long playerId, Clan clan) {
+        return false;
+    }
 }

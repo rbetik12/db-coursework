@@ -4,6 +4,7 @@ import io.rbetik12.eengine.entity.Clan;
 import io.rbetik12.eengine.entity.Player;
 import io.rbetik12.eengine.model.Response;
 import io.rbetik12.eengine.service.ClanService;
+import io.rbetik12.eengine.service.PlayerService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -18,8 +19,12 @@ public class ClanController {
     @Autowired
     private final ClanService clanService;
 
-    public ClanController(ClanService clanService) {
+    @Autowired
+    private final PlayerService playerService;
+
+    public ClanController(ClanService clanService, PlayerService playerService) {
         this.clanService = clanService;
+        this.playerService = playerService;
     }
 
     @GetMapping(path = "all", produces = "application/json")
@@ -50,8 +55,12 @@ public class ClanController {
 
     @PostMapping(path = "create", consumes = "application/json", produces = "application/json")
     public ResponseEntity<Player> createClan(@RequestBody Clan clan, HttpServletRequest request) {
-        System.out.println(clan);
-        System.out.println(request.getParameter("id"));
-        return null;
+//        System.out.println(clan);
+//        System.out.println(request.getParameter("id"));
+        long playerId = Long.parseLong(request.getParameter("id"));
+        if (!clanService.createClan(playerId, clan)) {
+            return ResponseEntity.badRequest().body(playerService.getPlayerInfo(playerId));
+        }
+        return ResponseEntity.ok().body(playerService.getPlayerInfo(playerId));
     }
 }
