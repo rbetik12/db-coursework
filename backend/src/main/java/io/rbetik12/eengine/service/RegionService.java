@@ -3,6 +3,9 @@ package io.rbetik12.eengine.service;
 import io.rbetik12.eengine.entity.Region;
 import io.rbetik12.eengine.repository.RegionRepository;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.security.core.parameters.P;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -23,5 +26,10 @@ public class RegionService {
 
     public List<Region> getAll() {
         return regionRepository.findAll();
+    }
+
+    public List<Region> getRegions(int amount) {
+        Page<Region> regionsPage = regionRepository.findAll(PageRequest.of(1, (int) amount));
+        return regionsPage.getContent();
     }
 }
