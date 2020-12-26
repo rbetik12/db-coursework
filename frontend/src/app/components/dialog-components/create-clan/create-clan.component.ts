@@ -5,6 +5,8 @@ import {Clan} from '../../../models/clan.model';
 import {Globals} from '../../../injectables/globals.config';
 import {AuthService} from '../../../services/auth.service';
 import {Player} from '../../../models/player.model';
+import {MatDialogRef} from '@angular/material/dialog';
+import {Region} from '../../../models/region.model';
 
 @Component({
     selector: 'app-create-clan',
@@ -22,16 +24,28 @@ export class CreateClanComponent implements OnInit {
         }
     );
 
-    selected = 'Trade';
-
+    public selected = 'Trade';
+    public regionId = 0;
+    public regions: Region[] = [];
     public CLAN_NAME = this.clanForm.controls.clanName as FormControl;
 
     constructor(private http: HttpClient,
                 private globals: Globals,
-                private auth: AuthService) {
+                private auth: AuthService,
+                private dialogRef: MatDialogRef<CreateClanComponent>) {
     }
 
-    ngOnInit(): void {
+    async ngOnInit(): Promise<void> {
+        this.regions = await this.loadRegionsList();
+    }
+
+    private async loadRegionsList(): Promise<Region[]> {
+        return await this.http.get<Region[]>(this.globals.address + this.globals.port + '/api/region/all',
+            {
+                withCredentials: true,
+                params: {amount: '10'}
+            }
+        ).toPromise();
     }
 
     public submit(): void {
@@ -50,6 +64,7 @@ export class CreateClanComponent implements OnInit {
             .subscribe(
                 res => {
                     console.log(res);
+                    this.dialogRef.close();
                 },
                 error => {
                     console.log(error);

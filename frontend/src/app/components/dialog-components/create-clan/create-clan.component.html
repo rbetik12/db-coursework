@@ -8,10 +8,19 @@
 
         <mat-form-field appearance="outline">
             <mat-label>Clan type</mat-label>
-            <mat-select [(value)]="selected">
+            <mat-select [(value)]="selected" required>
                 <mat-option value="Trade">Trade</mat-option>
                 <mat-option value="Production">Production</mat-option>
                 <mat-option value="Mining">Mining</mat-option>
+            </mat-select>
+        </mat-form-field><br>
+
+        <mat-form-field appearance="outline">
+            <mat-label>Clan region</mat-label>
+            <mat-select [(value)]="regionId" required>
+                <mat-option *ngFor="let region of regions" value="region.id">
+                    {{region.name}}
+                </mat-option>
             </mat-select>
         </mat-form-field><br>
 
