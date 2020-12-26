@@ -62,6 +62,7 @@ import { ProfileComponent } from './components/profile/profile.component';
 import { ClanslistComponent } from './components/clanslist/clanslist.component';
 import { ClanPageComponent } from './components/clan-page/clan-page.component';
 import { AlreadyInClanComponent } from './components/error-dialogs/already-in-clan/already-in-clan.component';
+import { CreateClanComponent } from './components/dialog/create-clan/create-clan.component';
 
 @NgModule({
     declarations: [
@@ -75,6 +76,7 @@ import { AlreadyInClanComponent } from './components/error-dialogs/already-in-cl
         ClanslistComponent,
         ClanPageComponent,
         AlreadyInClanComponent,
+        CreateClanComponent,
     ],
     imports: [
         BrowserModule,

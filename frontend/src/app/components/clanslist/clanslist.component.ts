@@ -5,6 +5,8 @@ import {HttpClient} from '@angular/common/http';
 import {Globals} from '../../injectables/globals.config';
 import {MatPaginator} from '@angular/material/paginator';
 import {MatTableDataSource} from '@angular/material/table';
+import {MatDialog} from '@angular/material/dialog';
+import {CreateClanComponent} from '../dialog/create-clan/create-clan.component';
 
 @Component({
     selector: 'app-clanslist',
@@ -21,7 +23,8 @@ export class ClanslistComponent implements OnInit {
 
     constructor(private router: Router,
                 private http: HttpClient,
-                private globals: Globals) {
+                private globals: Globals,
+                private dialog: MatDialog) {
     }
 
     ngOnInit(): void {
@@ -40,6 +43,10 @@ export class ClanslistComponent implements OnInit {
 
     public onClanRowClick(row: Clan): void {
         this.router.navigate(['/clan', row.id]);
+    }
+
+    public createClan(): void {
+        this.dialog.open(CreateClanComponent);
     }
 
 }

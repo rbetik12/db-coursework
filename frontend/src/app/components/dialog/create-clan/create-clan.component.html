@@ -1,0 +1,20 @@
+<mat-dialog-content class="mat-typography">
+    <form [formGroup]="clanForm" (submit)="submit()">
+        <span style="font-size: large;"></span>
+        <mat-form-field appearance="outline">
+            <mat-label>Clan name</mat-label>
+            <input matInput required [formControl]="CLAN_NAME">
+        </mat-form-field><br>
+
+        <mat-form-field appearance="outline">
+            <mat-label>Clan type</mat-label>
+            <mat-select [(value)]="selected">
+                <mat-option value="Trade">Trade</mat-option>
+                <mat-option value="Production">Production</mat-option>
+                <mat-option value="Mining">Mining</mat-option>
+            </mat-select>
+        </mat-form-field><br>
+
+        <button mat-flat-button color="primary">Create</button>
+    </form>
+</mat-dialog-content>

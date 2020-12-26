@@ -6,4 +6,5 @@ export interface Actor {
     type: string;
     rating: number;
     name: string;
+    clanRole: string | null;
 }
