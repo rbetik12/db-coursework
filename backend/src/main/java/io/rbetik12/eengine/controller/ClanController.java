@@ -1,6 +1,7 @@
 package io.rbetik12.eengine.controller;
 
 import io.rbetik12.eengine.entity.Clan;
+import io.rbetik12.eengine.entity.Player;
 import io.rbetik12.eengine.model.Response;
 import io.rbetik12.eengine.service.ClanService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -45,5 +46,12 @@ public class ClanController {
             return ResponseEntity.badRequest().body(new Response("Can't leave clan"));
         }
         return ResponseEntity.ok(new Response("Left clan successfully!"));
+    }
+
+    @PostMapping(path = "create", consumes = "application/json", produces = "application/json")
+    public ResponseEntity<Player> createClan(@RequestBody Clan clan, HttpServletRequest request) {
+        System.out.println(clan);
+        System.out.println(request.getParameter("id"));
+        return null;
     }
 }

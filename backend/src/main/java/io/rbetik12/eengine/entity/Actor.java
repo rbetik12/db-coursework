@@ -3,6 +3,7 @@ package io.rbetik12.eengine.entity;
 
 import com.vladmihalcea.hibernate.type.array.EnumArrayType;
 import io.rbetik12.eengine.entity.enums.ActorType;
+import io.rbetik12.eengine.entity.enums.ClanRole;
 import io.rbetik12.eengine.entity.type.PostgreSQLEnumType;
 import org.hibernate.annotations.Type;
 import org.hibernate.annotations.TypeDef;
@@ -17,65 +18,78 @@ import javax.persistence.*;
 )
 public class Actor {
 
-  @Id
-  @GeneratedValue(strategy = GenerationType.IDENTITY)
-  private long id;
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    private long id;
 
-  @ManyToOne(cascade = CascadeType.PERSIST)
-  @JoinColumn(name = "clan_id")
-  private Clan clan;
+    @ManyToOne(cascade = CascadeType.PERSIST)
+    @JoinColumn(name = "clan_id")
+    private Clan clan;
 
-  @Column(columnDefinition = "actor_type")
-  @Enumerated(EnumType.STRING)
-  @Type(type = "pgsql_enum")
-  private ActorType type;
+    @Column(columnDefinition = "actor_type")
+    @Enumerated(EnumType.STRING)
+    @Type(type = "pgsql_enum")
+    private ActorType type;
 
-  @Column
-  private long rating;
+    @Column
+    private long rating;
 
-  @Column
-  private String name;
+    @Column
+    private String name;
 
-  public long getId() {
-    return id;
-  }
+    @Column(columnDefinition = "clan_role")
+    @Enumerated(EnumType.STRING)
+    @Type(type = "pgsql_enum")
+    private ClanRole clanRole;
 
-  public void setId(long id) {
-    this.id = id;
-  }
+    public ClanRole getClanRole() {
+        return clanRole;
+    }
 
+    public void setClanRole(ClanRole clanRole) {
+        this.clanRole = clanRole;
+    }
 
-  public Clan getClan() {
-    return clan;
-  }
+    public long getId() {
+        return id;
+    }
 
-  public void setClan(Clan clan) {
-    this.clan = clan;
-  }
-
-  public ActorType getType() {
-    return type;
-  }
-
-  public void setType(ActorType type) {
-    this.type = type;
-  }
-
-  public long getRating() {
-    return rating;
-  }
-
-  public void setRating(long rating) {
-    this.rating = rating;
-  }
+    public void setId(long id) {
+        this.id = id;
+    }
 
 
-  public String getName() {
-    return name;
-  }
+    public Clan getClan() {
+        return clan;
+    }
 
-  public void setName(String name) {
-    this.name = name;
-  }
+    public void setClan(Clan clan) {
+        this.clan = clan;
+    }
+
+    public ActorType getType() {
+        return type;
+    }
+
+    public void setType(ActorType type) {
+        this.type = type;
+    }
+
+    public long getRating() {
+        return rating;
+    }
+
+    public void setRating(long rating) {
+        this.rating = rating;
+    }
+
+
+    public String getName() {
+        return name;
+    }
+
+    public void setName(String name) {
+        this.name = name;
+    }
 
 }
