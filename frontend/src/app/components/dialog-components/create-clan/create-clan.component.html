@@ -18,7 +18,7 @@
         <mat-form-field appearance="outline">
             <mat-label>Clan region</mat-label>
             <mat-select [(value)]="regionId" required>
-                <mat-option *ngFor="let region of regions" value="region.id">
+                <mat-option *ngFor="let region of regions" [value]="region.id">
                     {{region.name}}
                 </mat-option>
             </mat-select>

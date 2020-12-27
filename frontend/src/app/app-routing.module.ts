@@ -9,7 +9,7 @@ import {ClanslistComponent} from './components/clanslist/clanslist.component';
 import {ClanPageComponent} from './components/clan-page/clan-page.component';
 
 const routes: Routes = [
-    {path: '', component: WelcomeComponent},
+    {path: '', redirectTo: 'signIn', pathMatch: 'full'},
     {path: 'signIn', component: SigninComponent},
     {path: 'signUp', component: SignupComponent},
     {path: 'profile', component: ProfileComponent, canActivate: [AuthGuard]},

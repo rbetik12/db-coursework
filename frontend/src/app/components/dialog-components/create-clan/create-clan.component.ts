@@ -5,8 +5,9 @@ import {Clan} from '../../../models/clan.model';
 import {Globals} from '../../../injectables/globals.config';
 import {AuthService} from '../../../services/auth.service';
 import {Player} from '../../../models/player.model';
-import {MatDialogRef} from '@angular/material/dialog';
+import {MatDialog, MatDialogRef} from '@angular/material/dialog';
 import {Region} from '../../../models/region.model';
+import {AlreadyInClanComponent} from '../../error-dialogs/already-in-clan/already-in-clan.component';
 
 @Component({
     selector: 'app-create-clan',
@@ -32,7 +33,8 @@ export class CreateClanComponent implements OnInit {
     constructor(private http: HttpClient,
                 private globals: Globals,
                 private auth: AuthService,
-                private dialogRef: MatDialogRef<CreateClanComponent>) {
+                private dialogRef: MatDialogRef<CreateClanComponent>,
+                private dialog: MatDialog) {
     }
 
     async ngOnInit(): Promise<void> {
@@ -53,6 +55,15 @@ export class CreateClanComponent implements OnInit {
 
         clan.type = this.selected;
         clan.name = this.CLAN_NAME.value;
+        const selectedRegion: Region = {id: 0, name: ''};
+
+        for (const reg of this.regions) {
+            if (reg.id === this.regionId) {
+                selectedRegion.id = reg.id;
+                selectedRegion.name = reg.name;
+            }
+        }
+        clan.region = selectedRegion;
         const player = this.auth.getCredentials() as Player;
         this.http.post<Clan>(this.globals.address + this.globals.port + '/api/clan/create', clan,
             {
@@ -63,11 +74,12 @@ export class CreateClanComponent implements OnInit {
             })
             .subscribe(
                 res => {
-                    console.log(res);
+                    this.auth.updateCredentials();
                     this.dialogRef.close();
                 },
                 error => {
-                    console.log(error);
+                    this.dialogRef.close();
+                    this.dialog.open(AlreadyInClanComponent);
                 }
             );
     }
