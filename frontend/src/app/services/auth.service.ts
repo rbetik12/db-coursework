@@ -31,17 +31,14 @@ export class AuthService {
         sessionStorage.setItem('credentials', JSON.stringify(player));
     }
 
-    public updateCredentials(): void {
-        this.http.get(this.globals.address + this.globals.port + '/api/player/info',
+    public async updateCredentials(): Promise<void> {
+        const player = await this.http.get<Player>(this.globals.address + this.globals.port + '/api/player/info',
             {
                 withCredentials: true, params: {
                     id: JSON.parse(sessionStorage.getItem('credentials') as string).id,
                 }
-            }).subscribe(
-            res => {
-                this.saveCredentials(res as Player);
-            }
-        );
+            }).toPromise();
+        this.saveCredentials(player);
     }
 
     public getCredentials(): Player | null {

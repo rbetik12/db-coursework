@@ -37,11 +37,10 @@ export class ClanPageComponent implements OnInit {
         const creds: Player = this.auth.getCredentials() as Player;
         console.table(creds);
         if (creds === null || creds.actor === null || creds.actor.clan === null) {
+            this.isPlayerClan = false;
             return;
         }
-        if (creds.actor.clan.id === this.clan.id) {
-            this.isPlayerClan = true;
-        }
+        this.isPlayerClan = creds.actor.clan.id === this.clan.id;
     }
 
     public fetchClanInfo(): void {
@@ -71,8 +70,8 @@ export class ClanPageComponent implements OnInit {
         this.http.post<Clan>(this.globals.address + this.globals.port + '/api/clan/join', this.clan,
             {withCredentials: true, headers})
             .subscribe(
-                res => {
-                    this.auth.updateCredentials();
+                async res => {
+                    await this.auth.updateCredentials();
                     this.checkForPlayerClan();
                 },
                 error => {
@@ -87,8 +86,8 @@ export class ClanPageComponent implements OnInit {
         this.http.post<Clan>(this.globals.address + this.globals.port + '/api/clan/leave', this.clan,
             {withCredentials: true, headers})
             .subscribe(
-                res => {
-                    this.auth.updateCredentials();
+                async res => {
+                    await this.auth.updateCredentials();
                     this.checkForPlayerClan();
                 },
                 error => {

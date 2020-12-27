@@ -95,11 +95,12 @@ export class ProfileComponent implements OnInit {
         this.router.navigateByUrl('/');
     }
 
-    public toClan(): void {
+    public toClansList(): void {
         this.router.navigateByUrl('/clans');
     }
 
-    public leaveClan(): void {
-
+    public toClan(): void {
+        const clanId = this.authService.getCredentials()?.actor?.clan.id;
+        this.router.navigate(['/clan', clanId]);
     }
 }
