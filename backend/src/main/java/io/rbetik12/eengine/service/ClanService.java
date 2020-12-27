@@ -3,6 +3,7 @@ package io.rbetik12.eengine.service;
 import io.rbetik12.eengine.entity.Actor;
 import io.rbetik12.eengine.entity.Clan;
 import io.rbetik12.eengine.entity.Player;
+import io.rbetik12.eengine.entity.enums.ClanRole;
 import io.rbetik12.eengine.repository.ActorRepository;
 import io.rbetik12.eengine.repository.ClanRepository;
 import io.rbetik12.eengine.repository.PlayerRepository;
@@ -49,6 +50,7 @@ public class ClanService {
         }
 
         actor.setClan(clan);
+        actor.setClanRole(ClanRole.Member);
         actorRepository.save(actor);
         return true;
     }
@@ -62,6 +64,7 @@ public class ClanService {
         }
 
         actor.setClan(null);
+        actor.setClanRole(null);
         actorRepository.save(actor);
         return true;
     }
