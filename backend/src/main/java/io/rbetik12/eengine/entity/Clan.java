@@ -1,5 +1,8 @@
 package io.rbetik12.eengine.entity;
 
+import io.rbetik12.eengine.entity.enums.ClanType;
+import org.hibernate.annotations.Type;
+
 import javax.persistence.*;
 import java.util.List;
 
@@ -18,8 +21,10 @@ public class Clan {
     @JoinColumn(name = "region_id")
     private Region region;
 
-    @Column
-    private String type;
+    @Column(columnDefinition = "type")
+    @Enumerated(EnumType.STRING)
+    @Type(type = "pgsql_enum")
+    private ClanType type;
 
     @Column
     private long rating;
@@ -53,15 +58,13 @@ public class Clan {
         this.region = regionId;
     }
 
-
-    public String getType() {
+    public ClanType getType() {
         return type;
     }
 
-    public void setType(String type) {
+    public void setType(ClanType type) {
         this.type = type;
     }
-
 
     public long getRating() {
         return rating;
@@ -70,12 +73,4 @@ public class Clan {
     public void setRating(long rating) {
         this.rating = rating;
     }
-
-//    public List<Actor> getActors() {
-//        return actors;
-//    }
-//
-//    public void setActors(List<Actor> actors) {
-//        this.actors = actors;
-//    }
 }

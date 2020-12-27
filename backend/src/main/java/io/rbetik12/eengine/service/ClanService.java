@@ -2,8 +2,10 @@ package io.rbetik12.eengine.service;
 
 import io.rbetik12.eengine.entity.Actor;
 import io.rbetik12.eengine.entity.Clan;
+import io.rbetik12.eengine.entity.Player;
 import io.rbetik12.eengine.repository.ActorRepository;
 import io.rbetik12.eengine.repository.ClanRepository;
+import io.rbetik12.eengine.repository.PlayerRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -19,9 +21,13 @@ public class ClanService {
     @Autowired
     private final ActorRepository actorRepository;
 
-    public ClanService(ClanRepository clanRepository, ActorRepository actorRepository) {
+    @Autowired
+    private final PlayerRepository playerRepository;
+
+    public ClanService(ClanRepository clanRepository, ActorRepository actorRepository, PlayerRepository playerRepository) {
         this.clanRepository = clanRepository;
         this.actorRepository = actorRepository;
+        this.playerRepository = playerRepository;
     }
 
     public List<Clan> getAll() {
@@ -61,6 +67,18 @@ public class ClanService {
     }
 
     public boolean createClan(long playerId, Clan clan) {
-        return false;
+        Optional<Player> optionalPlayer = playerRepository.findById(playerId);
+        if (optionalPlayer.isEmpty()) return false;
+        Player player = optionalPlayer.get();
+        Actor actor = player.getActor();
+
+        if (actor.getClan() != null) {
+            return false;
+        }
+
+        clanRepository.createClan((int) actor.getId(), clan.getName(),
+                Integer.parseInt(clan.getRegion().getId().toString()), clan.getType().toString());
+
+        return true;
     }
 }

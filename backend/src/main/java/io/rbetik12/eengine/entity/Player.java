@@ -7,7 +7,7 @@ public class Player {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private int id;
+    private long id;
 
     @Column
     private String password;
@@ -22,11 +22,11 @@ public class Player {
     @JoinColumn(name = "actor_id", referencedColumnName = "id")
     private Actor actor;
 
-    public int getId() {
+    public long getId() {
         return id;
     }
 
-    public void setId(int id) {
+    public void setId(long id) {
         this.id = id;
     }
 

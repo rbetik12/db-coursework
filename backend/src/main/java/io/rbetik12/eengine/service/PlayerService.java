@@ -95,6 +95,6 @@ public class PlayerService {
     }
 
     public Player getPlayerInfo(long playerId) {
-        return playerRepository.findById(Integer.parseInt(Long.toString(playerId)));
+        return playerRepository.findById(playerId).get();
     }
 }
