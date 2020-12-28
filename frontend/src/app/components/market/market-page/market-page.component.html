@@ -9,8 +9,6 @@
                 <mat-card-content>
                     <button mat-stroked-button color="primary" (click)="toProfile()">To profile</button>
                     <br><br>
-                    <!--                    <button mat-stroked-button color="primary" (click)="toClansList()">To clans list</button><br><br>-->
-                    <!--                    <button mat-stroked-button color="primary">To property</button>-->
                 </mat-card-content>
             </mat-card>
         </div>
@@ -21,10 +19,11 @@
             <mat-card>
                 <mat-card-header>
                     <mat-card-title>Currency prices</mat-card-title>
-                    <mat-card-subtitle>Last 20 currency cost based on market demand</mat-card-subtitle>
+                    <mat-card-subtitle>Last 20 currency cost based on market demand.
+                        It shows how much currency2 you need to pay to get one currency1</mat-card-subtitle>
                 </mat-card-header>
                 <mat-card-content>
-                    <mat-table [dataSource]="currencyPrice" matSort>
+                    <mat-table [dataSource]="currencyPrices" matSort>
                         <ng-container matColumnDef="currency1">
                             <mat-header-cell *matHeaderCellDef>Currency1</mat-header-cell>
                             <mat-cell *matCellDef="let row">{{row.currency1.name}}</mat-cell>
@@ -43,7 +42,7 @@
                         <mat-header-row *matHeaderRowDef=this.displayedCurrencyColumns></mat-header-row>
                         <mat-row *matRowDef="let row; columns: this.displayedCurrencyColumns;"></mat-row>
                     </mat-table>
-                    <mat-paginator [length]="this.currencyAmount" [pageSize]="10"></mat-paginator>
+                    <mat-paginator #currencyPricePaginator [length]="this.currencyAmount" [pageSize]="10"></mat-paginator>
                 </mat-card-content>
             </mat-card>
         </div>
