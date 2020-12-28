@@ -103,4 +103,8 @@ export class ProfileComponent implements OnInit {
         const clanId = this.authService.getCredentials()?.actor?.clan.id;
         this.router.navigate(['/clan', clanId]);
     }
+
+    public toMarket(): void {
+        this.router.navigateByUrl('/market');
+    }
 }
