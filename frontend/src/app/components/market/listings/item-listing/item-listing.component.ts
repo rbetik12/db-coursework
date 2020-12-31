@@ -20,6 +20,8 @@ export class ItemListingComponent implements OnInit {
     public displayedColumns = ['name', 'description', 'currency', 'price', 'status', 'amount', 'action'];
     @ViewChild('itemListingPaginator') paginator: MatPaginator | undefined;
 
+    public isClanLeader = false;
+
     constructor(private router: Router,
                 private http: HttpClient,
                 private globals: Globals,
@@ -28,6 +30,9 @@ export class ItemListingComponent implements OnInit {
 
     ngOnInit(): void {
         this.fetchItems();
+        if (this.auth.getCredentials()?.actor?.clanRole === 'Leader') {
+            this.isClanLeader = true;
+        }
     }
 
     private fetchItems(): void {
@@ -64,6 +69,24 @@ export class ItemListingComponent implements OnInit {
             }).subscribe(
             res => {
                 this.fetchItems();
+            },
+            error => {
+                console.log(error);
+            }
+        );
+    }
+
+    public buyAsClan(listing: ItemListing): void {
+        this.http.post(this.globals.address + this.globals.port + '/api/item-listing/buy-as-clan', listing,
+            {
+                withCredentials: true,
+                params: {
+                    clanId: String(this.auth.getCredentials()?.actor?.clan.id),
+                    actorId: String(this.auth.getCredentials()?.actor?.id)
+                }
+            }).subscribe(
+            res => {
+                console.log(res);
             },
             error => {
                 console.log(error);

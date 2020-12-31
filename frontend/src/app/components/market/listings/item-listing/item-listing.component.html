@@ -55,6 +55,7 @@
                             <mat-header-cell *matHeaderCellDef>Action</mat-header-cell>
                             <mat-cell *matCellDef="let row">
                                 <button mat-stroked-button (click)="buy(row)">Buy</button>
+                                <button mat-stroked-button (click)="buyAsClan(row)" *ngIf="isClanLeader">Clan buy</button>
                             </mat-cell>
                         </ng-container>
 
