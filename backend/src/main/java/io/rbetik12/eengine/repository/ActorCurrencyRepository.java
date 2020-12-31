@@ -8,4 +8,6 @@ import java.util.List;
 
 public interface ActorCurrencyRepository extends JpaRepository<ActorCurrency, ActorCurrencyId> {
     List<ActorCurrency> findAllByActor_Id(long actorId);
+
+    List<ActorCurrency> findAllByActor_IdAndCurrency_Id(long actorId, long currencyId);
 }

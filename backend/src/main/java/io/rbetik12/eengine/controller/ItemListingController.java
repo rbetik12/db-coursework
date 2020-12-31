@@ -1,12 +1,11 @@
 package io.rbetik12.eengine.controller;
 
 import io.rbetik12.eengine.entity.ItemListing;
+import io.rbetik12.eengine.model.Response;
 import io.rbetik12.eengine.service.ItemListingService;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.CrossOrigin;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
@@ -25,6 +24,14 @@ public class ItemListingController {
     @GetMapping(path = "all", produces = "application/json")
     public List<ItemListing> getItemListings() {
         return itemListingService.getAll();
+    }
+
+    @PostMapping(path = "buy", consumes = "application/json", produces = "application/json")
+    public ResponseEntity<Response> buyItem(@RequestBody ItemListing itemListing, @RequestParam("id") int actorId) {
+        if (!itemListingService.buyItem(itemListing, actorId)) {
+            return ResponseEntity.badRequest().body(new Response("Can't buy item"));
+        }
+        return ResponseEntity.ok(new Response("Bought item successfully"));
     }
 
 }
