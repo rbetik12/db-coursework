@@ -34,4 +34,14 @@ public class ItemListingController {
         return ResponseEntity.ok(new Response("Bought item successfully"));
     }
 
+    @PostMapping(path = "buy-as-clan", consumes = "application/json", produces = "application/json")
+    public ResponseEntity<Response> buyItemAsClan(@RequestBody ItemListing itemListing,
+                                                  @RequestParam("clanId") int clanId,
+                                                  @RequestParam("actorId") int actorId) {
+        if (!itemListingService.buyItemAsClan(itemListing, clanId, actorId)) {
+            return ResponseEntity.badRequest().body(new Response("Can't buy item"));
+        }
+        return ResponseEntity.ok(new Response("Bought item successfully"));
+    }
+
 }

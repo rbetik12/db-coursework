@@ -9,4 +9,7 @@ public interface ItemListingRepository extends JpaRepository<ItemListing, Listin
 
     @Query(value = "select count(*) from buy_item_as_actor(?1, ?2)", nativeQuery = true)
     int buyItemAsActor(int actorId, int listingId);
+
+    @Query(value = "select count(*) from buy_item_as_clan(?1, ?2)", nativeQuery = true)
+    int buyItemAsClan(int clanId, int listingId);
 }

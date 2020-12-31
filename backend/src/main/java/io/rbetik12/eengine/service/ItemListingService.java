@@ -1,11 +1,11 @@
 package io.rbetik12.eengine.service;
 
+import io.rbetik12.eengine.entity.Actor;
 import io.rbetik12.eengine.entity.ActorCurrency;
-import io.rbetik12.eengine.entity.ActorInventory;
+import io.rbetik12.eengine.entity.ClanCurrency;
 import io.rbetik12.eengine.entity.ItemListing;
-import io.rbetik12.eengine.repository.ActorCurrencyRepository;
-import io.rbetik12.eengine.repository.InventoryRepository;
-import io.rbetik12.eengine.repository.ItemListingRepository;
+import io.rbetik12.eengine.entity.enums.ClanRole;
+import io.rbetik12.eengine.repository.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.stereotype.Service;
@@ -23,10 +23,18 @@ public class ItemListingService {
     @Autowired
     private final ActorCurrencyRepository actorCurrencyRepository;
 
-    public ItemListingService(ItemListingRepository itemListingRepository, InventoryRepository actorInventoryRepository, ActorCurrencyRepository actorCurrencyRepository) {
+    @Autowired
+    private final ClanCurrencyRepository clanCurrencyRepository;
+
+    @Autowired
+    private final ActorRepository actorRepository;
+
+    public ItemListingService(ItemListingRepository itemListingRepository, InventoryRepository actorInventoryRepository, ActorCurrencyRepository actorCurrencyRepository, ClanCurrencyRepository clanCurrencyRepository, ActorRepository actorRepository) {
         this.itemListingRepository = itemListingRepository;
         this.actorInventoryRepository = actorInventoryRepository;
         this.actorCurrencyRepository = actorCurrencyRepository;
+        this.clanCurrencyRepository = clanCurrencyRepository;
+        this.actorRepository = actorRepository;
     }
 
     public List<ItemListing> getAll() {
@@ -49,6 +57,20 @@ public class ItemListingService {
         if (!enough) return false;
 
         itemListingRepository.buyItemAsActor(actorId, (int) itemListing.getListing().getListingId());
+        return true;
+    }
+
+    public boolean buyItemAsClan(ItemListing itemListing, int clanId, int actorId) {
+        Actor actor = actorRepository.getOne((long) actorId);
+        if (actor.getClanRole() != ClanRole.Leader) return false;
+
+        List<ClanCurrency> currencyList = clanCurrencyRepository.getAllByClan_IdAndCurrency_Id(clanId,
+                itemListing.getCurrency().getId());
+
+        if (currencyList == null || currencyList.size() <= 0) return false;
+        if (currencyList.get(0).getAmount() < itemListing.getPrice()) return false;
+
+        itemListingRepository.buyItemAsClan(clanId, (int) itemListing.getListing().getListingId());
         return true;
     }
 }
