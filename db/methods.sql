@@ -273,7 +273,7 @@ as
 
         if (actorCurrencyAmount >= itemListingInfo.price) then
             if ((select count(*) from actor_inventory where actor_id = actorId
-                and item_id = itemListingInfo.item_id) is not null) then
+                and item_id = itemListingInfo.item_id) != 0) then
                 update actor_inventory set amount = amount + itemListingInfo.amount
                     where actor_id = actorId and item_id = itemListingInfo.item_id;
             else
@@ -306,7 +306,7 @@ as
 
         if (clanCurrencyAmount >= itemListingInfo.price) then
             if ((select count(*) from clan_inventory where clan_id = clanId
-            and item_id = itemListingInfo.item_id) is not null) then
+            and item_id = itemListingInfo.item_id) != 0) then
                 update clan_inventory set amount = amount + itemListingInfo.amount
                 where clan_id = clanId and item_id = itemListingInfo.item_id;
             else
