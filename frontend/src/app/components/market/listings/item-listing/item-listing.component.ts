@@ -6,6 +6,7 @@ import {ItemListing} from '../../../../models/item-listing.model';
 import {MatTableDataSource} from '@angular/material/table';
 import {MatPaginator} from '@angular/material/paginator';
 import {Item} from '../../../../models/item.model';
+import {AuthService} from '../../../../services/auth.service';
 
 @Component({
     selector: 'app-item-listing',
@@ -21,7 +22,8 @@ export class ItemListingComponent implements OnInit {
 
     constructor(private router: Router,
                 private http: HttpClient,
-                private globals: Globals) {
+                private globals: Globals,
+                private auth: AuthService) {
     }
 
     ngOnInit(): void {
@@ -53,7 +55,20 @@ export class ItemListingComponent implements OnInit {
     }
 
     public buy(listing: ItemListing): void {
-        console.log(listing);
+        this.http.post(this.globals.address + this.globals.port + '/api/item-listing/buy', listing,
+            {
+                withCredentials: true,
+                params: {
+                    id: String(this.auth.getCredentials()?.actor?.id)
+                }
+            }).subscribe(
+            res => {
+                this.fetchItems();
+            },
+            error => {
+                console.log(error);
+            }
+        );
     }
 
 }
