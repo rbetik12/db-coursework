@@ -8,6 +8,7 @@ import {AuthGuard} from './guards/auth.guard';
 import {ClanslistComponent} from './components/clanslist/clanslist.component';
 import {ClanPageComponent} from './components/clan-page/clan-page.component';
 import {MarketPageComponent} from './components/market/market-page/market-page.component';
+import {ItemListingComponent} from './components/market/listings/item-listing/item-listing.component';
 
 const routes: Routes = [
     {path: '', redirectTo: 'signIn', pathMatch: 'full'},
@@ -16,7 +17,8 @@ const routes: Routes = [
     {path: 'profile', component: ProfileComponent, canActivate: [AuthGuard]},
     {path: 'clans', component: ClanslistComponent, canActivate: [AuthGuard]},
     {path: 'clan/:id', component: ClanPageComponent, canActivate: [AuthGuard]},
-    {path: 'market', component: MarketPageComponent, canActivate: [AuthGuard]}
+    {path: 'market', component: MarketPageComponent, canActivate: [AuthGuard]},
+    {path: 'item-listings', component: ItemListingComponent, canActivate: [AuthGuard]}
 ];
 
 @NgModule({

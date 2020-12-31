@@ -1,0 +1,69 @@
+<div class="container">
+    <div class="row">
+        <div class="col-sm">
+            <mat-card>
+                <mat-card-header>
+                    <mat-card-title>Menu</mat-card-title>
+                    <mat-card-subtitle>Navigate through application here</mat-card-subtitle>
+                </mat-card-header>
+                <mat-card-content>
+                    <button mat-stroked-button color="primary" (click)="toProfile()">To profile</button>
+                    <br><br>
+                    <button mat-stroked-button color="primary" (click)="toMarket()">To market</button>
+                    <br><br>
+                </mat-card-content>
+            </mat-card>
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-sm">
+            <mat-card>
+                <mat-card-title>Item listings</mat-card-title>
+                <mat-card-content>
+                    <mat-table [dataSource]="itemListings" matSort>
+                        <ng-container matColumnDef="description">
+                            <mat-header-cell *matHeaderCellDef>Description</mat-header-cell>
+                            <mat-cell *matCellDef="let row">{{row.listing.description}}</mat-cell>
+                        </ng-container>
+
+                        <ng-container matColumnDef="name">
+                            <mat-header-cell *matHeaderCellDef>Item name</mat-header-cell>
+                            <mat-cell *matCellDef="let row">{{row.item.name}}</mat-cell>
+                        </ng-container>
+
+                        <ng-container matColumnDef="currency">
+                            <mat-header-cell *matHeaderCellDef>Currency</mat-header-cell>
+                            <mat-cell *matCellDef="let row">{{row.currency.name}}</mat-cell>
+                        </ng-container>
+
+                        <ng-container matColumnDef="price">
+                            <mat-header-cell *matHeaderCellDef>Price</mat-header-cell>
+                            <mat-cell *matCellDef="let row">{{row.price}}</mat-cell>
+                        </ng-container>
+
+                        <ng-container matColumnDef="amount">
+                            <mat-header-cell *matHeaderCellDef>Amount</mat-header-cell>
+                            <mat-cell *matCellDef="let row">{{row.amount}}</mat-cell>
+                        </ng-container>
+
+                        <ng-container matColumnDef="status">
+                            <mat-header-cell *matHeaderCellDef>Status</mat-header-cell>
+                            <mat-cell *matCellDef="let row">{{row.status}}</mat-cell>
+                        </ng-container>
+
+                        <ng-container matColumnDef="action">
+                            <mat-header-cell *matHeaderCellDef>Action</mat-header-cell>
+                            <mat-cell *matCellDef="let row">
+                                <button mat-stroked-button (click)="buy(row)">Buy</button>
+                            </mat-cell>
+                        </ng-container>
+
+                        <mat-header-row *matHeaderRowDef=this.displayedColumns></mat-header-row>
+                        <mat-row *matRowDef="let row; columns: this.displayedColumns;"></mat-row>
+                    </mat-table>
+                    <mat-paginator #itemListingPaginator [length]="this.amount" [pageSize]="15"></mat-paginator>
+                </mat-card-content>
+            </mat-card>
+        </div>
+    </div>
+</div>

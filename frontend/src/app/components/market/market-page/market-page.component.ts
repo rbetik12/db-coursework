@@ -48,4 +48,20 @@ export class MarketPageComponent implements OnInit {
         this.router.navigateByUrl('/profile');
     }
 
+    public toItems(): void {
+        this.router.navigateByUrl('/item-listings');
+    }
+
+    public toProperty(): void {
+
+    }
+
+    public toCurrency(): void {
+
+    }
+
+    public toContracts(): void {
+
+    }
+
 }
