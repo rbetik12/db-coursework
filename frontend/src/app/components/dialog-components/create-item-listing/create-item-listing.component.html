@@ -1,0 +1,39 @@
+<mat-dialog-content class="mat-typography">
+    <form [formGroup]="createItemListingForm" (submit)="submit($event)">
+        <span style="font-size: large;"></span>
+        <mat-form-field appearance="outline">
+            <mat-label>Listing description</mat-label>
+            <input matInput required [formControl]="DESCRIPTION">
+        </mat-form-field><br>
+
+        <mat-form-field appearance="outline">
+            <mat-label>Your items</mat-label>
+            <mat-select [(value)]="itemId" required>
+                <mat-option *ngFor="let item of playerItems" [value]="item.id">
+                    {{item.name}}
+                </mat-option>
+            </mat-select>
+        </mat-form-field><br>
+
+        <mat-form-field appearance="outline">
+            <mat-label>Currency</mat-label>
+            <mat-select [(value)]="currencyId" required>
+                <mat-option *ngFor="let currency of currencyList" [value]="currency.id">
+                    {{currency.name}}
+                </mat-option>
+            </mat-select>
+        </mat-form-field><br>
+
+        <mat-form-field appearance="outline">
+            <mat-label>Amount</mat-label>
+            <input matInput required [formControl]="AMOUNT">
+        </mat-form-field><br>
+
+        <mat-form-field appearance="outline">
+            <mat-label>Price</mat-label>
+            <input matInput required [formControl]="ITEM_PRICE">
+        </mat-form-field><br>
+
+        <button mat-flat-button color="primary">Create</button>
+    </form>
+</mat-dialog-content>

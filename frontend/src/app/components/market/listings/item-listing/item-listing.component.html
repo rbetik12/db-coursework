@@ -20,6 +20,7 @@
             <mat-card>
                 <mat-card-title>Item listings</mat-card-title>
                 <mat-card-content>
+                    <button mat-stroked-button (click)="newListing()">Create new</button>
                     <mat-table [dataSource]="itemListings" matSort>
                         <ng-container matColumnDef="description">
                             <mat-header-cell *matHeaderCellDef>Description</mat-header-cell>

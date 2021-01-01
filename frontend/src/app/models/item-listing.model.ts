@@ -5,13 +5,13 @@ import {Clan} from './clan.model';
 import {Listing} from './listing.model';
 
 export interface ItemListing {
-    id: number;
-    listing: Listing;
-    item: Item;
-    price: number;
-    amount: number;
-    currency: Currency;
-    status: string;
-    buyerActor: Actor;
-    buyerClan: Clan;
+    id: number | null;
+    listing: Listing | null;
+    item: Item | null;
+    price: number | null;
+    amount: number | null;
+    currency: Currency | null;
+    status: string | null;
+    buyerActor: Actor | null;
+    buyerClan: Clan | null;
 }

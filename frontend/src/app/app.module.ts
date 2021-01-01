@@ -65,6 +65,7 @@ import { AlreadyInClanComponent } from './components/error-dialogs/already-in-cl
 import { CreateClanComponent } from './components/dialog-components/create-clan/create-clan.component';
 import { MarketPageComponent } from './components/market/market-page/market-page.component';
 import { ItemListingComponent } from './components/market/listings/item-listing/item-listing.component';
+import { CreateItemListingComponent } from './components/dialog-components/create-item-listing/create-item-listing.component';
 
 @NgModule({
     declarations: [
@@ -81,6 +82,7 @@ import { ItemListingComponent } from './components/market/listings/item-listing/
         CreateClanComponent,
         MarketPageComponent,
         ItemListingComponent,
+        CreateItemListingComponent,
     ],
     imports: [
         BrowserModule,

@@ -7,6 +7,8 @@ import {MatTableDataSource} from '@angular/material/table';
 import {MatPaginator} from '@angular/material/paginator';
 import {Item} from '../../../../models/item.model';
 import {AuthService} from '../../../../services/auth.service';
+import {MatDialog} from '@angular/material/dialog';
+import {CreateItemListingComponent} from '../../../dialog-components/create-item-listing/create-item-listing.component';
 
 @Component({
     selector: 'app-item-listing',
@@ -25,7 +27,8 @@ export class ItemListingComponent implements OnInit {
     constructor(private router: Router,
                 private http: HttpClient,
                 private globals: Globals,
-                private auth: AuthService) {
+                private auth: AuthService,
+                private dialog: MatDialog) {
     }
 
     ngOnInit(): void {
@@ -92,6 +95,10 @@ export class ItemListingComponent implements OnInit {
                 console.log(error);
             }
         );
+    }
+
+    public newListing(): void {
+        this.dialog.open(CreateItemListingComponent);
     }
 
 }
