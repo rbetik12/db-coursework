@@ -29,7 +29,7 @@ public class RegionService {
     }
 
     public List<Region> getRegions(int amount) {
-        Page<Region> regionsPage = regionRepository.findAll(PageRequest.of(1, (int) amount));
+        Page<Region> regionsPage = regionRepository.findAll(PageRequest.of(0, (int) amount));
         return regionsPage.getContent();
     }
 }

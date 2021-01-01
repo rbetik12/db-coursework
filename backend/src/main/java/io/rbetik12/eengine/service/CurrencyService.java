@@ -32,7 +32,7 @@ public class CurrencyService {
     }
 
     public List<CurrencyExchangePrice> getCurrencyExchangePrice() {
-        Page<CurrencyListing> listings = currencyListingRepository.findAll(PageRequest.of(1, 40));
+        Page<CurrencyListing> listings = currencyListingRepository.findAll(PageRequest.of(0, 40));
 
         List<CurrencyExchangePrice> priceList = new ArrayList<>();
 
@@ -47,6 +47,6 @@ public class CurrencyService {
     }
 
     public List<Currency> getAll() {
-        return currencyRepository.findAll(PageRequest.of(1, 1000)).getContent();
+        return currencyRepository.findAll(PageRequest.of(0, 1000)).getContent();
     }
 }

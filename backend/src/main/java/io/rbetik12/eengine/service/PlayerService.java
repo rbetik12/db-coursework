@@ -23,11 +23,15 @@ public class PlayerService {
     @Autowired
     private final ActorCurrencyRepository actorCurrencyRepository;
 
-    public PlayerService(PlayerRepository playerRepository, ActorRepository actorRepository, InventoryRepository inventoryRepository, ActorCurrencyRepository actorCurrencyRepository) {
+    @Autowired
+    private final CurrencyRepository currencyRepository;
+
+    public PlayerService(PlayerRepository playerRepository, ActorRepository actorRepository, InventoryRepository inventoryRepository, ActorCurrencyRepository actorCurrencyRepository, CurrencyRepository currencyRepository) {
         this.playerRepository = playerRepository;
         this.actorRepository = actorRepository;
         this.inventoryRepository = inventoryRepository;
         this.actorCurrencyRepository = actorCurrencyRepository;
+        this.currencyRepository = currencyRepository;
     }
 
     public List<Player> getAll() {
@@ -52,7 +56,14 @@ public class PlayerService {
 
         player.setPassword(String.valueOf(player.getPassword().hashCode()));
         playerRepository.save(player);
-        player.setId(playerRepository.findByUsername(player.getUsername()).getId());
+        Player createdPlayer = playerRepository.findByUsername(player.getUsername());
+        player.setId(createdPlayer.getId());
+
+        ActorCurrency actorCurrency = new ActorCurrency();
+        actorCurrency.setActor(player.getActor());
+        actorCurrency.setCurrency(currencyRepository.getOne(1L));
+        actorCurrency.setAmount(100000);
+        actorCurrencyRepository.save(actorCurrency);
         return true;
     }
 

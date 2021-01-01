@@ -35,7 +35,7 @@ public class ItemListingService {
     }
 
     public List<ItemListing> getAll() {
-        return itemListingRepository.findAll(PageRequest.of(1, 1000)).toList();
+        return itemListingRepository.findAll(PageRequest.of(0, 1000)).toList();
     }
 
     public boolean buyItem(ItemListing itemListing, int actorId) {
