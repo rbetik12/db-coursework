@@ -44,4 +44,12 @@ public class ItemListingController {
         return ResponseEntity.ok(new Response("Bought item successfully"));
     }
 
+    @PostMapping(path = "create", consumes = "application/json", produces = "application/json")
+    public ResponseEntity<Response> create(@RequestBody ItemListing itemListing) {
+        if (!itemListingService.create(itemListing)) {
+            return ResponseEntity.badRequest().body(new Response("Can't create listing!"));
+        }
+        return ResponseEntity.ok(new Response("Created listing!"));
+    }
+
 }

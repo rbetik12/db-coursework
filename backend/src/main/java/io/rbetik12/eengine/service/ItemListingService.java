@@ -1,9 +1,6 @@
 package io.rbetik12.eengine.service;
 
-import io.rbetik12.eengine.entity.Actor;
-import io.rbetik12.eengine.entity.ActorCurrency;
-import io.rbetik12.eengine.entity.ClanCurrency;
-import io.rbetik12.eengine.entity.ItemListing;
+import io.rbetik12.eengine.entity.*;
 import io.rbetik12.eengine.entity.enums.ClanRole;
 import io.rbetik12.eengine.repository.*;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -47,7 +44,7 @@ public class ItemListingService {
 
         if (currencyList == null) return false;
         boolean enough = false;
-        for (ActorCurrency cur: currencyList) {
+        for (ActorCurrency cur : currencyList) {
             if (cur.getAmount() >= itemListing.getPrice()) {
                 enough = true;
                 break;
@@ -71,6 +68,27 @@ public class ItemListingService {
         if (currencyList.get(0).getAmount() < itemListing.getPrice()) return false;
 
         itemListingRepository.buyItemAsClan(clanId, (int) itemListing.getListing().getListingId());
+        return true;
+    }
+
+    public boolean create(ItemListing itemListing) {
+        Actor actor = itemListing.getListing().getActor();
+        Item item = itemListing.getItem();
+        List<ActorInventory> actorInventory = actorInventoryRepository.findAllByActor_IdAndItem_Id(actor.getId(),
+                item.getId());
+
+        if (actorInventory == null || actorInventory.size() <= 0) {
+            return false;
+        }
+
+        if (actorInventory.get(0).getAmount() <= itemListing.getAmount()) {
+            return false;
+        }
+
+        itemListingRepository.createItemListingAsActor((int) actor.getId(), (int) item.getId(), (int) itemListing.getPrice(),
+                (int) itemListing.getAmount(), Integer.parseInt(itemListing.getCurrency().getId().toString()),
+                itemListing.getListing().getDescription());
+
         return true;
     }
 }
