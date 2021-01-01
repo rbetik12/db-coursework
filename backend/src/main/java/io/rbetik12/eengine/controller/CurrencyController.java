@@ -1,5 +1,6 @@
 package io.rbetik12.eengine.controller;
 
+import io.rbetik12.eengine.entity.Currency;
 import io.rbetik12.eengine.model.CurrencyExchangePrice;
 import io.rbetik12.eengine.service.CurrencyService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -27,6 +28,11 @@ public class CurrencyController {
     public ResponseEntity<List<CurrencyExchangePrice>> getCurrencyExchangePriceList() {
         List<CurrencyExchangePrice> priceList = currencyService.getCurrencyExchangePrice();
         return ResponseEntity.ok(priceList);
+    }
+
+    @GetMapping(path = "all", produces = "application/json")
+    public ResponseEntity<List<Currency>> getAllCurrency() {
+        return ResponseEntity.ok(currencyService.getAll());
     }
 
 }

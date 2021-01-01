@@ -45,4 +45,8 @@ public class CurrencyService {
 
         return priceList;
     }
+
+    public List<Currency> getAll() {
+        return currencyRepository.findAll(PageRequest.of(1, 1000)).getContent();
+    }
 }
