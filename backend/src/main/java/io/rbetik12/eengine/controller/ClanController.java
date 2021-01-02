@@ -1,6 +1,8 @@
 package io.rbetik12.eengine.controller;
 
 import io.rbetik12.eengine.entity.Clan;
+import io.rbetik12.eengine.entity.ClanCurrency;
+import io.rbetik12.eengine.entity.ClanInventory;
 import io.rbetik12.eengine.entity.Player;
 import io.rbetik12.eengine.model.Response;
 import io.rbetik12.eengine.service.ClanService;
@@ -55,12 +57,20 @@ public class ClanController {
 
     @PostMapping(path = "create", consumes = "application/json", produces = "application/json")
     public ResponseEntity<Player> createClan(@RequestBody Clan clan, HttpServletRequest request) {
-//        System.out.println(clan);
-//        System.out.println(request.getParameter("id"));
         long playerId = Long.parseLong(request.getParameter("id"));
         if (!clanService.createClan(playerId, clan)) {
             return ResponseEntity.badRequest().body(playerService.getPlayerInfo(playerId));
         }
         return ResponseEntity.ok().body(playerService.getPlayerInfo(playerId));
+    }
+
+    @GetMapping(value = "currency", produces = "application/json")
+    public ResponseEntity<List<ClanCurrency>> getClanCurrency(@RequestParam("clanId") long clanId) {
+        return ResponseEntity.ok(clanService.getClanCurrency(clanId));
+    }
+
+    @GetMapping(value = "inventory", produces = "application/json")
+    public ResponseEntity<List<ClanInventory>> getClanInventory(@RequestParam("clanId") long clanId) {
+        return ResponseEntity.ok(clanService.getClanInventory(clanId));
     }
 }

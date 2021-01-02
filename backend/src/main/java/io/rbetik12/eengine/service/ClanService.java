@@ -1,12 +1,8 @@
 package io.rbetik12.eengine.service;
 
-import io.rbetik12.eengine.entity.Actor;
-import io.rbetik12.eengine.entity.Clan;
-import io.rbetik12.eengine.entity.Player;
+import io.rbetik12.eengine.entity.*;
 import io.rbetik12.eengine.entity.enums.ClanRole;
-import io.rbetik12.eengine.repository.ActorRepository;
-import io.rbetik12.eengine.repository.ClanRepository;
-import io.rbetik12.eengine.repository.PlayerRepository;
+import io.rbetik12.eengine.repository.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -25,10 +21,24 @@ public class ClanService {
     @Autowired
     private final PlayerRepository playerRepository;
 
-    public ClanService(ClanRepository clanRepository, ActorRepository actorRepository, PlayerRepository playerRepository) {
+    @Autowired
+    private final ClanCurrencyRepository clanCurrencyRepository;
+
+    @Autowired
+    private final ClanInventoryRepository clanInventoryRepository;
+
+    @Autowired
+    private final CurrencyRepository currencyRepository;
+
+    public ClanService(ClanRepository clanRepository, ActorRepository actorRepository,
+                       PlayerRepository playerRepository, ClanCurrencyRepository clanCurrencyRepository,
+                       ClanInventoryRepository clanInventoryRepository, CurrencyRepository currencyRepository) {
         this.clanRepository = clanRepository;
         this.actorRepository = actorRepository;
         this.playerRepository = playerRepository;
+        this.clanCurrencyRepository = clanCurrencyRepository;
+        this.clanInventoryRepository = clanInventoryRepository;
+        this.currencyRepository = currencyRepository;
     }
 
     public List<Clan> getAll() {
@@ -59,7 +69,7 @@ public class ClanService {
         Actor actor = actorRepository.getOne(actorId);
         Clan clan = clanRepository.getOne(clanId);
 
-        if (actor.getClan().getId() != clanId || actor.getClan() == null) {
+        if (actor.getClan() == null || actor.getClan().getId() != clanId) {
             return false;
         }
 
@@ -82,6 +92,23 @@ public class ClanService {
         clanRepository.createClan((int) actor.getId(), clan.getName(),
                 Integer.parseInt(clan.getRegion().getId().toString()), clan.getType().toString());
 
+        Clan newClan = clanRepository.getByName(clan.getName());
+        Currency cur = currencyRepository.getOne(1L);
+        ClanCurrency clanCurrency = new ClanCurrency();
+        clanCurrency.setClan(newClan);
+        clanCurrency.setCurrency(cur);
+        clanCurrency.setAmount(10000000);
+
+        clanCurrencyRepository.save(clanCurrency);
+
         return true;
+    }
+
+    public List<ClanCurrency> getClanCurrency(long clanId) {
+        return clanCurrencyRepository.getAllByClan_Id(clanId);
+    }
+
+    public List<ClanInventory> getClanInventory(long clanId) {
+        return clanInventoryRepository.getAllByClan_Id(clanId);
     }
 }

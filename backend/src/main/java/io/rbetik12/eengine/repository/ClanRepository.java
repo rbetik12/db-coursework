@@ -11,4 +11,6 @@ public interface ClanRepository extends JpaRepository<Clan, Long> {
     @Query(value = "select count(*) from create_new_clan(?1, ?2, ?3, ?4)", nativeQuery = true)
     int createClan(@Param("creatorId") int creatorId, @Param("clanName") String clanName,
                     @Param("regionId") int regionId, @Param("clanType") String clanType);
+
+    Clan getByName(String name);
 }

@@ -9,4 +9,6 @@ import java.util.List;
 public interface ClanCurrencyRepository extends JpaRepository<ClanCurrency, ClanCurrencyId> {
 
     List<ClanCurrency> getAllByClan_IdAndCurrency_Id(long clanId, long currencyId);
+
+    List<ClanCurrency> getAllByClan_Id(long clanId);
 }
