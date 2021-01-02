@@ -37,4 +37,51 @@
             </mat-card>
         </div>
     </div>
+
+    <div class="row" style="margin-top: 2em;" *ngIf="isPlayerClan">
+        <div class="col-sm">
+            <mat-card>
+                <mat-card-title>Current currency</mat-card-title>
+                <mat-card-content>
+                    <mat-table [dataSource]="currency" matSort>
+                        <ng-container matColumnDef="currency">
+                            <mat-header-cell *matHeaderCellDef>Currency</mat-header-cell>
+                            <mat-cell *matCellDef="let row">{{row.currency.name}}</mat-cell>
+                        </ng-container>
+
+                        <ng-container matColumnDef="amount">
+                            <mat-header-cell *matHeaderCellDef>Amount</mat-header-cell>
+                            <mat-cell *matCellDef="let row">{{row.amount}}</mat-cell>
+                        </ng-container>
+
+                        <mat-header-row *matHeaderRowDef=this.displayedCurrencyColumns></mat-header-row>
+                        <mat-row *matRowDef="let row; columns: this.displayedCurrencyColumns;"></mat-row>
+                    </mat-table>
+                    <mat-paginator [length]="this.currencyAmount" [pageSize]="15"></mat-paginator>
+                </mat-card-content>
+            </mat-card>
+        </div>
+        <div class="col-sm">
+            <mat-card>
+                <mat-card-title>Inventory</mat-card-title>
+                <mat-card-content>
+                    <mat-table [dataSource]="items" matSort>
+                        <ng-container matColumnDef="item">
+                            <mat-header-cell *matHeaderCellDef>Item</mat-header-cell>
+                            <mat-cell *matCellDef="let row">{{row.item.name}}</mat-cell>
+                        </ng-container>
+
+                        <ng-container matColumnDef="amount">
+                            <mat-header-cell *matHeaderCellDef>Amount</mat-header-cell>
+                            <mat-cell *matCellDef="let row">{{row.amount}}</mat-cell>
+                        </ng-container>
+
+                        <mat-header-row *matHeaderRowDef=this.displayedInventoryColumns></mat-header-row>
+                        <mat-row *matRowDef="let row; columns: this.displayedInventoryColumns;"></mat-row>
+                    </mat-table>
+                    <mat-paginator [length]="this.itemsAmount" [pageSize]="15"></mat-paginator>
+                </mat-card-content>
+            </mat-card>
+        </div>
+    </div>
 </div>

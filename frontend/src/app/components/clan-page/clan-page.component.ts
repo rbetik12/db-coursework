@@ -7,6 +7,8 @@ import {MatDialog} from '@angular/material/dialog';
 import {AlreadyInClanComponent} from '../error-dialogs/already-in-clan/already-in-clan.component';
 import {AuthService} from '../../services/auth.service';
 import {Player} from '../../models/player.model';
+import {ClanCurrency} from '../../models/clan-currency.model';
+import {ClanInventory} from '../../models/clan-inventory.model';
 
 @Component({
     selector: 'app-clan-page',
@@ -18,6 +20,13 @@ export class ClanPageComponent implements OnInit {
     public clandId: string | null = '';
     public clan: Clan = {id: 0, name: '', rating: 0, type: '', region: {name: '', id: 0}};
     public isPlayerClan = false;
+    public displayedInventoryColumns = ['item', 'amount'];
+    public displayedCurrencyColumns = ['currency', 'amount'];
+    public currency: ClanCurrency[] = [];
+    public items: ClanInventory[] = [];
+    public itemsAmount = 0;
+    public currencyAmount = 0;
+
 
     constructor(private route: ActivatedRoute,
                 private router: Router,
@@ -31,16 +40,48 @@ export class ClanPageComponent implements OnInit {
         this.clandId = this.route.snapshot.paramMap.get('id');
 
         this.fetchClanInfo();
+        this.checkForPlayerClan();
+        if (this.isPlayerClan) {
+            this.fetchCurrency();
+            this.fetchInventory();
+        }
+    }
+
+    public fetchCurrency(): void {
+        this.http.get<ClanCurrency[]>(this.globals.address + this.globals.port + '/api/clan/currency',
+            {
+                withCredentials: true, params: {
+                    clanId: String(this.clandId)
+                }
+            })
+            .subscribe(
+                res => {
+                    this.currency = res;
+                }
+            );
+    }
+
+    public fetchInventory(): void {
+        this.http.get<ClanInventory[]>(this.globals.address + this.globals.port + '/api/clan/inventory',
+            {
+                withCredentials: true, params: {
+                    clanId: String(this.clandId)
+                }
+            })
+            .subscribe(
+                res => {
+                    this.items = res;
+                }
+            );
     }
 
     public checkForPlayerClan(): void {
         const creds: Player = this.auth.getCredentials() as Player;
-        console.table(creds);
-        if (creds === null || creds.actor === null || creds.actor.clan === null) {
-            this.isPlayerClan = false;
+        if (creds.actor === null || creds.actor.clan === null) {
             return;
         }
-        this.isPlayerClan = creds.actor.clan.id === this.clan.id;
+
+        this.isPlayerClan = creds.actor.clan.id === Number(this.clandId);
     }
 
     public fetchClanInfo(): void {
@@ -73,6 +114,8 @@ export class ClanPageComponent implements OnInit {
                 async res => {
                     await this.auth.updateCredentials();
                     this.checkForPlayerClan();
+                    this.fetchCurrency();
+                    this.fetchInventory();
                 },
                 error => {
                     this.dialog.open(AlreadyInClanComponent);
@@ -88,7 +131,7 @@ export class ClanPageComponent implements OnInit {
             .subscribe(
                 async res => {
                     await this.auth.updateCredentials();
-                    this.checkForPlayerClan();
+                    this.isPlayerClan = false;
                 },
                 error => {
                     console.log(error);
