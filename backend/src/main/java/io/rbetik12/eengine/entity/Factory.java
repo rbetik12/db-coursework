@@ -1,10 +1,14 @@
 package io.rbetik12.eengine.entity;
 
 import javax.persistence.*;
+import java.io.Serializable;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Objects;
 
 @Entity
 @Table(name = "Factory")
-public class Factory {
+public class Factory implements Serializable {
 
     @Id
     @GeneratedValue

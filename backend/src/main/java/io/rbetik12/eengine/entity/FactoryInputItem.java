@@ -2,11 +2,13 @@ package io.rbetik12.eengine.entity;
 
 
 import javax.persistence.*;
+import java.io.Serializable;
+import java.util.ArrayList;
 import java.util.List;
 
 @Entity
 @Table(name = "factory_input_item")
-public class FactoryInputItem {
+public class FactoryInputItem implements Serializable {
 
   @Id
   @GeneratedValue
@@ -19,9 +21,6 @@ public class FactoryInputItem {
   @ManyToOne
   @JoinColumn(name = "next_item", referencedColumnName = "id")
   private FactoryInputItem next;
-
-  @OneToMany(mappedBy = "next", cascade = CascadeType.ALL)
-  private List<FactoryInputItem> nextItems;
 
   public long getId() {
     return id;
@@ -45,13 +44,5 @@ public class FactoryInputItem {
 
   public void setNext(FactoryInputItem next) {
     this.next = next;
-  }
-
-  public List<FactoryInputItem> getNextItems() {
-    return nextItems;
-  }
-
-  public void setNextItems(List<FactoryInputItem> nextItems) {
-    this.nextItems = nextItems;
   }
 }

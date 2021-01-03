@@ -1,10 +1,11 @@
 package io.rbetik12.eengine.entity;
 
 import javax.persistence.*;
+import java.io.Serializable;
 
 @Entity
 @Table(name = "Item")
-public class Item {
+public class Item implements Serializable {
 
   @Id
   @GeneratedValue
