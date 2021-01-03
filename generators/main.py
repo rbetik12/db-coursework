@@ -34,7 +34,7 @@ sequencesUpdate = [
 from generators.reward_generator import RewardGenerator
 
 if __name__ == "__main__":
-    amount = 8000
+    amount = 10
     currencyNames = ['Dollar', 'Momey', 'Euro', 'Money']
     currencyGenerator = CurrencyGenerator(currencyNames)
     currencyGenerator.generate(amount)
@@ -45,7 +45,7 @@ if __name__ == "__main__":
 
     regionNames = ['Lol', 'Kek', 'Landia', 'RUSSIA']
     regionGenerator = RegionGenerator(regionNames, currencyGenerator.get_ids())
-    regionGenerator.generate(amount + 500)
+    regionGenerator.generate(amount * 2)
 
     clanNames = ['Cool clan', '1', '200', 'Romanian clan']
     clanGenerator = ClanGenerator(clanNames, regionGenerator.get_ids())

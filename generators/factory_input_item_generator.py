@@ -30,9 +30,14 @@ class FactoryInputItemGenerator(AbstractGenerator):
 
     def get_random_next_item_id(self):
         randNullReturn = random.randint(1, 30)
+        if randNullReturn == self.id:
+            return "null"
         if randNullReturn == 15:
             return "null"
         elif len(self.factoryInputItemIds) > 0:
-            return random.choice(self.factoryInputItemIds)
+            randId = random.choice(self.factoryInputItemIds)
+            if randId == self.id:
+                return "null"
+            return randId
         else:
             return "null"
