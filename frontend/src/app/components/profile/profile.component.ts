@@ -53,7 +53,6 @@ export class ProfileComponent implements OnInit {
                 res => {
                     this.currency = res as ActorCurrency[];
                     this.currencyAmount = Object.keys(this.currency).length;
-                    console.log(this.currency);
                 },
                 error => {
                     console.log(error);
@@ -106,5 +105,9 @@ export class ProfileComponent implements OnInit {
 
     public toMarket(): void {
         this.router.navigateByUrl('/market');
+    }
+
+    public toFactories(): void {
+        this.router.navigateByUrl('/factories');
     }
 }

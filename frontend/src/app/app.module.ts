@@ -66,6 +66,7 @@ import { CreateClanComponent } from './components/dialog-components/create-clan/
 import { MarketPageComponent } from './components/market/market-page/market-page.component';
 import { ItemListingComponent } from './components/market/listings/item-listing/item-listing.component';
 import { CreateItemListingComponent } from './components/dialog-components/create-item-listing/create-item-listing.component';
+import { PlayerFactoriesComponent } from './components/player-factories/player-factories.component';
 
 @NgModule({
     declarations: [
@@ -83,6 +84,7 @@ import { CreateItemListingComponent } from './components/dialog-components/creat
         MarketPageComponent,
         ItemListingComponent,
         CreateItemListingComponent,
+        PlayerFactoriesComponent,
     ],
     imports: [
         BrowserModule,
