@@ -6,6 +6,7 @@ import io.rbetik12.eengine.repository.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.ArrayList;
 import java.util.List;
 
 @Service
@@ -26,12 +27,21 @@ public class PlayerService {
     @Autowired
     private final CurrencyRepository currencyRepository;
 
-    public PlayerService(PlayerRepository playerRepository, ActorRepository actorRepository, InventoryRepository inventoryRepository, ActorCurrencyRepository actorCurrencyRepository, CurrencyRepository currencyRepository) {
+    @Autowired
+    private final FactoryOwnerRepository factoryOwnerRepository;
+
+    public PlayerService(PlayerRepository playerRepository,
+                         ActorRepository actorRepository,
+                         InventoryRepository inventoryRepository,
+                         ActorCurrencyRepository actorCurrencyRepository,
+                         CurrencyRepository currencyRepository,
+                         FactoryOwnerRepository factoryOwnerRepository) {
         this.playerRepository = playerRepository;
         this.actorRepository = actorRepository;
         this.inventoryRepository = inventoryRepository;
         this.actorCurrencyRepository = actorCurrencyRepository;
         this.currencyRepository = currencyRepository;
+        this.factoryOwnerRepository = factoryOwnerRepository;
     }
 
     public List<Player> getAll() {
@@ -107,5 +117,14 @@ public class PlayerService {
 
     public Player getPlayerInfo(long playerId) {
         return playerRepository.findById(playerId).get();
+    }
+
+    public List<Factory> getFactories(int actorId) {
+        List<FactoryOwner> factoryOwners = factoryOwnerRepository.getAllByActor_Id(actorId);
+        List<Factory> factories = new ArrayList<>();
+        for (FactoryOwner factoryOwner : factoryOwners) {
+            factories.add(factoryOwner.getFactory());
+        }
+        return factories;
     }
 }

@@ -1,11 +1,12 @@
 package io.rbetik12.eengine.controller;
 
 import io.rbetik12.eengine.entity.Factory;
+import io.rbetik12.eengine.entity.FactoryInputItem;
+import io.rbetik12.eengine.model.Response;
 import io.rbetik12.eengine.service.FactoryService;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
@@ -23,5 +24,15 @@ public class FactoryController {
     @GetMapping(path = "all", produces = "application/json")
     public List<Factory> getAllFactories() {
         return factoryService.getAll();
+    }
+
+    @PostMapping(path = "craft", consumes = "application/json", produces = "application/json")
+    public ResponseEntity<Response> craft(@RequestBody List<FactoryInputItem> inputItems,
+                                          @RequestParam("factoryId") int factoryId,
+                                          @RequestParam("actorId") int actorId) {
+        if (!factoryService.craft(inputItems, factoryId, actorId)) {
+            return ResponseEntity.badRequest().body(new Response("Can't craft item!"));
+        }
+        return ResponseEntity.ok(new Response("Successfully crafted item!"));
     }
 }

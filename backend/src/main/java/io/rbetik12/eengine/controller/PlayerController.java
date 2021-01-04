@@ -4,10 +4,7 @@ import io.rbetik12.eengine.entity.*;
 import io.rbetik12.eengine.service.PlayerService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.CrossOrigin;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import javax.servlet.http.HttpServletRequest;
 import java.util.Arrays;
@@ -52,5 +49,10 @@ public class PlayerController {
     @GetMapping(path = "info", produces = "application/json")
     public ResponseEntity<Player> getPlayerInfo(HttpServletRequest request) {
         return ResponseEntity.ok(playerService.getPlayerInfo(Long.parseLong(request.getParameter("id"))));
+    }
+
+    @GetMapping(path = "factories", produces = "application/json")
+    public ResponseEntity<List<Factory>> getFactories(@RequestParam("actorId") int actorId) {
+        return ResponseEntity.ok(playerService.getFactories(actorId));
     }
 }
