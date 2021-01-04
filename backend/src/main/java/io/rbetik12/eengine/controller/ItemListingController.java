@@ -52,4 +52,10 @@ public class ItemListingController {
         return ResponseEntity.ok(new Response("Created listing!"));
     }
 
+    @GetMapping(path = "price")
+    public ResponseEntity<Response> getAvgPrice(@RequestParam("itemName") String itemName,
+                                              @RequestParam("currencyId") int currencyId) {
+        return ResponseEntity.ok(new Response(itemListingService.getAvgPrice(itemName, currencyId)));
+    }
+
 }

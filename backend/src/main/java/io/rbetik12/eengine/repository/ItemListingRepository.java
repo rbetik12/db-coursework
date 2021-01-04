@@ -5,6 +5,8 @@ import io.rbetik12.eengine.entity.Listing;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 
+import java.util.List;
+
 public interface ItemListingRepository extends JpaRepository<ItemListing, Listing> {
 
     @Query(value = "select count(*) from buy_item_as_actor(?1, ?2)", nativeQuery = true)
@@ -17,4 +19,6 @@ public interface ItemListingRepository extends JpaRepository<ItemListing, Listin
     int createItemListingAsActor(int actorId, int itemId, int itemPrice, int itemAmount,
                                  int currencyId,
                                  String description);
+
+    List<ItemListing> getAllByItem_IdAndCurrency_Id(long itemId, long currencyId);
 }

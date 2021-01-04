@@ -26,12 +26,25 @@ public class ItemListingService {
     @Autowired
     private final ActorRepository actorRepository;
 
-    public ItemListingService(ItemListingRepository itemListingRepository, InventoryRepository actorInventoryRepository, ActorCurrencyRepository actorCurrencyRepository, ClanCurrencyRepository clanCurrencyRepository, ActorRepository actorRepository) {
+    @Autowired
+    private final ItemRepository itemRepository;
+
+    @Autowired
+    private final CurrencyRepository currencyRepository;
+
+    public ItemListingService(ItemListingRepository itemListingRepository,
+                              InventoryRepository actorInventoryRepository,
+                              ActorCurrencyRepository actorCurrencyRepository,
+                              ClanCurrencyRepository clanCurrencyRepository,
+                              ActorRepository actorRepository,
+                              ItemRepository itemRepository, CurrencyRepository currencyRepository) {
         this.itemListingRepository = itemListingRepository;
         this.actorInventoryRepository = actorInventoryRepository;
         this.actorCurrencyRepository = actorCurrencyRepository;
         this.clanCurrencyRepository = clanCurrencyRepository;
         this.actorRepository = actorRepository;
+        this.itemRepository = itemRepository;
+        this.currencyRepository = currencyRepository;
     }
 
     public List<ItemListing> getAll() {
@@ -90,5 +103,34 @@ public class ItemListingService {
                 itemListing.getListing().getDescription());
 
         return true;
+    }
+
+    public String getAvgPrice(String itemName, int currencyId) {
+        Item item = itemRepository.getByName(itemName);
+        if (item == null) {
+            return "Item doesn't exist!";
+        }
+        List<ItemListing> itemListings = itemListingRepository.getAllByItem_IdAndCurrency_Id(item.getId(), currencyId);
+
+        if (itemListings == null) {
+            return "Can't count item price, because none is present at the market!";
+        }
+
+        float avgPrice = 0;
+        int openedListings = 0;
+        for (ItemListing listing: itemListings) {
+            if (listing.getStatus().equals("Open")) {
+                openedListings += 1;
+                avgPrice += listing.getPrice();
+            }
+        }
+
+        if (openedListings == 0) {
+            return "Can't count item price, because no opened listings is present at the market!";
+        }
+
+        avgPrice /= openedListings;
+        Currency currency = currencyRepository.getOne((long) currencyId);
+        return itemName + " average price in currency " + currency.getName() + " is " + avgPrice;
     }
 }
