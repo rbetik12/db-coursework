@@ -14,6 +14,7 @@ import {FactoryInputItem} from '../../models/factory-input-item.model';
 export class PlayerFactoriesComponent implements OnInit {
 
     public factories: Factory[] = [];
+    public itemNames: string[] = [];
 
     constructor(private router: Router,
                 private http: HttpClient,
@@ -30,13 +31,18 @@ export class PlayerFactoriesComponent implements OnInit {
     }
 
     public fetchFactories(): void {
-        this.http.get<Factory[]>(this.globals.address + this.globals.port + '/api/factory/all', {withCredentials: true})
+        this.http.get<Factory[]>(this.globals.address + this.globals.port + '/api/player/factories', {
+            withCredentials: true,
+            params: {
+                actorId: String(this.auth.getCredentials()?.actor?.id)
+            }
+        })
             .subscribe(res => {
                 this.factories = res;
             });
     }
 
-    private inputItemsList(factory: Factory): FactoryInputItem[] {
+    public inputItemsList(factory: Factory): FactoryInputItem[] {
         const inputItems: FactoryInputItem[] = [];
         this.recItem(inputItems, factory.inputItems);
         return inputItems;
@@ -48,5 +54,27 @@ export class PlayerFactoriesComponent implements OnInit {
             return;
         }
         this.recItem(inputItems, inputItem.next);
+    }
+
+    public returnName(value: FactoryInputItem): string {
+        return value.item.name;
+    }
+
+    public craft(factory: Factory): void {
+        this.http.post(this.globals.address + this.globals.port + '/api/factory/craft', this.inputItemsList(factory), {
+            withCredentials: true,
+            params: {
+                factoryId: String(factory.id),
+                actorId: String(this.auth.getCredentials()?.actor?.id)
+            }
+        })
+            .subscribe(
+                res => {
+                    console.log(res);
+                },
+                error => {
+                    console.error(error);
+                }
+            );
     }
 }
