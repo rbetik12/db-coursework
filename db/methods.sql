@@ -1,26 +1,26 @@
 --------------------------------------------------------Item listing----------------------------------------------------
-create or replace function create_new_item_listing_for_actor(actorId int, itemId int, itemPrice int,
-                                                        itemAmount int, currencyId int, listingDescription text)
-    returns void
-    language plpgsql
-as
-$$
-    declare actorItemAmount int;
-begin
-   actorItemAmount = (select amount from actor_inventory where actor_id = actorId and item_id = itemId);
-   if (actorItemAmount is null or actorItemAmount < itemAmount) then
-       return;
-   end if;
-   update actor_inventory set amount = amount - itemAmount where actor_id = actorId and item_id = itemId;
-   with insertListing as (
-        insert into listing (seller, author_id, description) values ('Actor', actorId, listingDescription)
-            returning listing_id as listingId
-    )
-    insert
-    into item_listing (listing_id, item_id, price, amount, currency)
-    values ((select listingId from insertListing), itemId, itemPrice, itemAmount, currencyId);
-end;
-$$;
+    create or replace function create_new_item_listing_for_actor(actorId int, itemId int, itemPrice int,
+                                                            itemAmount int, currencyId int, listingDescription text)
+        returns void
+        language plpgsql
+    as
+    $$
+        declare actorItemAmount int;
+    begin
+       actorItemAmount = (select amount from actor_inventory where actor_id = actorId and item_id = itemId);
+       if (actorItemAmount is null or actorItemAmount < itemAmount) then
+           return;
+       end if;
+       update actor_inventory set amount = amount - itemAmount where actor_id = actorId and item_id = itemId;
+       with insertListing as (
+            insert into listing (seller, author_id, description) values ('Actor', actorId, listingDescription)
+                returning listing_id as listingId
+        )
+        insert
+        into item_listing (listing_id, item_id, price, amount, currency)
+        values ((select listingId from insertListing), itemId, itemPrice, itemAmount, currencyId);
+    end;
+    $$;
 
 create or replace function create_new_item_listing_for_clan(clanId int, itemId int,
                                                        itemPrice int, itemAmount int, currencyId int,
@@ -335,7 +335,11 @@ as
         if (factoryAmount is null or factoryAmount <= 0) then
             return;
         end if;
-        factoryInputItemId = (select input_items from factory where id = factoryId);
+        factoryInputItemId = (select item.id from factory f
+            join factory_input_item fii on f.input_items = fii.id
+            join item on fii.item_id = item.id
+            where f.id = factoryId
+            );
         if (inputItemId != factoryInputItemId) then
             return;
         end if;
@@ -352,7 +356,9 @@ as
             insert into actor_inventory(actor_id, item_id, amount)
             values (actorId, (select output_item from factory where id = factoryId), 1);
         else
-            update actor_inventory set amount = amount + 1 where actor_id = actorId and item_id = inputItemId;
+            update actor_inventory set amount = amount + 1 where actor_id = actorId
+                                                             and item_id =
+                                                                 (select output_item from factory where id = factoryId);
         end if;
 
     end;
