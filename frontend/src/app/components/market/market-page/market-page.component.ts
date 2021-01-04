@@ -5,6 +5,8 @@ import {HttpClient} from '@angular/common/http';
 import {Globals} from '../../../injectables/globals.config';
 import {MatTableDataSource} from '@angular/material/table';
 import {MatPaginator} from '@angular/material/paginator';
+import {ItemListing} from '../../../models/item-listing.model';
+import {Currency} from '../../../models/currency.model';
 
 @Component({
     selector: 'app-market-page',
@@ -17,6 +19,11 @@ export class MarketPageComponent implements OnInit {
     public displayedCurrencyColumns = ['currency1', 'currency2', 'price'];
     public currencyAmount = 0;
 
+    public itemName = '';
+    public currencyList: Currency[] = [];
+    public currencyId = 0;
+    public itemPriceResult = '';
+
     @ViewChild('currencyPricePaginator') paginator: MatPaginator | undefined;
 
     constructor(private router: Router,
@@ -25,7 +32,18 @@ export class MarketPageComponent implements OnInit {
     }
 
     ngOnInit(): void {
+        this.fetchCurrency();
         this.fetchCurrencyPrice();
+    }
+
+    private fetchCurrency(): void {
+        this.http.get<Currency[]>(this.globals.address + this.globals.port + '/api/currency/all', {withCredentials: true})
+            .subscribe(res => {
+                    this.currencyList = res;
+                },
+                error => {
+                    console.error(error);
+                });
     }
 
     private fetchCurrencyPrice(): void {
@@ -62,6 +80,22 @@ export class MarketPageComponent implements OnInit {
 
     public toContracts(): void {
 
+    }
+
+    public fetchItemPrice(): void {
+        this.http.get(this.globals.address + this.globals.port + '/api/item-listing/price',
+            {
+                withCredentials: true, params: {
+                    itemName: String(this.itemName),
+                    currencyId: String(this.currencyId)
+                }
+            })
+            .subscribe((res: any) => {
+                    this.itemPriceResult = res.text as string;
+                },
+                error => {
+                    console.error(error);
+                });
     }
 
 }
