@@ -68,6 +68,7 @@ import { ItemListingComponent } from './components/market/listings/item-listing/
 import { CreateItemListingComponent } from './components/dialog-components/create-item-listing/create-item-listing.component';
 import { PlayerFactoriesComponent } from './components/player-factories/player-factories.component';
 import { CurrencyListingComponent } from './components/market/listings/currency-listing/currency-listing.component';
+import { CreateCurrencyListingComponent } from './components/dialog-components/create-currency-listing/create-currency-listing.component';
 
 @NgModule({
     declarations: [
@@ -87,6 +88,7 @@ import { CurrencyListingComponent } from './components/market/listings/currency-
         CreateItemListingComponent,
         PlayerFactoriesComponent,
         CurrencyListingComponent,
+        CreateCurrencyListingComponent,
     ],
     imports: [
         BrowserModule,

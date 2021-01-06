@@ -7,6 +7,7 @@ import {MatDialog} from '@angular/material/dialog';
 import {CurrencyListing} from '../../../../models/currency-listing.model';
 import {MatPaginator} from '@angular/material/paginator';
 import {MatTableDataSource} from '@angular/material/table';
+import {CreateCurrencyListingComponent} from '../../../dialog-components/create-currency-listing/create-currency-listing.component';
 
 @Component({
     selector: 'app-currency-listing',
@@ -51,7 +52,7 @@ export class CurrencyListingComponent implements OnInit {
     }
 
     public newListing(): void {
-
+        this.dialog.open(CreateCurrencyListingComponent);
     }
 
     public buy(listing: CurrencyListing): void {

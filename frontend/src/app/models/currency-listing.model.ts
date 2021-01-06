@@ -5,12 +5,12 @@ import {Currency} from './currency.model';
 
 export interface CurrencyListing {
     id: number;
-    listing: Listing;
-    buyerActor: Actor;
-    buyerClan: Clan;
-    currencyForSell: Currency;
-    currencyForBuy: Currency;
-    status: string;
+    listing: Listing | null;
+    buyerActor: Actor | null;
+    buyerClan: Clan | null;
+    currencyForSell: Currency | null;
+    currencyForBuy: Currency | null;
+    status: string | null;
     sellAmount: number;
     buyAmount: number;
 }
