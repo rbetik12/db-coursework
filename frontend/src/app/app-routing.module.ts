@@ -9,6 +9,7 @@ import {ClanPageComponent} from './components/clan-page/clan-page.component';
 import {MarketPageComponent} from './components/market/market-page/market-page.component';
 import {ItemListingComponent} from './components/market/listings/item-listing/item-listing.component';
 import {PlayerFactoriesComponent} from './components/player-factories/player-factories.component';
+import {CurrencyListingComponent} from './components/market/listings/currency-listing/currency-listing.component';
 
 const routes: Routes = [
     {path: '', redirectTo: 'signIn', pathMatch: 'full'},
@@ -19,6 +20,7 @@ const routes: Routes = [
     {path: 'clan/:id', component: ClanPageComponent, canActivate: [AuthGuard]},
     {path: 'market', component: MarketPageComponent, canActivate: [AuthGuard]},
     {path: 'item-listings', component: ItemListingComponent, canActivate: [AuthGuard]},
+    {path: 'currency-listings', component: CurrencyListingComponent, canActivate: [AuthGuard]},
     {path: 'factories', component: PlayerFactoriesComponent, canActivate: [AuthGuard]}
 ];
 

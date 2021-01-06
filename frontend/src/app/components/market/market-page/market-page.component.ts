@@ -75,7 +75,7 @@ export class MarketPageComponent implements OnInit {
     }
 
     public toCurrency(): void {
-
+        this.router.navigateByUrl('/currency-listings');
     }
 
     public toContracts(): void {
