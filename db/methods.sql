@@ -446,6 +446,46 @@ as
             update actor_currency set amount = amount + currencyListingInfo.sell_amount where actor_id = actorId and currency_id = currencyListingInfo.currency_for_sell_id;
         end if;
 
+        update actor_currency set amount = amount - currencyListingInfo.buy_amount where actor_id = actorId and currency_id = currencyListingInfo.currency_for_buy_id;
+
+        if ((select count(*) from actor_currency where actor_id = listingInfo.author_id and currency_id = currencyListingInfo.currency_for_buy_id) = 0) then
+            insert into actor_currency(actor_id, currency_id, amount) values(listingInfo.author_id, currencyListingInfo.currency_for_buy_id, currencyListingInfo.buy_amount);
+        else
+            update actor_currency set amount = amount + currencyListingInfo.buy_amount where actor_id = listingInfo.author_id and currency_id = currencyListingInfo.currency_for_buy_id;
+        end if;
+
+        update currency_listing set status = 'Closed'::listing_status where listing_id = listingId;
+    end;
+    $$;
+
+create or replace function buy_currency_as_clan(clanId int, listingId int) returns void
+language plpgsql
+as
+    $$
+    declare listingInfo listing%rowtype;
+    declare currencyListingInfo currency_listing%rowtype;
+    declare clanCurrencyAmount int;
+    begin
+        select * into listingInfo from listing where listing_id = listingId;
+        select * into currencyListingInfo from currency_listing where listing_id = listingId;
+        if (currencyListingInfo.status = 'Closed'::listing_status) then
+            return;
+        end if;
+
+        clanCurrencyAmount = (select amount from clan_currency where currency_id = currencyListingInfo.currency_for_buy_id
+                                                                        and clan_id = clanId);
+        if (clanCurrencyAmount is null or clanCurrencyAmount < currencyListingInfo.buy_amount) then
+            return;
+        end if;
+
+        if ((select count(*) from clan_currency where clan_id = clanId and currency_id = currencyListingInfo.currency_for_sell_id) = 0) then
+            insert into clan_currency(clan_id, currency_id, amount) values(clanId, currencyListingInfo.currency_for_sell_id, currencyListingInfo.sell_amount);
+        else
+            update clan_currency set amount = amount + currencyListingInfo.sell_amount where clan_id = clanId and currency_id = currencyListingInfo.currency_for_sell_id;
+        end if;
+
+        update clan_currency set amount = amount - currencyListingInfo.buy_amount where clan_id = clanId and currency_id = currencyListingInfo.currency_for_buy_id;
+
         if ((select count(*) from actor_currency where actor_id = listingInfo.author_id and currency_id = currencyListingInfo.currency_for_buy_id) = 0) then
             insert into actor_currency(actor_id, currency_id, amount) values(listingInfo.author_id, currencyListingInfo.currency_for_buy_id, currencyListingInfo.buy_amount);
         else

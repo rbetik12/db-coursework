@@ -1,8 +1,10 @@
 package io.rbetik12.eengine.service;
 
 import io.rbetik12.eengine.entity.ActorCurrency;
+import io.rbetik12.eengine.entity.ClanCurrency;
 import io.rbetik12.eengine.entity.CurrencyListing;
 import io.rbetik12.eengine.repository.ActorCurrencyRepository;
+import io.rbetik12.eengine.repository.ClanCurrencyRepository;
 import io.rbetik12.eengine.repository.CurrencyListingRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -18,9 +20,13 @@ public class CurrencyListingService {
     @Autowired
     private final ActorCurrencyRepository actorCurrencyRepository;
 
-    public CurrencyListingService(CurrencyListingRepository currencyListingRepository, ActorCurrencyRepository actorCurrencyRepository) {
+    @Autowired
+    private final ClanCurrencyRepository clanCurrencyRepository;
+
+    public CurrencyListingService(CurrencyListingRepository currencyListingRepository, ActorCurrencyRepository actorCurrencyRepository, ClanCurrencyRepository clanCurrencyRepository) {
         this.currencyListingRepository = currencyListingRepository;
         this.actorCurrencyRepository = actorCurrencyRepository;
+        this.clanCurrencyRepository = clanCurrencyRepository;
     }
 
     public List<CurrencyListing> getAll() {
@@ -67,6 +73,24 @@ public class CurrencyListingService {
         }
 
         currencyListingRepository.buyAsActor(actorId, (int) currencyListing.getListing().getListingId());
+        return true;
+    }
+
+    public boolean buyAsClan(CurrencyListing currencyListing, int clanId) {
+        List<ClanCurrency> clanCurrencyList = clanCurrencyRepository.getAllByClan_IdAndCurrency_Id(clanId, currencyListing.getCurrencyForBuy().getId());
+
+        if (clanCurrencyList == null || clanCurrencyList.size() <= 0) {
+            return false;
+        }
+
+        ClanCurrency clanCurrency = clanCurrencyList.get(0);
+
+        if (clanCurrency.getAmount() < currencyListing.getBuyAmount()) {
+            return false;
+        }
+
+        currencyListingRepository.buyAsClan(clanId, (int) currencyListing.getListing().getListingId());
+
         return true;
     }
 }

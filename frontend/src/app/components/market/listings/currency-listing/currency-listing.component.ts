@@ -69,6 +69,16 @@ export class CurrencyListingComponent implements OnInit {
     }
 
     public buyAsClan(listing: CurrencyListing): void {
-
+        this.http.post(this.globals.address + this.globals.port + '/api/currency-listing/buy-as-clan', listing, {
+            withCredentials: true,
+            params: {
+                clanId: String(this.auth.getCredentials()?.actor?.clan.id)
+            }
+        }).subscribe(res => {
+                console.log(res);
+            },
+            error => {
+                console.error(error);
+            });
     }
 }

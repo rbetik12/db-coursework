@@ -13,4 +13,7 @@ public interface CurrencyListingRepository extends JpaRepository<CurrencyListing
 
     @Query(value = "select count(*) from buy_currency_as_actor(?1, ?2)", nativeQuery = true)
     int buyAsActor(int actorId, int listingId);
+
+    @Query(value = "select count(*) from buy_currency_as_clan(?1, ?2)", nativeQuery = true)
+    int buyAsClan(int clanId, int listingId);
 }

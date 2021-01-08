@@ -43,4 +43,13 @@ public class CurrencyListingController {
 
         return ResponseEntity.ok(new Response("Bought successfully!"));
     }
+
+    @PostMapping(value = "buy-as-clan", consumes = "application/json", produces = "application/json")
+    public ResponseEntity<Response> buyAsClan(@RequestBody CurrencyListing currencyListing, @RequestParam("clanId") int clanId) {
+        if (!currencyListingService.buyAsClan(currencyListing, clanId)) {
+            return ResponseEntity.badRequest().body(new Response("Can't buy currency!"));
+        }
+
+        return ResponseEntity.ok(new Response("Bought successfully!"));
+    }
 }
