@@ -56,7 +56,16 @@ export class CurrencyListingComponent implements OnInit {
     }
 
     public buy(listing: CurrencyListing): void {
-
+        this.http.post(this.globals.address + this.globals.port + '/api/currency-listing/buy', listing, {
+            withCredentials: true, params: {
+                actorId: String(this.auth.getCredentials()?.actor?.id)
+            }
+        }).subscribe(res => {
+                console.log(res);
+            },
+            error => {
+                console.error(error);
+            });
     }
 
     public buyAsClan(listing: CurrencyListing): void {

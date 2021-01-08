@@ -51,4 +51,22 @@ public class CurrencyListingService {
 
         return true;
     }
+
+    public boolean buy(CurrencyListing currencyListing, int actorId) {
+        List<ActorCurrency> actorCurrencyList = actorCurrencyRepository.findAllByActor_IdAndCurrency_Id(actorId,
+                currencyListing.getCurrencyForBuy().getId());
+
+        if (actorCurrencyList == null || actorCurrencyList.size() <= 0) {
+            return false;
+        }
+
+        ActorCurrency actorCurrency = actorCurrencyList.get(0);
+
+        if (actorCurrency.getAmount() < currencyListing.getBuyAmount()) {
+            return false;
+        }
+
+        currencyListingRepository.buyAsActor(actorId, (int) currencyListing.getListing().getListingId());
+        return true;
+    }
 }

@@ -34,4 +34,13 @@ public class CurrencyListingController {
 
         return ResponseEntity.ok(new Response("Created new currency listing!"));
     }
+
+    @PostMapping(value = "buy", consumes = "application/json", produces = "application/json")
+    public ResponseEntity<Response> buy(@RequestBody CurrencyListing currencyListing, @RequestParam("actorId") int actorId) {
+        if (!currencyListingService.buy(currencyListing, actorId)) {
+            return ResponseEntity.badRequest().body(new Response("Can't buy currency!"));
+        }
+
+        return ResponseEntity.ok(new Response("Bought successfully!"));
+    }
 }

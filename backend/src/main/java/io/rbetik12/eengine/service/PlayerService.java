@@ -8,6 +8,7 @@ import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Random;
 
 @Service
 public class PlayerService {
@@ -71,7 +72,9 @@ public class PlayerService {
 
         ActorCurrency actorCurrency = new ActorCurrency();
         actorCurrency.setActor(player.getActor());
-        actorCurrency.setCurrency(currencyRepository.getOne(1L));
+        List<Currency> currencyList = currencyRepository.findAll();
+        Random random = new Random();
+        actorCurrency.setCurrency(currencyList.get(random.nextInt(currencyList.size())));
         actorCurrency.setAmount(100000);
         actorCurrencyRepository.save(actorCurrency);
         return true;

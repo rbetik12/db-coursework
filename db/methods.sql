@@ -417,3 +417,41 @@ as
         return avgPropertyPrice;
     end;
     $$;
+
+----------------------------------------------------------------------------Currency buy--------------------------------
+create or replace function buy_currency_as_actor(actorId int, listingId int)
+    returns void
+    language plpgsql
+as
+    $$
+    declare listingInfo listing%rowtype;
+    declare currencyListingInfo currency_listing%rowtype;
+    declare actorCurrencyAmount int;
+    begin
+        select * into listingInfo from listing where listing_id = listingId;
+        select * into currencyListingInfo from currency_listing where listing_id = listingId;
+        if (currencyListingInfo.status = 'Closed'::listing_status) then
+            return;
+        end if;
+
+        actorCurrencyAmount = (select amount from actor_currency where currency_id = currencyListingInfo.currency_for_buy_id
+                                                                        and actor_id = actorId);
+        if (actorCurrencyAmount is null or actorCurrencyAmount < currencyListingInfo.buy_amount) then
+            return;
+        end if;
+
+        if ((select count(*) from actor_currency where actor_id = actorId and currency_id = currencyListingInfo.currency_for_sell_id) = 0) then
+            insert into actor_currency(actor_id, currency_id, amount) values(actorId, currencyListingInfo.currency_for_sell_id, currencyListingInfo.sell_amount);
+        else
+            update actor_currency set amount = amount + currencyListingInfo.sell_amount where actor_id = actorId and currency_id = currencyListingInfo.currency_for_sell_id;
+        end if;
+
+        if ((select count(*) from actor_currency where actor_id = listingInfo.author_id and currency_id = currencyListingInfo.currency_for_buy_id) = 0) then
+            insert into actor_currency(actor_id, currency_id, amount) values(listingInfo.author_id, currencyListingInfo.currency_for_buy_id, currencyListingInfo.buy_amount);
+        else
+            update actor_currency set amount = amount + currencyListingInfo.buy_amount where actor_id = listingInfo.author_id and currency_id = currencyListingInfo.currency_for_buy_id;
+        end if;
+
+        update currency_listing set status = 'Closed'::listing_status where listing_id = listingId;
+    end;
+    $$;
