@@ -75,7 +75,7 @@ export class SignupComponent implements OnInit {
             {withCredentials: true}).subscribe(
             res => {
                 this.authService.authenticate(res);
-                this.router.navigateByUrl('/profile');
+                this.router.navigateByUrl('/signIn');
             },
             error => {
                 this.dialog.open(UserAlreadyExistsComponent);

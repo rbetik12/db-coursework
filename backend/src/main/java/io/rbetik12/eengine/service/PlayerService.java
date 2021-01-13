@@ -31,18 +31,22 @@ public class PlayerService {
     @Autowired
     private final FactoryOwnerRepository factoryOwnerRepository;
 
+    @Autowired
+    private final ItemRepository itemRepository;
+
     public PlayerService(PlayerRepository playerRepository,
                          ActorRepository actorRepository,
                          InventoryRepository inventoryRepository,
                          ActorCurrencyRepository actorCurrencyRepository,
                          CurrencyRepository currencyRepository,
-                         FactoryOwnerRepository factoryOwnerRepository) {
+                         FactoryOwnerRepository factoryOwnerRepository, ItemRepository itemRepository) {
         this.playerRepository = playerRepository;
         this.actorRepository = actorRepository;
         this.inventoryRepository = inventoryRepository;
         this.actorCurrencyRepository = actorCurrencyRepository;
         this.currencyRepository = currencyRepository;
         this.factoryOwnerRepository = factoryOwnerRepository;
+        this.itemRepository = itemRepository;
     }
 
     public List<Player> getAll() {
@@ -77,6 +81,14 @@ public class PlayerService {
         actorCurrency.setCurrency(currencyList.get(random.nextInt(currencyList.size())));
         actorCurrency.setAmount(100000);
         actorCurrencyRepository.save(actorCurrency);
+
+        ActorInventory inventory = new ActorInventory();
+        inventory.setActor(player.getActor());
+        List<Item> items = itemRepository.findAll();
+        inventory.setItem(items.get(random.nextInt(items.size())));
+        inventory.setAmount(100);
+        inventoryRepository.save(inventory);
+
         return true;
     }
 

@@ -31,7 +31,7 @@ export class PlayerFactoriesComponent implements OnInit {
     }
 
     public fetchFactories(): void {
-        this.http.get<Factory[]>(this.globals.address + this.globals.port + '/api/player/factories', {
+        this.http.get<Factory[]>(this.globals.address + this.globals.port + '/api/factory/all', {
             withCredentials: true,
             params: {
                 actorId: String(this.auth.getCredentials()?.actor?.id)

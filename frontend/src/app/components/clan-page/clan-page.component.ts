@@ -139,4 +139,8 @@ export class ClanPageComponent implements OnInit {
             );
     }
 
+    public toMarket(): void {
+        this.router.navigateByUrl('/market');
+    }
+
 }

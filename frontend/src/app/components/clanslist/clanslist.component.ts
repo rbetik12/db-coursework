@@ -30,9 +30,9 @@ export class ClanslistComponent implements OnInit {
     ngOnInit(): void {
         this.http.get(this.globals.address + this.globals.port + '/api/clan/all', {withCredentials: true}).subscribe(
             res => {
-               this.clans = new MatTableDataSource<Clan>(res as Clan[]);
-               setTimeout(() => this.clans.paginator = this.paginator as MatPaginator | null);
-               this.clansAmount = Object.keys(this.clans).length;
+                this.clans = new MatTableDataSource<Clan>(res as Clan[]);
+                setTimeout(() => this.clans.paginator = this.paginator as MatPaginator | null);
+                this.clansAmount = Object.keys(this.clans).length;
             }
         );
     }
@@ -47,6 +47,10 @@ export class ClanslistComponent implements OnInit {
 
     public createClan(): void {
         this.dialog.open(CreateClanComponent);
+    }
+
+    public toMarket(): void {
+        this.router.navigateByUrl('/market');
     }
 
 }
